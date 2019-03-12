@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Setono\SyliusMiintoPlugin
+        psr4_prefix: Setono\SyliusMiintoPlugin
