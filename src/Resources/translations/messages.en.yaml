@@ -1,0 +1,5 @@
+setono_sylius_miinto:
+    ui:
+        miinto: Miinto
+        shops: Shops
+        orders: Orders

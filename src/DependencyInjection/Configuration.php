@@ -6,6 +6,8 @@ namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
 use Setono\SyliusMiintoPlugin\Model\Order;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\Model\Shop;
+use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
 use Sylius\Bundle\ResourceBundle\Form\Type\DefaultResourceType;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
@@ -34,6 +36,12 @@ final class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->cannotBeEmpty()->end()
+                ->arrayNode('miinto')
+                    ->children()
+                        ->scalarNode('username')->cannotBeEmpty()->isRequired()->end()
+                        ->scalarNode('password')->cannotBeEmpty()->isRequired()->end()
+                    ->end()
+                ->end()
             ->end()
         ;
 
@@ -49,6 +57,23 @@ final class Configuration implements ConfigurationInterface
                 ->arrayNode('resources')
                     ->addDefaultsIfNotSet()
                     ->children()
+                        ->arrayNode('shop')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->scalarNode('model')->defaultValue(Shop::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('interface')->defaultValue(ShopInterface::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('repository')->cannotBeEmpty()->end()
+                                            ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                            ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
+                                        ->end()
+                                    ->end()
+                                ->end()
+                        ->end()
                         ->arrayNode('order')
                             ->addDefaultsIfNotSet()
                             ->children()

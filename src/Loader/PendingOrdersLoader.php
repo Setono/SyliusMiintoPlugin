@@ -33,8 +33,6 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
      */
     private $orderFactory;
 
-
-
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ClientInterface $client,
@@ -56,7 +54,7 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
                 'status' => ['pending']
             ]);
 
-            foreach ($orders as $order) {
+            foreach ($orders['data'] as $order) {
                 /** @var OrderInterface $entity */
                 $entity = $this->orderRepository->find($order['id']); // @todo if the entity is found we should handle this, since this is not intended
                 if(null === $entity) {

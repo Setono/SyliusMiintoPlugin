@@ -1,0 +1,4 @@
+setono_sylius_miinto:
+    miinto:
+        username: '%env(MIINTO_USERNAME)%'
+        password: '%env(MIINTO_PASSWORD)%'
