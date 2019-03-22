@@ -1,0 +1,5 @@
+setono_sylius_miinto:
+    shop:
+        channel:
+            not_null: A channel needs to be chosen
+

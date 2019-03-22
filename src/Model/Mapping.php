@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Model;
 
-class Order extends AbstractResource implements OrderInterface
+use Sylius\Component\Core\Model\ShippingMethodInterface;
+
+class Mapping implements MappingInterface
 {
+    /**
+     * @var int
+     */
+    protected $id;
+
     /**
      * @var ShopInterface
      */
@@ -17,9 +24,14 @@ class Order extends AbstractResource implements OrderInterface
     protected $providerId;
 
     /**
-     * @var string
+     * @var ShippingMethodInterface
      */
-    protected $status = self::STATUS_PENDING;
+    protected $shippingMethod;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     public function getShop(): ?ShopInterface
     {
@@ -41,13 +53,15 @@ class Order extends AbstractResource implements OrderInterface
         $this->providerId = $providerId;
     }
 
-    public function getStatus(): string
+    public function getShippingMethod(): ?ShippingMethodInterface
     {
-        return $this->status;
+        return $this->shippingMethod;
     }
 
-    public function setStatus(string $status): void
+    public function setShippingMethod(ShippingMethodInterface $shippingMethod): void
     {
-        $this->status = $status;
+        $this->shippingMethod = $shippingMethod;
     }
+
+
 }

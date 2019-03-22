@@ -1,5 +1,29 @@
 setono_sylius_miinto:
+    form:
+        mapping:
+            choose_shipping_method: Choose shipping method...
+            provider_id: Provider id
+            shop: Shop
+            shipping_method: Shipping method
+        shop:
+            channel: Channel
+            choose_shop: Choose shop...
+            name: Name
     ui:
+        channel: Channel
+        edit_mapping: Edit mapping
+        edit_shop: Edit shop
+        mappings: Mappings
+        miinto_id: Miinto id
+        manage_mappings: Manage mappings
+        manage_orders: Manage orders
+        manage_shops: Manage shops
         miinto: Miinto
-        shops: Shops
+        name: Name
+        no_channel: No channel
         orders: Orders
+        provider_id: Provider id
+        shipping_method: Shipping method
+        shop: Shop
+        shops: Shops
+        status: Status

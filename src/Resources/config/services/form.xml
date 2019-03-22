@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="setono_sylius_miinto.form.type.shop.validation_groups" type="collection">
+            <parameter>setono_sylius_miinto</parameter>
+        </parameter>
+
+        <parameter key="setono_sylius_miinto.form.type.mapping.validation_groups" type="collection">
+            <parameter>setono_sylius_miinto</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="setono_sylius_miinto.form.type.mapping" class="Setono\SyliusMiintoPlugin\Form\Type\MappingType">
+            <argument>%setono_sylius_miinto.model.mapping.class%</argument>
+            <argument>%setono_sylius_miinto.form.type.mapping.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="setono_sylius_miinto.form.type.shipping_method_choice_type" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodChoiceType">
+            <argument type="service" id="sylius.repository.shipping_method"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="setono_sylius_miinto.form.type.shop" class="Setono\SyliusMiintoPlugin\Form\Type\ShopType">
+            <argument>%setono_sylius_miinto.model.shop.class%</argument>
+            <argument>%setono_sylius_miinto.form.type.shop.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+    </services>
+
+</container>

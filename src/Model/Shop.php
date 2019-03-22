@@ -6,8 +6,13 @@ namespace Setono\SyliusMiintoPlugin\Model;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
 
-class Shop extends AbstractResource implements ShopInterface
+class Shop implements ShopInterface
 {
+    /**
+     * @var string
+     */
+    protected $id;
+
     /**
      * @var string
      */
@@ -17,6 +22,16 @@ class Shop extends AbstractResource implements ShopInterface
      * @var ChannelInterface
      */
     protected $channel;
+
+    public function __toString(): string
+    {
+        return (string) $this->name;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
 
     public function getName(): string
     {

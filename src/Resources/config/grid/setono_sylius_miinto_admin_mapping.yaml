@@ -1,0 +1,23 @@
+sylius_grid:
+    grids:
+        setono_sylius_miinto_admin_mapping:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%setono_sylius_miinto.model.mapping.class%"
+            fields:
+                shop:
+                    type: string
+                    label: setono_sylius_miinto.ui.shop
+                    sortable: ~
+                providerId:
+                    type: string
+                    label: setono_sylius_miinto.ui.provider_id
+                    sortable: ~
+                shippingMethod:
+                    type: string
+                    label: setono_sylius_miinto.ui.shipping_method
+            actions:
+                item:
+                    update:
+                        type: update

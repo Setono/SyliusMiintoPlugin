@@ -19,17 +19,24 @@ final class AdminMenuListener
             ->setLabel('setono_sylius_miinto.ui.miinto');
 
         $miintoItem->addChild('shops', [
-            'route' => ''
+            'route' => 'setono_sylius_miinto_admin_shop_index'
         ])
             ->setLabel('setono_sylius_miinto.ui.shops')
-            ->setLabelAttribute('icon', 'building')
+            ->setLabelAttribute('icon', 'building outline')
         ;
 
         $miintoItem->addChild('orders', [
-            'route' => ''
+            'route' => 'setono_sylius_miinto_admin_order_index'
         ])
             ->setLabel('setono_sylius_miinto.ui.orders')
             ->setLabelAttribute('icon', 'cart')
+        ;
+
+        $miintoItem->addChild('mappings', [
+            'route' => 'setono_sylius_miinto_admin_mapping_index'
+        ])
+            ->setLabel('setono_sylius_miinto.ui.mappings')
+            ->setLabelAttribute('icon', 'arrow alternate circle right')
         ;
     }
 }

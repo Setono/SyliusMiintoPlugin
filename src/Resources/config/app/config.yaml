@@ -1,0 +1,4 @@
+imports:
+    - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_mapping.yaml"
+    - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_order.yaml"
+    - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_shop.yaml"

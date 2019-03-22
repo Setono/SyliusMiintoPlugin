@@ -1,0 +1,17 @@
+{% if data is same as('pending') %}
+    {% set icon = 'hourglass half grey' %}
+{% endif %}
+
+{% if data is same as('ready') %}
+    {% set icon = 'clipboard check blue' %}
+{% endif %}
+
+{% if data is same as('processed') %}
+    {% set icon = 'check circle green' %}
+{% endif %}
+
+{% if data is same as('errored') %}
+    {% set icon = 'exclamation circle red' %}
+{% endif %}
+
+<i class="{{ icon|default('hourglass half grey') }} icon"></i> {{ data|capitalize }}

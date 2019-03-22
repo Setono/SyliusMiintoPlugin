@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
+use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
+use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
+use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
+use Setono\SyliusMiintoPlugin\Model\Mapping;
+use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\Order;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\Shop;
@@ -69,7 +74,7 @@ final class Configuration implements ConfigurationInterface
                                             ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                             ->scalarNode('repository')->cannotBeEmpty()->end()
                                             ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                            ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
+                                            ->scalarNode('form')->defaultValue(ShopType::class)->cannotBeEmpty()->end()
                                         ->end()
                                     ->end()
                                 ->end()
@@ -87,6 +92,23 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('repository')->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                         ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('mapping')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(Mapping::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(MappingInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(MappingRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                        ->scalarNode('form')->defaultValue(MappingType::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()

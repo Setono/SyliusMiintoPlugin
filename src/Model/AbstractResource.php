@@ -7,9 +7,9 @@ namespace Setono\SyliusMiintoPlugin\Model;
 abstract class AbstractResource implements ResourceInterface
 {
     /**
-     * This is the id in Miinto if there is one else it should be auto generated
+     * This is the id in Miinto if there is one, else it should be auto generated
      *
-     * @var int
+     * @var int|string
      */
     protected $id;
 
@@ -18,20 +18,12 @@ abstract class AbstractResource implements ResourceInterface
      */
     protected $data = [];
 
-    // @todo should we have a constructor with id and data in it?
-
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
+    public function setId($id): void
     {
         $this->id = $id;
     }

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Loader;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
+use Setono\SyliusMiintoPlugin\Event\OrderEvent;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\SetonoSyliusMiintoEvents;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -33,16 +36,23 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
      */
     private $orderFactory;
 
+    /**
+     * @var ObjectManager
+     */
+    private $orderManager;
+
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         ClientInterface $client,
         RepositoryInterface $orderRepository,
-        FactoryInterface $orderFactory
+        FactoryInterface $orderFactory,
+        ObjectManager $orderManager
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->client = $client;
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
+        $this->orderManager = $orderManager;
     }
 
     public function load(): void
@@ -62,11 +72,24 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
                     $entity->setId($order['id']);
                 }
 
+                // @todo await answer from Miinto regarding the overriding of provider id
+                $providerId = $order['shippingInformation']['deliveryOptions']['override']['providerId'] ?? '';
+                if('' === $providerId) {
+                    $providerId = $order['shippingInformation']['deliveryOptions']['initial']['providerId'];
+                }
+
                 $entity->setData($order);
+                $entity->setProviderId($providerId);
 
-                $this->orderRepository->add($entity); // @todo should we inject the manager and flush less often?
+                $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_PRE_PERSIST, new OrderEvent($entity, $shopId));
 
-                $this->eventDispatcher->dispatch('setono_sylius_miinto.loader.order.post_flush', new GenericEvent($entity));
+                $this->orderManager->persist($entity);
+
+                $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_POST_PERSIST, new OrderEvent($entity, $shopId));
+
+                $this->orderManager->flush();
+
+                $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_POST_FLUSH, new GenericEvent($entity));
             }
         }
     }

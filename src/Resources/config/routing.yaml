@@ -1,0 +1,3 @@
+setono_sylius_miinto_admin:
+    resource: "@SetonoSyliusMiintoPlugin/Resources/config/routing/admin.yaml"
+    prefix: /admin/miinto

@@ -1,0 +1,27 @@
+sylius_grid:
+    grids:
+        setono_sylius_miinto_admin_shop:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%setono_sylius_miinto.model.shop.class%"
+            sorting:
+                name: asc
+            fields:
+                id:
+                    type: string
+                    label: setono_sylius_miinto.ui.miinto_id
+                    sortable: ~
+                name:
+                    type: string
+                    label: setono_sylius_miinto.ui.name
+                    sortable: ~
+                channel:
+                    type: twig
+                    label: setono_sylius_miinto.ui.channel
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/channel.html.twig"
+            actions:
+                item:
+                    update:
+                        type: update

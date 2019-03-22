@@ -1,0 +1,41 @@
+setono_sylius_miinto_admin_mapping:
+    resource: |
+        alias: setono_sylius_miinto.mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_mapping
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_mappings
+            index:
+                icon: 'arrow alternate circle right'
+    type: sylius.resource
+    
+setono_sylius_miinto_admin_order:
+    resource: |
+        alias: setono_sylius_miinto.order
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_order
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_orders
+            index:
+                icon: 'cart'
+    type: sylius.resource
+    
+setono_sylius_miinto_admin_shop:
+    resource: |
+        alias: setono_sylius_miinto.shop
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_shop
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_shops
+            index:
+                icon: 'building outline'
+    type: sylius.resource

@@ -4,6 +4,8 @@
     <imports>
         <import resource="services/client.xml"/>
         <import resource="services/command.xml"/>
+        <import resource="services/event_listener.xml"/>
+        <import resource="services/form.xml"/>
         <import resource="services/http_client.xml"/>
         <import resource="services/loader.xml"/>
         <import resource="services/menu.xml"/>

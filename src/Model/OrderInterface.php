@@ -12,6 +12,26 @@ interface OrderInterface extends ResourceInterface
     public const STATUS_ERRORED = 'errored';
 
     /**
+     * @return ShopInterface
+     */
+    public function getShop(): ?ShopInterface;
+
+    /**
+     * @param ShopInterface $shop
+     */
+    public function setShop(ShopInterface $shop): void;
+
+    /**
+     * @return string
+     */
+    public function getProviderId(): ?string;
+
+    /**
+     * @param string $providerId
+     */
+    public function setProviderId(string $providerId): void;
+
+    /**
      * @return string
      */
     public function getStatus(): string;

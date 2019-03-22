@@ -12,8 +12,16 @@
             <index columns="status" name="idx_status"/>
         </indexes>
 
-        <field name="data" type="array"/>
+        <many-to-one field="shop" target-entity="Setono\SyliusMiintoPlugin\Model\ShopInterface">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <join-column nullable="false"/>
+        </many-to-one>
+
+        <field name="providerId" type="string"/>
         <field name="status" column="status" type="string"/>
+        <field name="data" type="array"/>
     </mapped-superclass>
 
 </doctrine-mapping>

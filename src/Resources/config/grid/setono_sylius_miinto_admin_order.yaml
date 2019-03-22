@@ -1,0 +1,25 @@
+sylius_grid:
+    grids:
+        setono_sylius_miinto_admin_order:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%setono_sylius_miinto.model.order.class%"
+            sorting:
+                id: desc
+            fields:
+                id:
+                    type: string
+                    label: setono_sylius_miinto.ui.miinto_id
+                    sortable: ~
+                status:
+                    type: twig
+                    label: setono_sylius_miinto.ui.status
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/status.html.twig"
+            filters:
+                search:
+                    type: string
+                    label: sylius.ui.search
+                    options:
+                        fields: [status]

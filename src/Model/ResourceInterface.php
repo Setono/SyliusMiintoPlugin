@@ -9,9 +9,9 @@ use Sylius\Component\Resource\Model\ResourceInterface as BaseResourceInterface;
 interface ResourceInterface extends BaseResourceInterface
 {
     /**
-     * @param int $id
+     * @param string|int $id
      */
-    public function setId(int $id): void;
+    public function setId($id): void;
 
     /**
      * @param array $data
