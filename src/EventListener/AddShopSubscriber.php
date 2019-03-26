@@ -30,7 +30,7 @@ final class AddShopSubscriber implements EventSubscriberInterface
     private $shopFactory;
 
     /**
-     * @var array
+     * @var ShopInterface[]
      */
     private $shopCache = [];
 
@@ -45,21 +45,22 @@ final class AddShopSubscriber implements EventSubscriberInterface
     {
         return [
             SetonoSyliusMiintoEvents::ORDER_LOADER_PRE_PERSIST => [
-                'add'
-            ]
+                'add',
+            ],
         ];
     }
 
     public function add(OrderEvent $event): void
     {
-        if(isset($this->shopCache[$event->getShopId()])) {
+        if (isset($this->shopCache[$event->getShopId()])) {
             $shop = $this->shopCache[$event->getShopId()];
         } else {
             $data = $this->client->getShopDetails($event->getShopId());
 
-            /** @var ShopInterface $shop */
+            /** @var ShopInterface|null $shop */
             $shop = $this->shopRepository->find($event->getShopId());
-            if(null === $shop) {
+            if (null === $shop) {
+                /** @var ShopInterface $shop */
                 $shop = $this->shopFactory->createNew();
                 $shop->setId($event->getShopId());
             }

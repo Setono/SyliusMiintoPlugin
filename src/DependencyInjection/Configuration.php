@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
+use Setono\SyliusMiintoPlugin\Doctrine\ORM\OrderRepository;
 use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
 use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
 use Setono\SyliusMiintoPlugin\Model\Mapping;
@@ -89,7 +90,7 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('model')->defaultValue(Order::class)->cannotBeEmpty()->end()
                                         ->scalarNode('interface')->defaultValue(OrderInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(OrderRepository::class)->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                         ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
                                     ->end()

@@ -1,7 +1,9 @@
 setono_sylius_miinto:
     form:
         mapping:
+            choose_payment_method: Choose payment method...
             choose_shipping_method: Choose shipping method...
+            payment_method: Payment method
             provider_id: Provider id
             shop: Shop
             shipping_method: Shipping method
@@ -13,6 +15,7 @@ setono_sylius_miinto:
         channel: Channel
         edit_mapping: Edit mapping
         edit_shop: Edit shop
+        locale_code: Locale code
         mappings: Mappings
         miinto_id: Miinto id
         manage_mappings: Manage mappings

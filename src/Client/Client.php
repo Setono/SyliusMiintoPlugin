@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Client;
 
+use Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Safe\Exceptions\JsonException;
+use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Exception\AuthenticationFailedException;
 use Setono\SyliusMiintoPlugin\Exception\RequestFailedException;
 
@@ -75,12 +78,15 @@ final class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
      */
     public function getShopIds(): array
     {
-        if(false === $this->authed) {
+        if (false === $this->authed) {
             $this->auth();
         }
 
@@ -88,24 +94,30 @@ final class Client implements ClientInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
      */
     public function getShopDetails(string $shopId): array
     {
-        $url = sprintf('https://api-order.miinto.net/shops/%s', $shopId);
+        $url = \Safe\sprintf('https://api-order.miinto.net/shops/%s', $shopId);
 
         return $this->sendRequest('GET', $url);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @throws ClientExceptionInterface
+     * @throws StringsException
+     * @throws JsonException
      */
     public function getOrders(string $shopId, array $options = []): array
     {
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
-        $url = sprintf('https://api-order.miinto.net/shops/%s/orders?%s', $shopId, $query);
+        $url = \Safe\sprintf('https://api-order.miinto.net/shops/%s/orders?%s', $shopId, $query);
 
         return $this->sendRequest('GET', $url);
     }
@@ -114,13 +126,17 @@ final class Client implements ClientInterface
      * @param string $method
      * @param string $url
      * @param array|null $body
+     *
      * @return array
+     *
      * @throws ClientExceptionInterface
-     * @throws RequestFailedException
+     * @throws JsonException
+     * @throws StringsException
+     * @throws Exception
      */
     private function sendRequest(string $method, string $url, array $body = null): array
     {
-        if(false === $this->authed) {
+        if (false === $this->authed) {
             $this->auth();
         }
 
@@ -129,30 +145,31 @@ final class Client implements ClientInterface
             ->withHeader('Content-Type', 'application/json')
         ;
 
-        if(null !== $body) {
-            $request->withBody($this->streamFactory->createStream(json_encode($body)));
+        if (null !== $body) {
+            $request->withBody($this->streamFactory->createStream(\Safe\json_encode($body)));
         }
 
         $request = $this->addAuthHeaders($request, $this->channelId, $this->token);
 
         $response = $this->httpClient->sendRequest($request);
 
-        if($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new RequestFailedException($request, $response, $response->getStatusCode());
         }
 
-        return json_decode((string) $response->getBody(), true);
+        return \Safe\json_decode((string) $response->getBody(), true);
     }
 
     /**
      * @throws ClientExceptionInterface
-     * @throws AuthenticationFailedException
+     * @throws StringsException
+     * @throws JsonException
      */
     private function auth(): void
     {
-        $body = $this->streamFactory->createStream(json_encode([
+        $body = $this->streamFactory->createStream(\Safe\json_encode([
             'identifier' => $this->username,
-            'secret' => $this->password
+            'secret' => $this->password,
         ]));
 
         $request = $this->requestFactory->createRequest('POST', 'https://api-auth.miinto.net/channels');
@@ -163,13 +180,13 @@ final class Client implements ClientInterface
 
         $response = $this->httpClient->sendRequest($request);
 
-        if($response->getStatusCode() !== 200) {
+        if ($response->getStatusCode() !== 200) {
             throw new AuthenticationFailedException($this->username, $this->password);
         }
 
-        $content = json_decode((string) $response->getBody(), true);
+        $content = \Safe\json_decode((string) $response->getBody(), true);
 
-        if('success' !== $content['meta']['status']) {
+        if ('success' !== $content['meta']['status']) {
             throw new AuthenticationFailedException($this->username, $this->password, $content['meta']['status']);
         }
 

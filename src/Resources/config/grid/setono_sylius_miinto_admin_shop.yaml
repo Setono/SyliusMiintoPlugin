@@ -21,6 +21,9 @@ sylius_grid:
                     label: setono_sylius_miinto.ui.channel
                     options:
                         template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/channel.html.twig"
+                localeCode:
+                    type: string
+                    label: setono_sylius_miinto.ui.locale_code
             actions:
                 item:
                     update:

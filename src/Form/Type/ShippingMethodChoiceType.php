@@ -18,7 +18,8 @@ final class ShippingMethodChoiceType extends AbstractType
      */
     private $repository;
 
-    public function __construct(ShippingMethodRepositoryInterface $repository) {
+    public function __construct(ShippingMethodRepositoryInterface $repository)
+    {
         $this->repository = $repository;
     }
 

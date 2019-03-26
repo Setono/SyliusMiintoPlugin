@@ -9,18 +9,17 @@ use Sylius\Component\Resource\Model\ResourceInterface as BaseResourceInterface;
 
 interface ShopInterface extends BaseResourceInterface, ChannelAwareInterface
 {
-    /**
-     * @return string
-     */
     public function __toString(): string;
 
-    /**
-     * @return string
-     */
-    public function getName(): string;
+    public function getId(): ?string;
 
-    /**
-     * @param string $name
-     */
+    public function setId(string $id): void;
+
+    public function getName(): ?string;
+
     public function setName(string $name): void;
+
+    public function getLocaleCode(): ?string;
+
+    public function setLocaleCode(string $localeCode): void;
 }

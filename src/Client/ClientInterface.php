@@ -17,6 +17,7 @@ interface ClientInterface
      * Returns details for the given shop
      *
      * @param string $shopId
+     *
      * @return array
      */
     public function getShopDetails(string $shopId): array;
@@ -26,6 +27,7 @@ interface ClientInterface
      *
      * @param string $shopId
      * @param array $options
+     *
      * @return array
      */
     public function getOrders(string $shopId, array $options = []): array;

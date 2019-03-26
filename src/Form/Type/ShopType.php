@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Form\Type;
 
 use Sylius\Bundle\ChannelBundle\Form\Type\ChannelChoiceType;
+use Sylius\Bundle\LocaleBundle\Form\Type\LocaleChoiceType;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +25,10 @@ final class ShopType extends AbstractResourceType
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'setono_sylius_miinto.form.shop.channel',
                 'placeholder' => 'setono_sylius_miinto.form.shop.choose_shop',
-            ]);
+            ])
+            // todo needs to only show locales enabled in the above channel
+            ->add('localeCode', LocaleChoiceType::class)
+        ;
     }
 
     /**

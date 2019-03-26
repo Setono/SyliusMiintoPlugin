@@ -11,7 +11,7 @@
         </id>
 
         <unique-constraints>
-            <unique-constraint columns="provider_id,shop_id,shipping_method_id"/>
+            <unique-constraint columns="provider_id,shop_id"/>
         </unique-constraints>
 
         <field name="providerId" column="provider_id" type="string"/>
@@ -20,9 +20,8 @@
             <join-column name="shop_id" nullable="false"/>
         </many-to-one>
 
-        <many-to-one field="shippingMethod" target-entity="Sylius\Component\Shipping\Model\ShippingMethodInterface">
-            <join-column name="shipping_method_id"/>
-        </many-to-one>
+        <many-to-one field="shippingMethod" target-entity="Sylius\Component\Shipping\Model\ShippingMethodInterface"/>
+        <many-to-one field="paymentMethod" target-entity="Sylius\Component\Payment\Model\PaymentMethodInterface"/>
     </mapped-superclass>
 
 </doctrine-mapping>

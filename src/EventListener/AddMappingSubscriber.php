@@ -24,11 +24,6 @@ final class AddMappingSubscriber implements EventSubscriberInterface
      */
     private $mappingFactory;
 
-    /**
-     * @var array
-     */
-    private $shopCache = [];
-
     public function __construct(MappingRepositoryInterface $mappingRepository, FactoryInterface $mappingFactory)
     {
         $this->mappingRepository = $mappingRepository;
@@ -39,8 +34,8 @@ final class AddMappingSubscriber implements EventSubscriberInterface
     {
         return [
             SetonoSyliusMiintoEvents::ORDER_LOADER_POST_FLUSH => [
-                'add'
-            ]
+                'add',
+            ],
         ];
     }
 
@@ -48,17 +43,17 @@ final class AddMappingSubscriber implements EventSubscriberInterface
     {
         $order = $event->getSubject();
 
-        if(!$order instanceof OrderInterface) {
+        if (!$order instanceof OrderInterface) {
             return;
         }
 
-        if($order->getShop() === null || $order->getProviderId() === null) {
+        if ($order->getShop() === null || $order->getProviderId() === null) {
             return;
         }
 
         $mapping = $this->mappingRepository->findOneByShopAndProviderId($order->getShop(), $order->getProviderId());
 
-        if($mapping !== null) {
+        if ($mapping !== null) {
             return;
         }
 

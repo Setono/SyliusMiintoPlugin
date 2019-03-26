@@ -29,23 +29,29 @@ final class MappingType extends AbstractResourceType
             ])
         ;
 
-        $builder->addEventListener(FormEvents::POST_SET_DATA, function(FormEvent $event) {
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
             /** @var MappingInterface $mapping */
             $mapping = $event->getData();
 
             $shop = $mapping->getShop();
-            if(null === $shop) {
+            if (null === $shop) {
                 return;
             }
 
             $channel = $shop->getChannel();
-            if(null !== $channel) {
+            if (null !== $channel) {
                 $form = $event->getForm();
 
                 $form->add('shippingMethod', ShippingMethodChoiceType::class, [
                     'label' => 'setono_sylius_miinto.form.mapping.shipping_method',
                     'placeholder' => 'setono_sylius_miinto.form.mapping.choose_shipping_method',
-                    'channel' => $channel
+                    'channel' => $channel,
+                ]);
+
+                $form->add('paymentMethod', PaymentMethodChoiceType::class, [
+                    'label' => 'setono_sylius_miinto.form.mapping.payment_method',
+                    'placeholder' => 'setono_sylius_miinto.form.mapping.choose_payment_method',
+                    'channel' => $channel,
                 ]);
             }
         });

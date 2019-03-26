@@ -61,20 +61,21 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
 
         foreach ($shopIds as $shopId) {
             $orders = $this->client->getOrders($shopId, [
-                'status' => ['pending']
+                'status' => ['pending'],
             ]);
 
             foreach ($orders['data'] as $order) {
-                /** @var OrderInterface $entity */
+                /** @var OrderInterface|null $entity */
                 $entity = $this->orderRepository->find($order['id']); // @todo if the entity is found we should handle this, since this is not intended
-                if(null === $entity) {
+                if (null === $entity) {
+                    /** @var OrderInterface $entity */
                     $entity = $this->orderFactory->createNew();
                     $entity->setId($order['id']);
                 }
 
                 // @todo await answer from Miinto regarding the overriding of provider id
                 $providerId = $order['shippingInformation']['deliveryOptions']['override']['providerId'] ?? '';
-                if('' === $providerId) {
+                if ('' === $providerId) {
                     $providerId = $order['shippingInformation']['deliveryOptions']['initial']['providerId'];
                 }
 

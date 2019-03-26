@@ -9,31 +9,41 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 class Shop implements ShopInterface
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $id;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $name;
 
     /**
-     * @var ChannelInterface
+     * @var ChannelInterface|null
      */
     protected $channel;
+
+    /**
+     * @var string|null
+     */
+    protected $localeCode;
 
     public function __toString(): string
     {
         return (string) $this->name;
     }
 
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function setId(string $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -51,5 +61,15 @@ class Shop implements ShopInterface
     public function setChannel(?ChannelInterface $channel): void
     {
         $this->channel = $channel;
+    }
+
+    public function getLocaleCode(): ?string
+    {
+        return $this->localeCode;
+    }
+
+    public function setLocaleCode(?string $localeCode): void
+    {
+        $this->localeCode = $localeCode;
     }
 }

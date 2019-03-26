@@ -6,5 +6,10 @@
             <argument type="service" id="setono_sylius_miinto.loader.pending_orders"/>
             <tag name="console.command"/>
         </service>
+
+        <service id="setono_sylius_miinto_plugin.command.process_orders" class="Setono\SyliusMiintoPlugin\Command\ProcessOrdersCommand">
+            <argument type="service" id="setono_sylius_miinto.processor.pending_orders"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Exception;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Safe\Exceptions\StringsException;
 
 final class RequestFailedException extends \RuntimeException
 {
@@ -13,13 +14,20 @@ final class RequestFailedException extends \RuntimeException
     private $response;
     private $statusCode;
 
+    /**
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @param int $statusCode
+     *
+     * @throws StringsException
+     */
     public function __construct(RequestInterface $request, ResponseInterface $response, int $statusCode)
     {
         $this->request = $request;
         $this->response = $response;
         $this->statusCode = $statusCode;
 
-        parent::__construct(sprintf('Request failed with status code %d', $this->statusCode));
+        parent::__construct(\Safe\sprintf('Request failed with status code %d', $this->statusCode));
     }
 
     /**

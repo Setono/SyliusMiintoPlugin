@@ -21,7 +21,12 @@
             <tag name="form.type"/>
         </service>
 
-        <service id="setono_sylius_miinto.form.type.shipping_method_choice_type" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodChoiceType">
+        <service id="setono_sylius_miinto.form.type.payment_method_choice" class="Setono\SyliusMiintoPlugin\Form\Type\PaymentMethodChoiceType">
+            <argument type="service" id="sylius.repository.payment_method"/>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="setono_sylius_miinto.form.type.shipping_method_choice" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodChoiceType">
             <argument type="service" id="sylius.repository.shipping_method"/>
             <tag name="form.type"/>
         </service>

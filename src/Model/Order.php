@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Model;
 
+use Sylius\Component\Order\Model\OrderInterface as ShopOrderInterface;
+
 class Order extends AbstractResource implements OrderInterface
 {
     /**
@@ -20,6 +22,11 @@ class Order extends AbstractResource implements OrderInterface
      * @var string
      */
     protected $status = self::STATUS_PENDING;
+
+    /**
+     * @var ShopOrderInterface
+     */
+    protected $order;
 
     public function getShop(): ?ShopInterface
     {
@@ -49,5 +56,15 @@ class Order extends AbstractResource implements OrderInterface
     public function setStatus(string $status): void
     {
         $this->status = $status;
+    }
+
+    public function getOrder(): ?ShopOrderInterface
+    {
+        return $this->order;
+    }
+
+    public function setOrder(ShopOrderInterface $order): void
+    {
+        $this->order = $order;
     }
 }

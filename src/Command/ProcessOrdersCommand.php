@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Command;
 
-use Setono\SyliusMiintoPlugin\Loader\PendingOrdersLoaderInterface;
+use Setono\SyliusMiintoPlugin\Processor\PendingOrdersProcessorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,26 +12,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 final class ProcessOrdersCommand extends Command
 {
     /**
-     * @var PendingOrdersLoaderInterface
+     * @var PendingOrdersProcessorInterface
      */
-    private $loader;
+    private $processor;
 
-    public function __construct(PendingOrdersLoaderInterface $loader)
+    public function __construct(PendingOrdersProcessorInterface $processor)
     {
         parent::__construct();
 
-        $this->loader = $loader;
+        $this->processor = $processor;
     }
 
     protected function configure(): void
     {
-        $this->setName('setono:sylius-miinto:pending-orders');
+        $this->setName('setono:sylius-miinto:process-orders');
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $this->loader->load();
+        $this->processor->process();
     }
 }
