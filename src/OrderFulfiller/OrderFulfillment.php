@@ -2,17 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMiintoPlugin\Provider\OrderItems;
+namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 
-use Sylius\Component\Core\Model\OrderItemInterface;
+use Sylius\Component\Core\Model\OrderInterface;
 
-final class OrderItems
+final class OrderFulfillment
 {
-    /**
-     * @var OrderItemInterface[]
-     */
-    private $orderItems;
-
     /**
      * @var int[]
      */
@@ -23,16 +18,16 @@ final class OrderItems
      */
     private $unfulfillablePositionIds;
 
-    public function __construct(array $orderItems, array $fulfillablePositionIds, array $unfulfillablePositionIds)
+    /**
+     * @var OrderInterface|null
+     */
+    private $order;
+
+    public function __construct(array $fulfillablePositionIds, array $unfulfillablePositionIds, OrderInterface $order = null)
     {
-        $this->orderItems = $orderItems;
         $this->fulfillablePositionIds = $fulfillablePositionIds;
         $this->unfulfillablePositionIds = $unfulfillablePositionIds;
-    }
-
-    public function getOrderItems(): array
-    {
-        return $this->orderItems;
+        $this->order = $order;
     }
 
     public function getFulfillablePositionIds(): array
@@ -43,5 +38,10 @@ final class OrderItems
     public function getUnfulfillablePositionIds(): array
     {
         return $this->unfulfillablePositionIds;
+    }
+
+    public function getOrder(): ?OrderInterface
+    {
+        return $this->order;
     }
 }

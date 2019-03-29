@@ -18,16 +18,6 @@
             <argument type="service" id="sylius.order_item_quantity_modifier"/>
         </service>
 
-        <service id="setono_sylius_miinto.provider.payment" class="Setono\SyliusMiintoPlugin\Provider\PaymentProvider">
-            <argument type="service" id="sylius.factory.payment"/>
-            <argument type="service" id="setono_sylius_miinto.repository.mapping"/>
-        </service>
-
-        <service id="setono_sylius_miinto.provider.shipment" class="Setono\SyliusMiintoPlugin\Provider\ShipmentProvider">
-            <argument type="service" id="sylius.factory.shipment"/>
-            <argument type="service" id="setono_sylius_miinto.repository.mapping"/>
-        </service>
-
         <service id="setono_sylius_miinto.provider.shipping_address" class="Setono\SyliusMiintoPlugin\Provider\ShippingAddressProvider">
             <argument type="service" id="sylius.factory.address"/>
         </service>

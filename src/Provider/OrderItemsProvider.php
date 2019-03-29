@@ -6,7 +6,6 @@ namespace Setono\SyliusMiintoPlugin\Provider;
 
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Provider\OrderItems\OrderItems;
-use Setono\SyliusMiintoPlugin\Provider\OrderItems\OrderItemsInterface;
 use Sylius\Component\Core\Model\OrderItemInterface;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 use Sylius\Component\Order\Modifier\OrderItemQuantityModifierInterface;
@@ -46,7 +45,7 @@ final class OrderItemsProvider implements OrderItemsProviderInterface
         $this->orderItemQuantityModifier = $orderItemQuantityModifier;
     }
 
-    public function provide(OrderInterface $order): OrderItemsInterface
+    public function provide(OrderInterface $order): OrderItems
     {
         $data = $order->getData();
 

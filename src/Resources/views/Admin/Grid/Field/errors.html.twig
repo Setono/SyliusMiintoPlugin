@@ -1,0 +1,10 @@
+{# @var \Setono\SyliusMiintoPlugin\Model\OrderErrorInterface[] data #}
+{% if data|length > 0 %}
+    <ul class="ui list">
+        {% for error in data %}
+            <li>{{ error.message|truncate(80) }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <i class="check circle green icon"></i> No errors
+{% endif %}

@@ -6,11 +6,14 @@ namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\OrderRepository;
+use Setono\SyliusMiintoPlugin\Factory\OrderErrorFactory;
 use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
 use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
 use Setono\SyliusMiintoPlugin\Model\Mapping;
 use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\Order;
+use Setono\SyliusMiintoPlugin\Model\OrderError;
+use Setono\SyliusMiintoPlugin\Model\OrderErrorInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\Shop;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
@@ -44,6 +47,18 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->cannotBeEmpty()->end()
                 ->arrayNode('miinto')
                     ->children()
+                        ->scalarNode('auth_endpoint')
+                            ->defaultValue('https://api-auth.miinto.net')
+                            ->info('This is the endpoint to auth with Miinto')
+                            ->example('https://api-auth.miinto.net')
+                            ->cannotBeEmpty()
+                        ->end()
+                        ->scalarNode('resource_endpoint')
+                            ->defaultValue('https://api-order.miinto.net')
+                            ->info('This is the endpoint for Miintos Order API')
+                            ->example('https://api-order.miinto.net')
+                            ->cannotBeEmpty()
+                        ->end()
                         ->scalarNode('username')->cannotBeEmpty()->isRequired()->end()
                         ->scalarNode('password')->cannotBeEmpty()->isRequired()->end()
                     ->end()
@@ -91,6 +106,23 @@ final class Configuration implements ConfigurationInterface
                                         ->scalarNode('interface')->defaultValue(OrderInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->defaultValue(OrderRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                        ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('order_error')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(OrderError::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(OrderErrorInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()
                                         ->scalarNode('form')->defaultValue(DefaultResourceType::class)->cannotBeEmpty()->end()
                                     ->end()

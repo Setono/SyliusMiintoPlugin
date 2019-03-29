@@ -15,6 +15,7 @@ setono_sylius_miinto:
         channel: Channel
         edit_mapping: Edit mapping
         edit_shop: Edit shop
+        errors: Errors
         locale_code: Locale code
         mappings: Mappings
         miinto_id: Miinto id

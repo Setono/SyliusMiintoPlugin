@@ -1,4 +1,6 @@
 setono_sylius_miinto:
     miinto:
+        auth_endpoint: https://private-anon-beced50377-miintoauthserviceapi.apiary-mock.com
+        resource_endpoint: https://private-anon-8cc3f89f6a-orderapiv221.apiary-mock.com
         username: '%env(MIINTO_USERNAME)%'
         password: '%env(MIINTO_PASSWORD)%'

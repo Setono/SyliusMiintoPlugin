@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Model;
 
+use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Order\Model\OrderInterface as SyliusOrderInterface;
+use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface OrderInterface extends ResourceInterface
+interface OrderInterface extends ResourceInterface, MutableIdInterface
 {
     public const STATUS_PENDING = 'pending';
     public const STATUS_PROCESSING = 'processing';
@@ -28,4 +30,12 @@ interface OrderInterface extends ResourceInterface
     public function getOrder(): ?SyliusOrderInterface;
 
     public function setOrder(SyliusOrderInterface $order): void;
+
+    public function getErrors(): Collection;
+
+    public function addError(OrderErrorInterface $error): void;
+
+    public function setData(array $data): void;
+
+    public function getData(): array;
 }

@@ -29,9 +29,15 @@ final class CustomerFactory implements CustomerFactoryInterface
 
         $data = $order->getData();
 
-        $customer->setEmail($data['billingInformation']['email']);
+        $names = [];
+        if (isset($data['billingInformation']['name'])) {
+            $names = explode(' ', $data['billingInformation']['name'], 2);
+        }
 
-        // todo set default address
+        $customer->setEmail($data['billingInformation']['email']);
+        $customer->setFirstName($names[0] ?? null);
+        $customer->setLastName($names[1] ?? null);
+        $customer->setPhoneNumber($data['billingInformation']['phone'] ?? null);
 
         return $customer;
     }

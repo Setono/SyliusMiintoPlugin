@@ -41,6 +41,15 @@ final class CustomerProvider implements CustomerProviderInterface
             $customer = $this->customerFactory->createFromOrder($order);
         }
 
+        $names = [];
+        if (isset($data['billingInformation']['name'])) {
+            $names = explode(' ', $data['billingInformation']['name'], 2);
+        }
+
+        $customer->setFirstName($names[0] ?? null);
+        $customer->setLastName($names[1] ?? null);
+        $customer->setPhoneNumber($data['billingInformation']['phone'] ?? null);
+
         return $customer;
     }
 }

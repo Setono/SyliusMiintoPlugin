@@ -36,6 +36,16 @@ final class Client implements ClientInterface
     /**
      * @var string
      */
+    private $authEndpoint;
+
+    /**
+     * @var string
+     */
+    private $resourceEndpoint;
+
+    /**
+     * @var string
+     */
     private $username;
 
     /**
@@ -67,12 +77,16 @@ final class Client implements ClientInterface
         HttpClientInterface $httpClient,
         RequestFactoryInterface $requestFactory,
         StreamFactoryInterface $streamFactory,
+        string $authEndpoint,
+        string $resourceEndpoint,
         string $username,
         string $password
     ) {
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
         $this->streamFactory = $streamFactory;
+        $this->authEndpoint = $authEndpoint;
+        $this->resourceEndpoint = $resourceEndpoint;
         $this->username = $username;
         $this->password = $password;
     }
@@ -102,7 +116,7 @@ final class Client implements ClientInterface
      */
     public function getShopDetails(string $shopId): array
     {
-        $url = \Safe\sprintf('https://api-order.miinto.net/shops/%s', $shopId);
+        $url = \Safe\sprintf('%s/shops/%s', $this->resourceEndpoint, $shopId);
 
         return $this->sendRequest('GET', $url);
     }
@@ -117,7 +131,7 @@ final class Client implements ClientInterface
     public function getOrders(string $shopId, array $options = []): array
     {
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
-        $url = \Safe\sprintf('https://api-order.miinto.net/shops/%s/orders?%s', $shopId, $query);
+        $url = \Safe\sprintf('%s/shops/%s/orders?%s', $this->resourceEndpoint, $shopId, $query);
 
         return $this->sendRequest('GET', $url);
     }
@@ -172,7 +186,7 @@ final class Client implements ClientInterface
             'secret' => $this->password,
         ]));
 
-        $request = $this->requestFactory->createRequest('POST', 'https://api-auth.miinto.net/channels');
+        $request = $this->requestFactory->createRequest('POST', \Safe\sprintf('%s/channels', $this->authEndpoint));
         $request = $request
             ->withHeader('Content-Type', 'application/json')
             ->withBody($body)

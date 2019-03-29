@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Setono\SyliusMiintoPlugin\Factory\OrderErrorFactoryInterface;
 use Setono\SyliusMiintoPlugin\OrderFulfiller\OrderFulfillerInterface;
 use Setono\SyliusMiintoPlugin\Repository\OrderRepositoryInterface;
+use Symfony\Component\Workflow\Exception\TransitionException;
 use Symfony\Component\Workflow\Registry;
 
 final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
@@ -31,12 +33,23 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
      */
     private $orderFulfiller;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, ObjectManager $orderManager, Registry $workflowRegistry, OrderFulfillerInterface $orderFulfiller)
-    {
+    /**
+     * @var OrderErrorFactoryInterface
+     */
+    private $orderErrorFactory;
+
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        ObjectManager $orderManager,
+        Registry $workflowRegistry,
+        OrderFulfillerInterface $orderFulfiller,
+        OrderErrorFactoryInterface $orderErrorFactory
+    ) {
         $this->orderRepository = $orderRepository;
         $this->orderManager = $orderManager;
         $this->workflowRegistry = $workflowRegistry;
         $this->orderFulfiller = $orderFulfiller;
+        $this->orderErrorFactory = $orderErrorFactory;
     }
 
     public function process(): void
@@ -45,23 +58,25 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
         foreach ($orders as $order) {
             $workflow = $this->workflowRegistry->get($order);
 
-            if (!$workflow->can($order, 'start_processing')) {
-                $workflow->apply($order, 'errored');
+            try {
+                $workflow->apply($order, 'start_processing');
 
-                continue;
+                $orderFulfillment = $this->orderFulfiller->fulfill($order);
+
+                $workflow->apply($order, 'process');
+            } catch (TransitionException $e) {
+                if($workflow->can($order, 'errored')) {
+                    $workflow->apply($order, 'errored');
+                }
+
+                $transitionBlockerList = $workflow->buildTransitionBlockerList($order, $e->getTransitionName());
+
+                foreach ($transitionBlockerList as $transitionBlocker) {
+                    $orderError = $this->orderErrorFactory->createFromTransitionBlocker($transitionBlocker);
+
+                    $order->addError($orderError);
+                }
             }
-
-            $workflow->apply($order, 'start_processing');
-
-            $this->orderFulfiller->fulfill($order);
-
-            if (!$workflow->can($order, 'process')) {
-                $workflow->apply($order, 'errored');
-
-                continue;
-            }
-
-            $workflow->apply($order, 'process');
         }
 
         $this->orderManager->flush();

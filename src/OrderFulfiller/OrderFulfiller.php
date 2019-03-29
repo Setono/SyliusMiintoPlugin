@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 
+use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Setono\SyliusMiintoPlugin\Provider\AddressProviderInterface;
 use Setono\SyliusMiintoPlugin\Provider\CustomerProviderInterface;
 use Setono\SyliusMiintoPlugin\Provider\OrderItemsProviderInterface;
-use Setono\SyliusMiintoPlugin\Provider\PaymentProviderInterface;
-use Setono\SyliusMiintoPlugin\Provider\ShipmentProviderInterface;
+use Setono\SyliusMiintoPlugin\Repository\MappingRepositoryInterface;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use SM\SMException;
+use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface as SyliusOrderInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -31,6 +33,11 @@ final class OrderFulfiller implements OrderFulfillerInterface
     private $orderFactory;
 
     /**
+     * @var OrderProcessorInterface
+     */
+    private $orderProcessor;
+
+    /**
      * @var CustomerProviderInterface
      */
     private $customerProvider;
@@ -39,21 +46,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
      * @var OrderItemsProviderInterface
      */
     private $orderItemsProvider;
-
-    /**
-     * @var OrderProcessorInterface
-     */
-    private $orderProcessor;
-
-    /**
-     * @var ShipmentProviderInterface
-     */
-    private $shipmentProvider;
-
-    /**
-     * @var PaymentProviderInterface
-     */
-    private $paymentProvider;
 
     /**
      * @var StateMachineFactoryInterface
@@ -70,26 +62,31 @@ final class OrderFulfiller implements OrderFulfillerInterface
      */
     private $shippingAddressProvider;
 
+    /**
+     * @var MappingRepositoryInterface
+     */
+    private $mappingRepository;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $orderFactory,
+        OrderProcessorInterface $orderProcessor,
         CustomerProviderInterface $customerProvider,
         OrderItemsProviderInterface $orderItemsProvider,
-        ShipmentProviderInterface $shipmentProvider,
-        PaymentProviderInterface $paymentProvider,
         StateMachineFactoryInterface $stateMachineFactory,
         AddressProviderInterface $billingAddressProvider,
-        AddressProviderInterface $shippingAddressProvider
+        AddressProviderInterface $shippingAddressProvider,
+        MappingRepositoryInterface $mappingRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
+        $this->orderProcessor = $orderProcessor;
         $this->customerProvider = $customerProvider;
         $this->orderItemsProvider = $orderItemsProvider;
-        $this->shipmentProvider = $shipmentProvider;
-        $this->paymentProvider = $paymentProvider;
         $this->stateMachineFactory = $stateMachineFactory;
         $this->billingAddressProvider = $billingAddressProvider;
         $this->shippingAddressProvider = $shippingAddressProvider;
+        $this->mappingRepository = $mappingRepository;
     }
 
     /**
@@ -99,26 +96,18 @@ final class OrderFulfiller implements OrderFulfillerInterface
      *
      * @param OrderInterface $order
      *
+     * @return OrderFulfillment
      * @throws SMException
      */
-    public function fulfill(OrderInterface $order): void
+    public function fulfill(OrderInterface $order): OrderFulfillment
     {
         $data = $order->getData();
 
-        $shop = $order->getShop();
-        if (null === $shop) {
-            throw new \RuntimeException('No shop defined');
-        }
-
-        $channel = $shop->getChannel();
-        if (null === $channel) {
-            throw new \RuntimeException('No channel defined');
-        }
-
-        $localeCode = $shop->getLocaleCode();
-        if (null === $localeCode) {
-            throw new \RuntimeException('No locale code defined');
-        }
+        $shop = $this->getShop($order);
+        $providerId = $this->getProviderId($order);
+        $channel = $this->getChannel($shop);
+        $localeCode = $this->getLocaleCode($shop);
+        $mapping = $this->getMapping($shop, $providerId);
 
         /** @var SyliusOrderInterface $syliusOrder */
         $syliusOrder = $this->orderFactory->createNew();
@@ -134,9 +123,14 @@ final class OrderFulfiller implements OrderFulfillerInterface
 
         // add order items
         $orderItems = $this->orderItemsProvider->provide($order);
+        if(count($orderItems->getFulfillablePositionIds()) === 0) {
+            return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds());
+        }
         foreach ($orderItems->getOrderItems() as $orderItem) {
             $syliusOrder->addItem($orderItem);
         }
+
+        $this->orderProcessor->process($syliusOrder);
 
         // add addresses
         $billingAddress = $this->billingAddressProvider->provide($order);
@@ -148,17 +142,91 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_ADDRESS);
 
         // add shipment
-        $shipment = $this->shipmentProvider->provide($order);
-        $syliusOrder->addShipment($shipment);
+        foreach ($syliusOrder->getShipments() as $shipment) {
+            $shipment->setMethod($mapping->getShippingMethod());
+        }
         $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
 
         // add payment
-        $payment = $this->paymentProvider->provide($order);
-        $syliusOrder->addPayment($payment);
+        foreach ($syliusOrder->getPayments() as $payment) {
+            $payment->setMethod($mapping->getPaymentMethod());
+        }
         $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
 
+        // complete order
         $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_COMPLETE);
 
+        $order->setOrder($syliusOrder);
+
         $this->orderRepository->add($syliusOrder);
+
+        return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds(), $syliusOrder);
+    }
+
+    private function getShop(OrderInterface $order): ShopInterface
+    {
+        $shop = $order->getShop();
+        if (null === $shop) {
+            throw new \RuntimeException('No shop defined'); // todo better exception
+        }
+
+        return $shop;
+    }
+
+    private function getChannel(ShopInterface $shop): ChannelInterface
+    {
+        $channel = $shop->getChannel();
+        if (null === $channel) {
+            throw new \RuntimeException('No channel defined'); // todo better exception
+        }
+
+        return $channel;
+    }
+
+    private function getLocaleCode(ShopInterface $shop): string
+    {
+        $localeCode = $shop->getLocaleCode();
+        if (null === $localeCode) {
+            throw new \RuntimeException('No locale code defined'); // todo better exception
+        }
+
+        return $localeCode;
+    }
+
+    private function getProviderId(OrderInterface $order): string
+    {
+        $providerId = $order->getProviderId();
+        if (null === $providerId) {
+            throw new \RuntimeException('No provider id set on order'); // @todo better exception
+        }
+
+        return $providerId;
+    }
+
+    /**
+     * Returns a valid mapping else it throws exceptions
+     *
+     * @param ShopInterface $shop
+     * @param string $providerId
+     *
+     * @return MappingInterface
+     */
+    private function getMapping(ShopInterface $shop, string $providerId): MappingInterface
+    {
+        $mapping = $this->mappingRepository->findMappedByShopAndProviderId($shop, $providerId);
+
+        if (null === $mapping) {
+            throw new \RuntimeException('No mapping for given shop and provider id'); // @todo better exception
+        }
+
+        if ($mapping->getShippingMethod() === null) {
+            throw new \RuntimeException('No shipping method set on the given mapping'); // @todo better exception
+        }
+
+        if ($mapping->getPaymentMethod() === null) {
+            throw new \RuntimeException('No payment method set on the given mapping'); // @todo better exception
+        }
+
+        return $mapping;
     }
 }
