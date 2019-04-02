@@ -7,6 +7,7 @@
             <argument type="service" id="setono_sylius_miinto.manager.order"/>
             <argument type="service" id="workflow.registry"/>
             <argument type="service" id="setono_sylius_miinto.order_fulfiller.default"/>
+            <argument type="service" id="setono_sylius_miinto.order_updater.default"/>
             <argument type="service" id="setono_sylius_miinto.factory.order_error"/>
         </service>
     </services>

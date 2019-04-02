@@ -9,14 +9,24 @@ sylius_grid:
                 shop:
                     type: string
                     label: setono_sylius_miinto.ui.shop
-                    sortable: ~
+                        vars:
                 providerId:
                     type: string
                     label: setono_sylius_miinto.ui.provider_id
-                    sortable: ~
                 shippingMethod:
-                    type: string
+                    type: twig
                     label: setono_sylius_miinto.ui.shipping_method
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/data_or_error.html.twig"
+                        vars:
+                            label: setono_sylius_miinto.ui.shipping_method_not_set
+                paymentMethod:
+                    type: twig
+                    label: setono_sylius_miinto.ui.payment_method
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/data_or_error.html.twig"
+                        vars:
+                            label: setono_sylius_miinto.ui.payment_method_not_set
             actions:
                 item:
                     update:

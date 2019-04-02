@@ -6,9 +6,6 @@ namespace Setono\SyliusMiintoPlugin\Model;
 
 trait MutableIdTrait
 {
-    /**
-     * @var int|string
-     */
     protected $id;
 
     public function setId($id): void

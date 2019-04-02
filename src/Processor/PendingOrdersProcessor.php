@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use InvalidArgumentException;
 use Setono\SyliusMiintoPlugin\Factory\OrderErrorFactoryInterface;
 use Setono\SyliusMiintoPlugin\OrderFulfiller\OrderFulfillerInterface;
+use Setono\SyliusMiintoPlugin\OrderUpdater\OrderUpdaterInterface;
 use Setono\SyliusMiintoPlugin\Repository\OrderRepositoryInterface;
 use Symfony\Component\Workflow\Exception\TransitionException;
 use Symfony\Component\Workflow\Registry;
@@ -34,6 +36,11 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
     private $orderFulfiller;
 
     /**
+     * @var OrderUpdaterInterface
+     */
+    private $orderUpdater;
+
+    /**
      * @var OrderErrorFactoryInterface
      */
     private $orderErrorFactory;
@@ -43,12 +50,14 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
         ObjectManager $orderManager,
         Registry $workflowRegistry,
         OrderFulfillerInterface $orderFulfiller,
+        OrderUpdaterInterface $orderUpdater,
         OrderErrorFactoryInterface $orderErrorFactory
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderManager = $orderManager;
         $this->workflowRegistry = $workflowRegistry;
         $this->orderFulfiller = $orderFulfiller;
+        $this->orderUpdater = $orderUpdater;
         $this->orderErrorFactory = $orderErrorFactory;
     }
 
@@ -59,26 +68,33 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
             $workflow = $this->workflowRegistry->get($order);
 
             try {
+                $order->clearErrors();
+
                 $workflow->apply($order, 'start_processing');
 
                 $orderFulfillment = $this->orderFulfiller->fulfill($order);
+                $this->orderUpdater->update($orderFulfillment);
 
                 $workflow->apply($order, 'process');
             } catch (TransitionException $e) {
-                if($workflow->can($order, 'errored')) {
-                    $workflow->apply($order, 'errored');
-                }
-
                 $transitionBlockerList = $workflow->buildTransitionBlockerList($order, $e->getTransitionName());
 
                 foreach ($transitionBlockerList as $transitionBlocker) {
-                    $orderError = $this->orderErrorFactory->createFromTransitionBlocker($transitionBlocker);
+                    $error = $this->orderErrorFactory->createFromTransitionBlocker($transitionBlocker);
 
-                    $order->addError($orderError);
+                    $order->addError($error);
                 }
-            }
-        }
 
-        $this->orderManager->flush();
+                if ($workflow->can($order, 'errored')) {
+                    $workflow->apply($order, 'errored');
+                }
+            } catch (InvalidArgumentException $e) {
+                $error = $this->orderErrorFactory->createFromThrowable($e);
+
+                $order->addError($error);
+            }
+
+            $this->orderManager->flush();
+        }
     }
 }

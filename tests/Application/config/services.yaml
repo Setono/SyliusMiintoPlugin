@@ -2,3 +2,16 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en_US
+
+services:
+    # Overrides the default variant provider for test purposes
+    setono_sylius_miinto.provider.variant:
+        class: Tests\Setono\SyliusMiintoPlugin\Application\Provider\VariantProvider
+        arguments:
+            - "@sylius.repository.product_variant"
+
+    setono_sylius_miinto.http_client.buzz:
+        class: Buzz\Client\Curl
+        arguments:
+            - "@setono_sylius_miinto.http_client.response_factory"
+    

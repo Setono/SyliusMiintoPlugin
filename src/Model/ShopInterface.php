@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Model;
 
 use Sylius\Component\Channel\Model\ChannelAwareInterface;
+use Sylius\Component\Locale\Model\LocaleInterface;
 use Sylius\Component\Resource\Model\ResourceInterface as BaseResourceInterface;
 
 interface ShopInterface extends BaseResourceInterface, ChannelAwareInterface
@@ -19,7 +20,7 @@ interface ShopInterface extends BaseResourceInterface, ChannelAwareInterface
 
     public function setName(string $name): void;
 
-    public function getLocaleCode(): ?string;
+    public function getLocale(): ?LocaleInterface;
 
-    public function setLocaleCode(string $localeCode): void;
+    public function setLocale(LocaleInterface $locale): void;
 }

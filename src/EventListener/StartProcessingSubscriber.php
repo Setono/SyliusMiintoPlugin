@@ -69,9 +69,8 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
 
     private function block(GuardEvent $event, string $message): bool
     {
-        // todo better code in TransitionBlocker
-        // todo these messages have to be saved on the entity
-        $event->addTransitionBlocker(new TransitionBlocker($message, 'invalid')); // todo better code
+        $event->addTransitionBlocker(new TransitionBlocker($message, TransitionBlocker::UNKNOWN));
+
         return false;
     }
 }

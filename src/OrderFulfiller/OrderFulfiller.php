@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 
+use InvalidArgumentException;
+use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
@@ -90,14 +92,12 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * todo better exceptions
-     * todo catch exceptions where this is called
-     * todo better exception messages
-     *
      * @param OrderInterface $order
      *
      * @return OrderFulfillment
+     *
      * @throws SMException
+     * @throws StringsException
      */
     public function fulfill(OrderInterface $order): OrderFulfillment
     {
@@ -115,7 +115,7 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $stateMachine = $this->stateMachineFactory->get($syliusOrder, OrderCheckoutTransitions::GRAPH);
 
         $syliusOrder->setChannel($channel);
-        $syliusOrder->setLocaleCode($localeCode); // todo needs to be fixed on the shop mapping
+        $syliusOrder->setLocaleCode($localeCode);
         $syliusOrder->setCurrencyCode($data['currency']);
 
         $customer = $this->customerProvider->provide($order);
@@ -123,8 +123,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
 
         // add order items
         $orderItems = $this->orderItemsProvider->provide($order);
-        if(count($orderItems->getFulfillablePositionIds()) === 0) {
-            return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds());
+        if (count($orderItems->getFulfillablePositionIds()) === 0) {
+            return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds(), $order);
         }
         foreach ($orderItems->getOrderItems() as $orderItem) {
             $syliusOrder->addItem($orderItem);
@@ -156,48 +156,83 @@ final class OrderFulfiller implements OrderFulfillerInterface
         // complete order
         $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_COMPLETE);
 
+        // todo mark payment as complete
+
         $order->setOrder($syliusOrder);
 
         $this->orderRepository->add($syliusOrder);
 
-        return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds(), $syliusOrder);
+        return new OrderFulfillment($orderItems->getFulfillablePositionIds(), $orderItems->getUnfulfillablePositionIds(), $order);
     }
 
+    /**
+     * @param OrderInterface $order
+     *
+     * @return ShopInterface
+     *
+     * @throws StringsException
+     */
     private function getShop(OrderInterface $order): ShopInterface
     {
         $shop = $order->getShop();
         if (null === $shop) {
-            throw new \RuntimeException('No shop defined'); // todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No shop set on order %s', $order->getId()));
         }
 
         return $shop;
     }
 
+    /**
+     * @param ShopInterface $shop
+     *
+     * @return ChannelInterface
+     *
+     * @throws StringsException
+     */
     private function getChannel(ShopInterface $shop): ChannelInterface
     {
         $channel = $shop->getChannel();
         if (null === $channel) {
-            throw new \RuntimeException('No channel defined'); // todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No channel set on shop %s', $shop->getId()));
         }
 
         return $channel;
     }
 
+    /**
+     * @param ShopInterface $shop
+     *
+     * @return string
+     *
+     * @throws StringsException
+     */
     private function getLocaleCode(ShopInterface $shop): string
     {
-        $localeCode = $shop->getLocaleCode();
-        if (null === $localeCode) {
-            throw new \RuntimeException('No locale code defined'); // todo better exception
+        $locale = $shop->getLocale();
+        if (null === $locale) {
+            throw new InvalidArgumentException(\Safe\sprintf('No locale set on shop %s', $shop->getId()));
         }
 
-        return $localeCode;
+        $code = $locale->getCode();
+        if (null === $code) {
+            throw new InvalidArgumentException(\Safe\sprintf('No code set on locale %s', $locale->getId()));
+        }
+
+        return $code;
     }
 
+    /**
+     * @param OrderInterface $order
+     *
+     * @return string
+     *
+     * @throws StringsException
+     */
     private function getProviderId(OrderInterface $order): string
     {
         $providerId = $order->getProviderId();
         if (null === $providerId) {
-            throw new \RuntimeException('No provider id set on order'); // @todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No provider id set on order %s', $order->getId()));
         }
 
         return $providerId;
@@ -210,21 +245,24 @@ final class OrderFulfiller implements OrderFulfillerInterface
      * @param string $providerId
      *
      * @return MappingInterface
+     *
+     * @throws InvalidArgumentException
+     * @throws StringsException
      */
     private function getMapping(ShopInterface $shop, string $providerId): MappingInterface
     {
         $mapping = $this->mappingRepository->findMappedByShopAndProviderId($shop, $providerId);
 
         if (null === $mapping) {
-            throw new \RuntimeException('No mapping for given shop and provider id'); // @todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No mapping for shop with id %s and provider id %s', $shop->getId(), $providerId));
         }
 
         if ($mapping->getShippingMethod() === null) {
-            throw new \RuntimeException('No shipping method set on the given mapping'); // @todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No shipping method set on the mapping with id %s', $mapping->getId()));
         }
 
         if ($mapping->getPaymentMethod() === null) {
-            throw new \RuntimeException('No payment method set on the given mapping'); // @todo better exception
+            throw new InvalidArgumentException(\Safe\sprintf('No payment method set on the mapping with id %s', $mapping->getId()));
         }
 
         return $mapping;

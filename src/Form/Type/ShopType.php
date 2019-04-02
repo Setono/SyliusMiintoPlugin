@@ -24,10 +24,13 @@ final class ShopType extends AbstractResourceType
             ])
             ->add('channel', ChannelChoiceType::class, [
                 'label' => 'setono_sylius_miinto.form.shop.channel',
-                'placeholder' => 'setono_sylius_miinto.form.shop.choose_shop',
+                'placeholder' => 'setono_sylius_miinto.form.shop.choose_channel',
             ])
-            // todo needs to only show locales enabled in the above channel
-            ->add('localeCode', LocaleChoiceType::class)
+            // todo only show locales enabled in the above channel
+            ->add('locale', LocaleChoiceType::class, [
+                'label' => 'setono_sylius_miinto.form.shop.locale',
+                'placeholder' => 'setono_sylius_miinto.form.shop.choose_locale',
+            ])
         ;
     }
 

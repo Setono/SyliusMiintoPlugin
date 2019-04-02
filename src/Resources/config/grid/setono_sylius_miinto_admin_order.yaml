@@ -1,4 +1,7 @@
 sylius_grid:
+    templates:
+        filter:
+            status: '@SetonoSyliusMiintoPlugin/Grid/Filter/status.html.twig'
     grids:
         setono_sylius_miinto_admin_order:
             driver:
@@ -12,6 +15,10 @@ sylius_grid:
                     type: string
                     label: setono_sylius_miinto.ui.miinto_id
                     sortable: ~
+                shop:
+                    type: string
+                    label: setono_sylius_miinto.ui.shop
+                    sortable: ~
                 status:
                     type: twig
                     label: setono_sylius_miinto.ui.status
@@ -22,9 +29,15 @@ sylius_grid:
                     label: setono_sylius_miinto.ui.errors
                     options:
                         template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/errors.html.twig"
-            filters:
-                search:
-                    type: string
-                    label: sylius.ui.search
+                order:
+                    type: twig
+                    label: setono_sylius_miinto.ui.shop_order
                     options:
-                        fields: [status]
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/order.html.twig"
+            filters:
+                id:
+                    type: string
+                    label: sylius.ui.id
+                status:
+                    type: status
+                    label: sylius.ui.status

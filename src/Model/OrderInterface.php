@@ -31,6 +31,8 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
 
     public function setOrder(SyliusOrderInterface $order): void;
 
+    public function clearErrors(): void;
+
     public function getErrors(): Collection;
 
     public function addError(OrderErrorInterface $error): void;
@@ -38,4 +40,6 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
     public function setData(array $data): void;
 
     public function getData(): array;
+
+    public static function getStatuses(): array;
 }

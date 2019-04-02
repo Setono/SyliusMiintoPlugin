@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Model;
 
 use Sylius\Component\Channel\Model\ChannelInterface;
+use Sylius\Component\Locale\Model\LocaleInterface;
 
 class Shop implements ShopInterface
 {
@@ -24,13 +25,13 @@ class Shop implements ShopInterface
     protected $channel;
 
     /**
-     * @var string|null
+     * @var LocaleInterface|null
      */
-    protected $localeCode;
+    protected $locale;
 
     public function __toString(): string
     {
-        return (string) $this->name;
+        return $this->name . ' (id: ' . $this->id . ')';
     }
 
     public function getId(): ?string
@@ -63,13 +64,13 @@ class Shop implements ShopInterface
         $this->channel = $channel;
     }
 
-    public function getLocaleCode(): ?string
+    public function getLocale(): ?LocaleInterface
     {
-        return $this->localeCode;
+        return $this->locale;
     }
 
-    public function setLocaleCode(?string $localeCode): void
+    public function setLocale(?LocaleInterface $locale): void
     {
-        $this->localeCode = $localeCode;
+        $this->locale = $locale;
     }
 }

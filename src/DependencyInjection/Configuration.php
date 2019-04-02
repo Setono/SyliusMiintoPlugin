@@ -6,7 +6,6 @@ namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\OrderRepository;
-use Setono\SyliusMiintoPlugin\Factory\OrderErrorFactory;
 use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
 use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
 use Setono\SyliusMiintoPlugin\Model\Mapping;
@@ -44,7 +43,18 @@ final class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('http_client')
+                    ->cannotBeEmpty()
+                    ->isRequired()
+                    ->info('The service id for your PSR18 HTTP client')
+                ->end()
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->cannotBeEmpty()->end()
+                ->scalarNode('product_variant_gtin_field')
+                    ->cannotBeEmpty()
+                    ->defaultValue('gtin')
+                    ->example('gtin')
+                    ->info('The field on your product variant resource that contains the GTIN')
+                ->end()
                 ->arrayNode('miinto')
                     ->children()
                         ->scalarNode('auth_endpoint')

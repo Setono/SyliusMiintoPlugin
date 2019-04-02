@@ -28,9 +28,7 @@ final class ProcessSubscriber implements EventSubscriberInterface
         }
 
         if ($order->getOrder() === null) {
-            // todo better code in TransitionBlocker
-            // todo these messages have to be saved on the entity
-            $event->addTransitionBlocker(new TransitionBlocker('No shop order associated with this Miinto order', 'invalid')); // todo better code
+            $event->addTransitionBlocker(new TransitionBlocker('No shop order associated with this Miinto order', TransitionBlocker::UNKNOWN));
         }
     }
 }

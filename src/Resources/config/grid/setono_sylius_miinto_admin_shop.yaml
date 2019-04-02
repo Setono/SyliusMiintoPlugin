@@ -15,15 +15,20 @@ sylius_grid:
                 name:
                     type: string
                     label: setono_sylius_miinto.ui.name
-                    sortable: ~
                 channel:
                     type: twig
                     label: setono_sylius_miinto.ui.channel
                     options:
-                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/channel.html.twig"
-                localeCode:
-                    type: string
-                    label: setono_sylius_miinto.ui.locale_code
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/data_or_error.html.twig"
+                        vars:
+                            label: setono_sylius_miinto.ui.channel_not_set
+                locale:
+                    type: twig
+                    label: setono_sylius_miinto.ui.locale
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/data_or_error.html.twig"
+                        vars:
+                            label: setono_sylius_miinto.ui.locale_not_set
             actions:
                 item:
                     update:

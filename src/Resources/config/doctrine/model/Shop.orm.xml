@@ -9,7 +9,8 @@
         <id name="id" type="string"/>
 
         <field name="name" type="string"/>
-        <field name="localeCode" type="string" nullable="true" />
+
+        <many-to-one field="locale" target-entity="Sylius\Component\Locale\Model\LocaleInterface" fetch="EAGER"/>
 
         <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface"/>
     </mapped-superclass>

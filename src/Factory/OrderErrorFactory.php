@@ -10,6 +10,9 @@ use Symfony\Component\Workflow\TransitionBlocker;
 
 final class OrderErrorFactory implements OrderErrorFactoryInterface
 {
+    /**
+     * @var FactoryInterface
+     */
     private $decoratedFactory;
 
     public function __construct(FactoryInterface $factory)
@@ -17,19 +20,29 @@ final class OrderErrorFactory implements OrderErrorFactoryInterface
         $this->decoratedFactory = $factory;
     }
 
-    public function createNew()
+    public function createNew(): OrderErrorInterface
     {
-        return $this->decoratedFactory->createNew();
+        /** @var OrderErrorInterface $error */
+        $error = $this->decoratedFactory->createNew();
+
+        return $error;
+    }
+
+    public function createFromThrowable(\Throwable $e): OrderErrorInterface
+    {
+        $error = $this->createNew();
+        $error->setMessage($e->getMessage());
+
+        return $error;
     }
 
     public function createFromTransitionBlocker(TransitionBlocker $transitionBlocker): OrderErrorInterface
     {
-        /** @var OrderErrorInterface $orderError */
-        $orderError = $this->decoratedFactory->createNew();
+        $error = $this->createNew();
+        $error->setMessage($transitionBlocker->getMessage());
 
-        $orderError->setMessage($transitionBlocker->getMessage());
         // todo add context field to OrderError so we can add misc parameters
 
-        return $orderError;
+        return $error;
     }
 }

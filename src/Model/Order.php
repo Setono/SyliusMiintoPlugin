@@ -92,6 +92,11 @@ class Order implements OrderInterface
         $this->order = $order;
     }
 
+    public function clearErrors(): void
+    {
+        $this->errors->clear();
+    }
+
     public function getErrors(): Collection
     {
         return $this->errors;
@@ -99,7 +104,7 @@ class Order implements OrderInterface
 
     public function addError(OrderErrorInterface $error): void
     {
-        if(!$this->hasError($error)) {
+        if (!$this->hasError($error)) {
             $this->errors->add($error);
             $error->setOrder($this);
         }
@@ -118,5 +123,15 @@ class Order implements OrderInterface
     public function getData(): array
     {
         return $this->data;
+    }
+
+    public static function getStatuses(): array
+    {
+        return [
+            self::STATUS_PENDING => self::STATUS_PENDING,
+            self::STATUS_PROCESSING => self::STATUS_PROCESSING,
+            self::STATUS_PROCESSED => self::STATUS_PROCESSED,
+            self::STATUS_ERRORED => self::STATUS_ERRORED,
+        ];
     }
 }

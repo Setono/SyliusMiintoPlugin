@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
+use Exception;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,12 +14,16 @@ final class SetonoSyliusMiintoExtension extends AbstractResourceExtension
 {
     /**
      * {@inheritdoc}
+     *
+     * @throws Exception
      */
     public function load(array $config, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration($this->getConfiguration([], $container), $config);
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
 
+        $container->setParameter('setono_sylius_miinto.http_client', $config['http_client']);
+        $container->setParameter('setono_sylius_miinto.product_variant_gtin_field', $config['product_variant_gtin_field']);
         $container->setParameter('setono_sylius_miinto.miinto.auth_endpoint', $config['miinto']['auth_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.resource_endpoint', $config['miinto']['resource_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.username', $config['miinto']['username']);

@@ -1,0 +1,8 @@
+{# @var \Sylius\Component\Core\Model\OrderInterface data #}
+
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+{% if data is not null %}
+    {% set path = path('sylius_admin_order_show', { id: data.id }) %}
+    {{ buttons.show(path, 'sylius.ui.show') }}
+{% endif %}

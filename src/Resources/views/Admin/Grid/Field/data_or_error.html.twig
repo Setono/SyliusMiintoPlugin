@@ -1,0 +1,6 @@
+{% if data is not null %}
+    {{ data }}
+{% else %}
+    {% set label = options.vars.label|default('setono_sylius_miinto.ui.not_set') %}
+    <i class="exclamation circle icon red"></i> {{ label|trans }}
+{% endif %}

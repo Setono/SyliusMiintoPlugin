@@ -9,14 +9,24 @@ setono_sylius_miinto:
             shipping_method: Shipping method
         shop:
             channel: Channel
-            choose_shop: Choose shop...
+            choose_channel: Choose channel...
+            choose_locale: Choose locale...
+            locale: Locale
             name: Name
+        status:
+            all: All
+            pending: Pending
+            processing: Processing
+            processed: Processed
+            errored: Errored
     ui:
         channel: Channel
+        channel_not_set: Channel not set
         edit_mapping: Edit mapping
         edit_shop: Edit shop
         errors: Errors
-        locale_code: Locale code
+        locale: Locale
+        locale_not_set: Locale not set
         mappings: Mappings
         miinto_id: Miinto id
         manage_mappings: Manage mappings
@@ -24,10 +34,14 @@ setono_sylius_miinto:
         manage_shops: Manage shops
         miinto: Miinto
         name: Name
-        no_channel: No channel
+        not_set: Not set
         orders: Orders
+        payment_method: Payment method
+        payment_method_not_set: Payment method not set
         provider_id: Provider id
         shipping_method: Shipping method
+        shipping_method_not_set: Shipping method not set
         shop: Shop
+        shop_order: Shop order
         shops: Shops
         status: Status

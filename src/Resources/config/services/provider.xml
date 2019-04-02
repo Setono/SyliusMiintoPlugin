@@ -24,6 +24,7 @@
 
         <service id="setono_sylius_miinto.provider.variant" class="Setono\SyliusMiintoPlugin\Provider\VariantProvider">
             <argument type="service" id="sylius.repository.product_variant"/>
+            <argument>%setono_sylius_miinto.product_variant_gtin_field%</argument>
         </service>
     </services>
 </container>

@@ -1,4 +1,5 @@
 setono_sylius_miinto:
+    http_client: setono_sylius_miinto.http_client.buzz
     miinto:
         auth_endpoint: https://private-anon-beced50377-miintoauthserviceapi.apiary-mock.com
         resource_endpoint: https://private-anon-8cc3f89f6a-orderapiv221.apiary-mock.com

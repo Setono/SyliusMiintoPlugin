@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Client;
 
 use Exception;
+use InvalidArgumentException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -134,6 +135,35 @@ final class Client implements ClientInterface
         $url = \Safe\sprintf('%s/shops/%s/orders?%s', $this->resourceEndpoint, $shopId, $query);
 
         return $this->sendRequest('GET', $url);
+    }
+
+    /**
+     * @param string $shopId
+     * @param int $orderId
+     * @param array $acceptedPositions
+     * @param array $declinedPositions
+     *
+     * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
+     */
+    public function updateOrder(string $shopId, int $orderId, array $acceptedPositions = [], array $declinedPositions = []): void
+    {
+        $body = [];
+
+        if (count($acceptedPositions) > 0) {
+            $body['acceptedPositions'] = $acceptedPositions;
+        }
+
+        if (count($declinedPositions) > 0) {
+            $body['declinedPositions'] = $declinedPositions;
+        }
+
+        if (count($body) === 0) {
+            throw new InvalidArgumentException('No accepted or declined positions');
+        }
+
+        $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId), $body);
     }
 
     /**

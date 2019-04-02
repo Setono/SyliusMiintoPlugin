@@ -31,4 +31,14 @@ interface ClientInterface
      * @return array
      */
     public function getOrders(string $shopId, array $options = []): array;
+
+    /**
+     * Accepts or declines the given positions on the given order
+     *
+     * @param string $shopId
+     * @param int $orderId
+     * @param array $acceptedPositions
+     * @param array $declinedPositions
+     */
+    public function updateOrder(string $shopId, int $orderId, array $acceptedPositions = [], array $declinedPositions = []): void;
 }
