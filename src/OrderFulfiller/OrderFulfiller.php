@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 
 use InvalidArgumentException;
 use Safe\Exceptions\StringsException;
+use Setono\SyliusMiintoPlugin\Exception\ConstraintViolationException;
 use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
@@ -18,9 +19,11 @@ use SM\SMException;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface as SyliusOrderInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
+use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
 use Sylius\Component\Order\Processor\OrderProcessorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class OrderFulfiller implements OrderFulfillerInterface
 {
@@ -69,6 +72,11 @@ final class OrderFulfiller implements OrderFulfillerInterface
      */
     private $mappingRepository;
 
+    /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $orderFactory,
@@ -78,7 +86,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         StateMachineFactoryInterface $stateMachineFactory,
         AddressProviderInterface $billingAddressProvider,
         AddressProviderInterface $shippingAddressProvider,
-        MappingRepositoryInterface $mappingRepository
+        MappingRepositoryInterface $mappingRepository,
+        ValidatorInterface $validator
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
@@ -89,6 +98,7 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $this->billingAddressProvider = $billingAddressProvider;
         $this->shippingAddressProvider = $shippingAddressProvider;
         $this->mappingRepository = $mappingRepository;
+        $this->validator = $validator;
     }
 
     /**
@@ -112,7 +122,7 @@ final class OrderFulfiller implements OrderFulfillerInterface
         /** @var SyliusOrderInterface $syliusOrder */
         $syliusOrder = $this->orderFactory->createNew();
 
-        $stateMachine = $this->stateMachineFactory->get($syliusOrder, OrderCheckoutTransitions::GRAPH);
+        $orderStateMachine = $this->stateMachineFactory->get($syliusOrder, OrderCheckoutTransitions::GRAPH);
 
         $syliusOrder->setChannel($channel);
         $syliusOrder->setLocaleCode($localeCode);
@@ -139,24 +149,31 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $shippingAddress = $this->shippingAddressProvider->provide($order);
         $syliusOrder->setShippingAddress($shippingAddress);
 
-        $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_ADDRESS);
+        $orderStateMachine->apply(OrderCheckoutTransitions::TRANSITION_ADDRESS);
 
         // add shipment
         foreach ($syliusOrder->getShipments() as $shipment) {
             $shipment->setMethod($mapping->getShippingMethod());
         }
-        $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
+        $orderStateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_SHIPPING);
 
         // add payment
         foreach ($syliusOrder->getPayments() as $payment) {
             $payment->setMethod($mapping->getPaymentMethod());
         }
-        $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
+        $orderStateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
 
         // complete order
-        $stateMachine->apply(OrderCheckoutTransitions::TRANSITION_COMPLETE);
+        $orderStateMachine->apply(OrderCheckoutTransitions::TRANSITION_COMPLETE);
 
-        // todo mark payment as complete
+        // mark order as paid
+        $orderPaymentStateMachine = $this->stateMachineFactory->get($syliusOrder, OrderPaymentTransitions::GRAPH);
+        $orderPaymentStateMachine->apply(OrderPaymentTransitions::TRANSITION_PAY);
+
+        $violations = $this->validator->validate($syliusOrder);
+        if($violations->count() > 0) {
+            throw new ConstraintViolationException($violations);
+        }
 
         $order->setOrder($syliusOrder);
 

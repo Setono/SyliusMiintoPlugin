@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Factory;
 
 use Setono\SyliusMiintoPlugin\Model\OrderErrorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Workflow\TransitionBlocker;
 
 final class OrderErrorFactory implements OrderErrorFactoryInterface
@@ -42,6 +43,14 @@ final class OrderErrorFactory implements OrderErrorFactoryInterface
         $error->setMessage($transitionBlocker->getMessage());
 
         // todo add context field to OrderError so we can add misc parameters
+
+        return $error;
+    }
+
+    public function createFromConstraintViolation(ConstraintViolationInterface $constraintViolation): OrderErrorInterface
+    {
+        $error = $this->createNew();
+        $error->setMessage($constraintViolation->getMessage());
 
         return $error;
     }

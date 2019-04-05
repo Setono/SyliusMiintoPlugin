@@ -6,12 +6,15 @@ namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use InvalidArgumentException;
+use Setono\SyliusMiintoPlugin\Exception\ConstraintViolationException;
 use Setono\SyliusMiintoPlugin\Factory\OrderErrorFactoryInterface;
+use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\OrderFulfiller\OrderFulfillerInterface;
 use Setono\SyliusMiintoPlugin\OrderUpdater\OrderUpdaterInterface;
 use Setono\SyliusMiintoPlugin\Repository\OrderRepositoryInterface;
 use Symfony\Component\Workflow\Exception\TransitionException;
 use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\Workflow;
 
 final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
 {
@@ -85,16 +88,31 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
                     $order->addError($error);
                 }
 
-                if ($workflow->can($order, 'errored')) {
-                    $workflow->apply($order, 'errored');
+                $this->errored($workflow, $order);
+            } catch (ConstraintViolationException $e) {
+                foreach ($e->getConstraintViolationList() as $violation) {
+                    $error = $this->orderErrorFactory->createFromConstraintViolation($violation);
+
+                    $order->addError($error);
                 }
+
+                $this->errored($workflow, $order);
             } catch (InvalidArgumentException $e) {
                 $error = $this->orderErrorFactory->createFromThrowable($e);
 
                 $order->addError($error);
+
+                $this->errored($workflow, $order);
             }
 
             $this->orderManager->flush();
+        }
+    }
+
+    private function errored(Workflow $workflow, OrderInterface $order): void
+    {
+        if ($workflow->can($order, 'errored')) {
+            $workflow->apply($order, 'errored');
         }
     }
 }
