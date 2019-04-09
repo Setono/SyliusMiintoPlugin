@@ -1,6 +1,7 @@
 # Sylius Miinto Plugin
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Latest Stable Version][ico-version]][link-packagist]
+[![Latest Unstable Version][ico-unstable-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
 [![Build Status][ico-travis]][link-travis]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -94,10 +95,11 @@ setono_sylius_miinto:
         password: '%env(MIINTO_PASSWORD)%'
 ```
 
-[ico-version]: https://img.shields.io/packagist/v/setono/sylius-miinto-plugin.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable
+[ico-unstable-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/unstable
+[ico-license]: https://poser.pugx.org/setono/sylius-miinto-plugin/license
 [ico-travis]: https://travis-ci.com/Setono/SyliusMiintoPlugin.svg?branch=master
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/Setono/SyliusMiintoPlugin.svg?style=flat-square
+[ico-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMiintoPlugin/badges/quality-score.png?b=master
 
 [link-packagist]: https://packagist.org/packages/setono/sylius-miinto-plugin
 [link-travis]: https://travis-ci.com/Setono/SyliusMiintoPlugin
