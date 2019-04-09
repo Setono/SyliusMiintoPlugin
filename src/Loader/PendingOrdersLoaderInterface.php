@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Loader;
 
-interface PendingOrdersLoaderInterface
+use Psr\Log\LoggerAwareInterface;
+
+interface PendingOrdersLoaderInterface extends LoggerAwareInterface
 {
     public function load(): void;
 }

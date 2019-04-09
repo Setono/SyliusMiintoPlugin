@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Factory;
 
-use Setono\SyliusMiintoPlugin\Model\OrderErrorInterface;
+use Setono\SyliusMiintoPlugin\Model\ErrorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Workflow\TransitionBlocker;
 
-final class OrderErrorFactory implements OrderErrorFactoryInterface
+final class ErrorFactory implements ErrorFactoryInterface
 {
     /**
      * @var FactoryInterface
@@ -21,15 +21,15 @@ final class OrderErrorFactory implements OrderErrorFactoryInterface
         $this->decoratedFactory = $factory;
     }
 
-    public function createNew(): OrderErrorInterface
+    public function createNew(): ErrorInterface
     {
-        /** @var OrderErrorInterface $error */
+        /** @var ErrorInterface $error */
         $error = $this->decoratedFactory->createNew();
 
         return $error;
     }
 
-    public function createFromThrowable(\Throwable $e): OrderErrorInterface
+    public function createFromThrowable(\Throwable $e): ErrorInterface
     {
         $error = $this->createNew();
         $error->setMessage($e->getMessage());
@@ -37,17 +37,17 @@ final class OrderErrorFactory implements OrderErrorFactoryInterface
         return $error;
     }
 
-    public function createFromTransitionBlocker(TransitionBlocker $transitionBlocker): OrderErrorInterface
+    public function createFromTransitionBlocker(TransitionBlocker $transitionBlocker): ErrorInterface
     {
         $error = $this->createNew();
         $error->setMessage($transitionBlocker->getMessage());
 
-        // todo add context field to OrderError so we can add misc parameters
+        // todo add context field to Error so we can add misc parameters
 
         return $error;
     }
 
-    public function createFromConstraintViolation(ConstraintViolationInterface $constraintViolation): OrderErrorInterface
+    public function createFromConstraintViolation(ConstraintViolationInterface $constraintViolation): ErrorInterface
     {
         $error = $this->createNew();
         $error->setMessage($constraintViolation->getMessage());

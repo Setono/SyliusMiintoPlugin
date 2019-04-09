@@ -8,11 +8,11 @@ use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\OrderRepository;
 use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
 use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
+use Setono\SyliusMiintoPlugin\Model\Error;
+use Setono\SyliusMiintoPlugin\Model\ErrorInterface;
 use Setono\SyliusMiintoPlugin\Model\Mapping;
 use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\Order;
-use Setono\SyliusMiintoPlugin\Model\OrderError;
-use Setono\SyliusMiintoPlugin\Model\OrderErrorInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\Shop;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
@@ -122,15 +122,15 @@ final class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
-                        ->arrayNode('order_error')
+                        ->arrayNode('error')
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->variableNode('options')->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
-                                        ->scalarNode('model')->defaultValue(OrderError::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(OrderErrorInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('model')->defaultValue(Error::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(ErrorInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
                                         ->scalarNode('repository')->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()

@@ -77,6 +77,11 @@ final class OrderFulfiller implements OrderFulfillerInterface
      */
     private $validator;
 
+    /**
+     * @var array
+     */
+    private $orderValidationGroups;
+
     public function __construct(
         OrderRepositoryInterface $orderRepository,
         FactoryInterface $orderFactory,
@@ -87,7 +92,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         AddressProviderInterface $billingAddressProvider,
         AddressProviderInterface $shippingAddressProvider,
         MappingRepositoryInterface $mappingRepository,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        array $orderValidationGroups
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
@@ -99,6 +105,7 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $this->shippingAddressProvider = $shippingAddressProvider;
         $this->mappingRepository = $mappingRepository;
         $this->validator = $validator;
+        $this->orderValidationGroups = $orderValidationGroups;
     }
 
     /**
@@ -170,8 +177,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $orderPaymentStateMachine = $this->stateMachineFactory->get($syliusOrder, OrderPaymentTransitions::GRAPH);
         $orderPaymentStateMachine->apply(OrderPaymentTransitions::TRANSITION_PAY);
 
-        $violations = $this->validator->validate($syliusOrder);
-        if($violations->count() > 0) {
+        $violations = $this->validator->validate($syliusOrder, null, $this->orderValidationGroups);
+        if ($violations->count() > 0) {
             throw new ConstraintViolationException($violations);
         }
 

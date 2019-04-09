@@ -7,6 +7,7 @@ namespace Setono\SyliusMiintoPlugin\Command;
 use Setono\SyliusMiintoPlugin\Processor\PendingOrdersProcessorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ProcessOrdersCommand extends Command
@@ -32,6 +33,7 @@ final class ProcessOrdersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
+        $this->processor->setLogger(new ConsoleLogger($output));
         $this->processor->process();
     }
 }

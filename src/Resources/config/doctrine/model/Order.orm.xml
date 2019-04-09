@@ -21,7 +21,7 @@
 
         <one-to-one field="order" target-entity="Sylius\Component\Order\Model\OrderInterface"/>
         
-        <one-to-many field="errors" target-entity="Setono\SyliusMiintoPlugin\Model\OrderErrorInterface" mapped-by="order" orphan-removal="true">
+        <one-to-many field="errors" target-entity="Setono\SyliusMiintoPlugin\Model\ErrorInterface" mapped-by="order" orphan-removal="true">
             <cascade>
                 <cascade-persist/>
             </cascade>

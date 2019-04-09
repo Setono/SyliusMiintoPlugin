@@ -6,8 +6,8 @@
             <argument type="service" id="setono_sylius_miinto.factory.customer.inner"/>
         </service>
 
-        <service id="setono_sylius_miinto.custom_factory.order_error" class="Setono\SyliusMiintoPlugin\Factory\OrderErrorFactory" decorates="setono_sylius_miinto.factory.order_error">
-            <argument type="service" id="setono_sylius_miinto.custom_factory.order_error.inner"/>
+        <service id="setono_sylius_miinto.custom_factory.error" class="Setono\SyliusMiintoPlugin\Factory\ErrorFactory" decorates="setono_sylius_miinto.factory.error">
+            <argument type="service" id="setono_sylius_miinto.custom_factory.error.inner"/>
         </service>
     </services>
 </container>

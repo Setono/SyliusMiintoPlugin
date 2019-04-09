@@ -7,9 +7,10 @@ namespace Setono\SyliusMiintoPlugin\Model;
 use Sylius\Component\Resource\Model\ResourceInterface as BaseResourceInterface;
 use Sylius\Component\Resource\Model\TimestampableInterface;
 
-// todo refactor to error interface instead
-interface OrderErrorInterface extends BaseResourceInterface, TimestampableInterface
+interface ErrorInterface extends BaseResourceInterface, TimestampableInterface
 {
+    public function __toString(): string;
+
     public function getOrder(): ?OrderInterface;
 
     public function setOrder(OrderInterface $order): void;

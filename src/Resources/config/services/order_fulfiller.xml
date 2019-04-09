@@ -12,6 +12,8 @@
             <argument type="service" id="setono_sylius_miinto.provider.billing_address"/>
             <argument type="service" id="setono_sylius_miinto.provider.shipping_address"/>
             <argument type="service" id="setono_sylius_miinto.repository.mapping"/>
+            <argument type="service" id="validator"/>
+            <argument>%sylius.form.type.order.validation_groups%</argument>
         </service>
     </services>
 </container>

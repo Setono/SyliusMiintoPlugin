@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Loader;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\NullLogger;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
 use Setono\SyliusMiintoPlugin\Event\OrderEvent;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
@@ -16,6 +18,8 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class PendingOrdersLoader implements PendingOrdersLoaderInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var EventDispatcherInterface
      */
@@ -53,10 +57,15 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
         $this->orderRepository = $orderRepository;
         $this->orderFactory = $orderFactory;
         $this->orderManager = $orderManager;
+        $this->logger = new NullLogger();
     }
 
     public function load(): void
     {
+        $this->logger->info('Fetching pending orders...');
+
+        $pendingOrders = 0;
+
         $shopIds = $this->client->getShopIds();
 
         foreach ($shopIds as $shopId) {
@@ -67,6 +76,12 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
             foreach ($orders['data'] as $order) {
                 /** @var OrderInterface|null $entity */
                 $entity = $this->orderRepository->find($order['id']); // @todo if the entity is found we should handle this, since this is not intended
+
+                if (null !== $entity && !$entity->isStatus(OrderInterface::STATUS_PENDING)) {
+                    // todo ask Miinto if this can ever happen
+                    continue;
+                }
+
                 if (null === $entity) {
                     /** @var OrderInterface $entity */
                     $entity = $this->orderFactory->createNew();
@@ -91,7 +106,11 @@ final class PendingOrdersLoader implements PendingOrdersLoaderInterface
                 $this->orderManager->flush();
 
                 $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_POST_FLUSH, new GenericEvent($entity));
+
+                ++$pendingOrders;
             }
         }
+
+        $this->logger->info('- ' . $pendingOrders . ' pending orders fetched');
     }
 }

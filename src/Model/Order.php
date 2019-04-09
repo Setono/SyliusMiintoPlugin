@@ -33,7 +33,7 @@ class Order implements OrderInterface
     protected $order;
 
     /**
-     * @var Collection|OrderErrorInterface[]
+     * @var Collection|ErrorInterface[]
      */
     protected $errors;
 
@@ -72,6 +72,11 @@ class Order implements OrderInterface
         $this->providerId = $providerId;
     }
 
+    public function isStatus(string $status): bool
+    {
+        return $this->status === $status;
+    }
+
     public function getStatus(): string
     {
         return $this->status;
@@ -102,7 +107,7 @@ class Order implements OrderInterface
         return $this->errors;
     }
 
-    public function addError(OrderErrorInterface $error): void
+    public function addError(ErrorInterface $error): void
     {
         if (!$this->hasError($error)) {
             $this->errors->add($error);
@@ -110,7 +115,7 @@ class Order implements OrderInterface
         }
     }
 
-    public function hasError(OrderErrorInterface $error): bool
+    public function hasError(ErrorInterface $error): bool
     {
         return $this->errors->contains($error);
     }

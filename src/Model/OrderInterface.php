@@ -23,6 +23,15 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
 
     public function setProviderId(string $providerId): void;
 
+    /**
+     * Returns true if the status equals $status
+     *
+     * @param string $status
+     *
+     * @return bool
+     */
+    public function isStatus(string $status): bool;
+
     public function getStatus(): string;
 
     public function setStatus(string $status): void;
@@ -33,9 +42,12 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
 
     public function clearErrors(): void;
 
+    /**
+     * @return Collection|ErrorInterface[]
+     */
     public function getErrors(): Collection;
 
-    public function addError(OrderErrorInterface $error): void;
+    public function addError(ErrorInterface $error): void;
 
     public function setData(array $data): void;
 

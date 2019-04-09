@@ -20,7 +20,7 @@ final class ConstraintViolationException extends InvalidArgumentException
 
         $string = '';
         foreach ($this->constraintViolationList as $violation) {
-            $string .= $violation."\n";
+            $string .= $violation . "\n";
         }
 
         parent::__construct(\Safe\sprintf('Validation error(s): %s', $string));

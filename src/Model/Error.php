@@ -6,7 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Model;
 
 use Sylius\Component\Resource\Model\TimestampableTrait;
 
-class OrderError implements OrderErrorInterface
+class Error implements ErrorInterface
 {
     use TimestampableTrait;
 
@@ -21,11 +21,16 @@ class OrderError implements OrderErrorInterface
     protected $order;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $message;
 
-    public function getId(): int
+    public function __toString(): string
+    {
+        return (string) $this->message;
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -40,7 +45,7 @@ class OrderError implements OrderErrorInterface
         $this->order = $order;
     }
 
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
