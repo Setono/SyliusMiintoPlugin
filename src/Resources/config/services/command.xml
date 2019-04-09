@@ -11,5 +11,15 @@
             <argument type="service" id="setono_sylius_miinto.processor.pending_orders"/>
             <tag name="console.command"/>
         </service>
+
+        <service id="setono_sylius_miinto_plugin.command.prefetch_product_map" class="Setono\SyliusMiintoPlugin\Command\PrefetchProductMapCommand">
+            <argument type="service" id="setono_sylius_miinto.client.default"/>
+            <tag name="console.command"/>
+        </service>
+
+        <service id="setono_sylius_miinto_plugin.command.pending_transfers" class="Setono\SyliusMiintoPlugin\Command\PendingTransfersCommand">
+            <argument type="service" id="setono_sylius_miinto.handler.pending_transfers"/>
+            <tag name="console.command"/>
+        </service>
     </services>
 </container>

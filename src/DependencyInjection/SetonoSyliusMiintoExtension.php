@@ -26,6 +26,7 @@ final class SetonoSyliusMiintoExtension extends AbstractResourceExtension
         $container->setParameter('setono_sylius_miinto.product_variant_gtin_field', $config['product_variant_gtin_field']);
         $container->setParameter('setono_sylius_miinto.miinto.auth_endpoint', $config['miinto']['auth_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.resource_endpoint', $config['miinto']['resource_endpoint']);
+        $container->setParameter('setono_sylius_miinto.miinto.product_map_endpoint', $config['miinto']['product_map_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.username', $config['miinto']['username']);
         $container->setParameter('setono_sylius_miinto.miinto.password', $config['miinto']['password']);
 

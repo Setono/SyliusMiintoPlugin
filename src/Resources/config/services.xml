@@ -7,8 +7,10 @@
         <import resource="services/grid/filter.xml"/>
         <import resource="services/factory.xml"/>
         <import resource="services/form.xml"/>
+        <import resource="services/handler.xml"/>
         <import resource="services/http_client.xml"/>
         <import resource="services/loader.xml"/>
+        <import resource="services/mapper.xml"/>
         <import resource="services/menu.xml"/>
         <import resource="services/order_fulfiller.xml"/>
         <import resource="services/order_updater.xml"/>
