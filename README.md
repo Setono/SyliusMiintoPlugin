@@ -41,7 +41,7 @@ return [
 ### Step 3: Configure the plugin
 
 ```yaml
-# config/packages/setono_sylius_miinto.yaml
+# config/packages/_sylius.yaml
 
 imports:
     # ...
@@ -64,6 +64,34 @@ setono_sylius_miinto:
 ```bash
 $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
+```
+
+### Step 5: Create a service for your PSR 18 HTTP client
+If you don't have a preference for your HTTP client, you can use Buzz:
+
+```bash
+$ composer require kriswallsmith/buzz
+```
+
+```yaml
+# config/services.yaml
+
+services:
+    app.http_client.buzz:
+        class: Buzz\Client\Curl
+        arguments:
+            - "@setono_sylius_miinto.http_client.response_factory"
+```
+
+### Step 6: Input required configuration options
+```yaml
+# config/packages/setono_sylius_miinto.yaml
+
+setono_sylius_miinto:
+    http_client: app.http_client.buzz
+    miinto:
+        username: '%env(MIINTO_USERNAME)%'
+        password: '%env(MIINTO_PASSWORD)%'
 ```
 
 [ico-version]: https://img.shields.io/packagist/v/setono/sylius-miinto-plugin.svg?style=flat-square
