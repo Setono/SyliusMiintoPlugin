@@ -28,10 +28,10 @@ abstract class AddressProvider implements AddressProviderInterface
 
         $obj->setFirstName($names[0]);
         $obj->setLastName($names[1] ?? null);
-        $obj->setStreet($address['street']);
-        $obj->setPostcode($address['postcode']);
-        $obj->setCity($address['city']);
-        $obj->setCountryCode($address['countryCode']);
+        $obj->setStreet($address['street'] ?? null);
+        $obj->setPostcode($address['postcode'] ?? null);
+        $obj->setCity($address['city'] ?? null);
+        $obj->setCountryCode($address['countryCode'] ?? null);
 
         return $obj;
     }
