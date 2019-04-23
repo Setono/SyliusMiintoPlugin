@@ -41,3 +41,7 @@ sylius_grid:
                 status:
                     type: status
                     label: sylius.ui.status
+            actions:
+                item:
+                    show:
+                        type: show

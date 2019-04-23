@@ -12,7 +12,6 @@ use Setono\SyliusMiintoPlugin\Exception\ConstraintViolationException;
 use Setono\SyliusMiintoPlugin\Factory\ErrorFactoryInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\OrderFulfiller\OrderFulfillerInterface;
-use Setono\SyliusMiintoPlugin\OrderUpdater\OrderUpdaterInterface;
 use Setono\SyliusMiintoPlugin\Repository\OrderRepositoryInterface;
 use Symfony\Component\Workflow\Exception\TransitionException;
 use Symfony\Component\Workflow\Registry;
@@ -43,11 +42,6 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
     private $orderFulfiller;
 
     /**
-     * @var OrderUpdaterInterface
-     */
-    private $orderUpdater;
-
-    /**
      * @var ErrorFactoryInterface
      */
     private $orderErrorFactory;
@@ -57,14 +51,12 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
         ObjectManager $orderManager,
         Registry $workflowRegistry,
         OrderFulfillerInterface $orderFulfiller,
-        OrderUpdaterInterface $orderUpdater,
         ErrorFactoryInterface $orderErrorFactory
     ) {
         $this->orderRepository = $orderRepository;
         $this->orderManager = $orderManager;
         $this->workflowRegistry = $workflowRegistry;
         $this->orderFulfiller = $orderFulfiller;
-        $this->orderUpdater = $orderUpdater;
         $this->orderErrorFactory = $orderErrorFactory;
         $this->logger = new NullLogger();
     }
@@ -82,8 +74,7 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
 
                 $workflow->apply($order, 'start_processing');
 
-                $orderFulfillment = $this->orderFulfiller->fulfill($order);
-                $this->orderUpdater->update($orderFulfillment);
+                $this->orderFulfiller->fulfill($order);
 
                 $workflow->apply($order, 'process');
 

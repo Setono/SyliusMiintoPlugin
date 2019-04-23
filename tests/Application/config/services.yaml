@@ -4,9 +4,9 @@ parameters:
     locale: en_US
 
 services:
-    # Overrides the default variant provider for test purposes
-    setono_sylius_miinto.provider.variant:
-        class: Tests\Setono\SyliusMiintoPlugin\Application\Provider\VariantProvider
+    # Overrides the default variant mapper for test purposes
+    setono_sylius_miinto.mapper.product_variant:
+        class: Tests\Setono\SyliusMiintoPlugin\Application\Mapper\ProductVariantMapper
         arguments:
             - "@sylius.repository.product_variant"
 

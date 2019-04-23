@@ -2,18 +2,8 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="setono_sylius_miinto_plugin.command.pending_orders" class="Setono\SyliusMiintoPlugin\Command\PendingOrdersCommand">
-            <argument type="service" id="setono_sylius_miinto.loader.pending_orders"/>
-            <tag name="console.command"/>
-        </service>
-
         <service id="setono_sylius_miinto_plugin.command.process_orders" class="Setono\SyliusMiintoPlugin\Command\ProcessOrdersCommand">
             <argument type="service" id="setono_sylius_miinto.processor.pending_orders"/>
-            <tag name="console.command"/>
-        </service>
-
-        <service id="setono_sylius_miinto_plugin.command.prefetch_product_map" class="Setono\SyliusMiintoPlugin\Command\PrefetchProductMapCommand">
-            <argument type="service" id="setono_sylius_miinto.client.default"/>
             <tag name="console.command"/>
         </service>
 

@@ -26,6 +26,16 @@ setono_sylius_miinto_admin_order:
                 icon: 'cart'
     type: sylius.resource
     
+setono_sylius_miinto_admin_order_show:
+    path: /orders/{id}
+    methods: [GET]
+    defaults:
+        _controller: setono_sylius_miinto.controller.order:showAction
+        _sylius:
+            section: admin
+            permission: true
+            template: "@SetonoSyliusMiintoPlugin/Admin/Order/show.html.twig"
+    
 setono_sylius_miinto_admin_shop:
     resource: |
         alias: setono_sylius_miinto.shop

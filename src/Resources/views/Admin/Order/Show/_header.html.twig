@@ -1,0 +1,18 @@
+{# @var \Setono\SyliusMiintoPlugin\Model\OrderInterface order #}
+
+<h1 class="ui header">
+    <i class="circular cart icon"></i>
+    <div class="content">
+        {{ 'sylius.ui.order'|trans }} #{{ order.id }}
+        <div class="sub header">
+            <div class="ui horizontal divided list">
+                <div class="item">
+                    {{ order.data.createdAt }}
+                </div>
+                <div class="item" id="sylius-order-currency">
+                    {{ order.data.currency }}
+                </div>
+            </div>
+        </div>
+    </div>
+</h1>

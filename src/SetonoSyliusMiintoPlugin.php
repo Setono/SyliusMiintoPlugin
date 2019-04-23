@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin;
 
 use Setono\SyliusMiintoPlugin\DependencyInjection\Compiler\RegisterClientPass;
+use Setono\SyliusMiintoPlugin\DependencyInjection\Compiler\RegisterCommandBusPass;
 use Sylius\Bundle\CoreBundle\Application\SyliusPluginTrait;
 use Sylius\Bundle\ResourceBundle\AbstractResourceBundle;
 use Sylius\Bundle\ResourceBundle\SyliusResourceBundle;
@@ -24,5 +25,6 @@ final class SetonoSyliusMiintoPlugin extends AbstractResourceBundle
         parent::build($container);
 
         $container->addCompilerPass(new RegisterClientPass());
+        $container->addCompilerPass(new RegisterCommandBusPass());
     }
 }

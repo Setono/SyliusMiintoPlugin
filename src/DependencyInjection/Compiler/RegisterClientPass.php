@@ -46,7 +46,6 @@ final class RegisterClientPass implements CompilerPassInterface
             new Reference('setono_sylius_miinto.http_client.stream_factory'),
             $container->getParameter('setono_sylius_miinto.miinto.auth_endpoint'),
             $container->getParameter('setono_sylius_miinto.miinto.resource_endpoint'),
-            $container->getParameter('setono_sylius_miinto.miinto.product_map_endpoint'),
             $container->getParameter('setono_sylius_miinto.miinto.username'),
             $container->getParameter('setono_sylius_miinto.miinto.password'),
         ]);

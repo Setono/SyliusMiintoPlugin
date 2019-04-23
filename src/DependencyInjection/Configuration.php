@@ -26,9 +26,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
@@ -55,6 +52,23 @@ final class Configuration implements ConfigurationInterface
                     ->example('gtin')
                     ->info('The field on your product variant resource that contains the GTIN')
                 ->end()
+                ->arrayNode('messenger')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('transport')
+                            ->cannotBeEmpty()
+                            ->defaultNull()
+                            ->example('amqp')
+                            ->info('The Messenger transport to use')
+                        ->end()
+                        ->scalarNode('command_bus')
+                            ->cannotBeEmpty()
+                            ->defaultValue('message_bus')
+                            ->example('message_bus')
+                            ->info('The service id for your command bus')
+                        ->end()
+                    ->end()
+                ->end()
                 ->arrayNode('miinto')
                     ->children()
                         ->scalarNode('auth_endpoint')
@@ -67,12 +81,6 @@ final class Configuration implements ConfigurationInterface
                             ->defaultValue('https://api-order.miinto.net')
                             ->info('This is the endpoint for Miintos Order API')
                             ->example('https://api-order.miinto.net')
-                            ->cannotBeEmpty()
-                        ->end()
-                        ->scalarNode('product_map_endpoint')
-                            ->defaultValue('https://api-pc.miinto.net')
-                            ->info('This is the endpoint for Miintos product map API')
-                            ->example('https://api-pc.miinto.net')
                             ->cannotBeEmpty()
                         ->end()
                         ->scalarNode('username')->cannotBeEmpty()->isRequired()->end()

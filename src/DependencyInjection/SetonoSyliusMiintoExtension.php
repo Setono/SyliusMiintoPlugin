@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
 use Exception;
+use Setono\SyliusMiintoPlugin\Message\Command\LoadOrder;
 use Sylius\Bundle\ResourceBundle\DependencyInjection\Extension\AbstractResourceExtension;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,14 +25,34 @@ final class SetonoSyliusMiintoExtension extends AbstractResourceExtension
 
         $container->setParameter('setono_sylius_miinto.http_client', $config['http_client']);
         $container->setParameter('setono_sylius_miinto.product_variant_gtin_field', $config['product_variant_gtin_field']);
+        $container->setParameter('setono_sylius_miinto.messenger.transport', $config['messenger']['transport']);
+        $container->setParameter('setono_sylius_miinto.messenger.command_bus', $config['messenger']['command_bus']);
         $container->setParameter('setono_sylius_miinto.miinto.auth_endpoint', $config['miinto']['auth_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.resource_endpoint', $config['miinto']['resource_endpoint']);
-        $container->setParameter('setono_sylius_miinto.miinto.product_map_endpoint', $config['miinto']['product_map_endpoint']);
         $container->setParameter('setono_sylius_miinto.miinto.username', $config['miinto']['username']);
         $container->setParameter('setono_sylius_miinto.miinto.password', $config['miinto']['password']);
 
         $loader->load('services.xml');
 
         $this->registerResources('setono_sylius_miinto', $config['driver'], $config['resources'], $container);
+    }
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        $config = $this->processConfiguration($this->getConfiguration([], $container), $container->getExtensionConfig($this->getAlias()));
+
+        $transport = $config['messenger']['transport'];
+
+        if (null === $transport) {
+            return;
+        }
+
+        $container->prependExtensionConfig('framework', [
+            'messenger' => [
+                'routing' => [
+                    LoadOrder::class => $transport,
+                ],
+            ],
+        ]);
     }
 }

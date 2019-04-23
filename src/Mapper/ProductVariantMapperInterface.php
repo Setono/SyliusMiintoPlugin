@@ -14,7 +14,9 @@ interface ProductVariantMapperInterface
      * Throws an exception if no mapping was found
      *
      * @param array $item
+     *
      * @return ProductVariantInterface
+     *
      * @throws NoMappingFoundException
      */
     public function map(array $item): ProductVariantInterface;

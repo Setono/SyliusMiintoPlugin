@@ -27,7 +27,7 @@ final class PositionResolver implements PositionResolverInterface
     }
 
     /*
-     * todo implement something that checks the price
+     * todo A price field is present on a pending position. This is the price you need to adhere to. Therefore it would be wise to check if that price is the same as our price or at least within a given threshold of our price
      */
     public function resolve(array $pendingPositions): Positions
     {
@@ -35,7 +35,7 @@ final class PositionResolver implements PositionResolverInterface
 
         foreach ($pendingPositions as $pendingPosition) {
             $productVariant = $this->productVariantMapper->map($pendingPosition['item']);
-            if($this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
+            if ($this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
                 $accepted[] = $pendingPosition['id'];
             } else {
                 $declined[] = $pendingPosition['id'];

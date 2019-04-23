@@ -16,8 +16,6 @@ use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Exception\AuthenticationFailedException;
 use Setono\SyliusMiintoPlugin\Exception\RequestFailedException;
 use Setono\SyliusMiintoPlugin\Position\Positions;
-use Setono\SyliusMiintoPlugin\ProductMap\ProductMapFile;
-use Setono\SyliusMiintoPlugin\ProductMap\ProductMapInterface;
 
 final class Client implements ClientInterface
 {
@@ -47,11 +45,6 @@ final class Client implements ClientInterface
      * @var string
      */
     private $resourceEndpoint;
-
-    /**
-     * @var string
-     */
-    private $productMapEndpoint;
 
     /**
      * @var string
@@ -89,7 +82,6 @@ final class Client implements ClientInterface
         StreamFactoryInterface $streamFactory,
         string $authEndpoint,
         string $resourceEndpoint,
-        string $productMapEndpoint,
         string $username,
         string $password
     ) {
@@ -98,7 +90,6 @@ final class Client implements ClientInterface
         $this->streamFactory = $streamFactory;
         $this->authEndpoint = $authEndpoint;
         $this->resourceEndpoint = $resourceEndpoint;
-        $this->productMapEndpoint = $productMapEndpoint;
         $this->username = $username;
         $this->password = $password;
     }
@@ -140,6 +131,20 @@ final class Client implements ClientInterface
      * @throws StringsException
      * @throws JsonException
      */
+    public function getOrder(string $shopId, int $orderId): array
+    {
+        $url = \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId);
+
+        return $this->sendRequest('GET', $url);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws ClientExceptionInterface
+     * @throws StringsException
+     * @throws JsonException
+     */
     public function getOrders(string $shopId, array $options = []): array
     {
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
@@ -149,10 +154,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * @param string $shopId
-     * @param int $orderId
-     * @param array $acceptedPositions
-     * @param array $declinedPositions
+     * {@inheritdoc}
      *
      * @throws ClientExceptionInterface
      * @throws JsonException
@@ -177,6 +179,13 @@ final class Client implements ClientInterface
         $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId), $body);
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
+     */
     public function getTransfers(string $shopId, array $options = []): array
     {
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
@@ -185,52 +194,39 @@ final class Client implements ClientInterface
         return $this->sendRequest('GET', $url);
     }
 
-    public function updateTransfer(string $shopId, int $transferId, Positions $positions): void
+    /**
+     * {@inheritdoc}
+     *
+     * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
+     */
+    public function updateTransfer(string $shopId, int $transferId, Positions $positions): ?int
     {
-        if(!$positions->hasPositions()) {
+        if (!$positions->hasPositions()) {
             throw new InvalidArgumentException('No accepted or declined positions');
         }
 
         $body = [];
 
         if ($positions->hasAccepted()) {
-            $body['acceptedPositions'] = $positions->getAccepted();
+            $body['acceptedPositions'] = [];
+            foreach ($positions->getAccepted() as $id) {
+                $body['acceptedPositions'][] = ['id' => $id];
+            }
         }
 
-        if (count($positions->hasDeclined()) > 0) {
-            $body['declinedPositions'] = $positions->getDeclined();
+        if ($positions->hasDeclined()) {
+            $body['declinedPositions'] = [];
+            foreach ($positions->getDeclined() as $id) {
+                $body['declinedPositions'][] = ['id' => $id];
+            }
         }
 
-        $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
+        $data = $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
+
+        return $data['data']['newOrder']['id'] ?? null;
     }
-
-    public function getProductMap(string $shopId): ProductMapInterface
-    {
-        $url = \Safe\sprintf('%s/productmaps?unifiedLocationId=%s', $this->productMapEndpoint, $shopId);
-        $request = $this->createRequest('GET', $url);
-        $response = $this->httpClient->sendRequest($request);
-
-        if ($response->getStatusCode() !== 200) {
-            throw new RequestFailedException($request, $response, $response->getStatusCode());
-        }
-
-        do {
-            $file = sys_get_temp_dir() . '/' . uniqid('product-map', true) . '.json';
-        } while(file_exists($file));
-
-        $fileObject = new \SplFileObject($file, 'w');
-
-        while(!$response->getBody()->eof()) {
-            $fileObject->fwrite($response->getBody()->read(8192));
-        }
-
-        $productMap = new ProductMapFile($fileObject->getFileInfo());
-
-        $fileObject = null;
-
-        return $productMap;
-    }
-
 
     /**
      * @param string $method
@@ -243,6 +239,7 @@ final class Client implements ClientInterface
      * @throws JsonException
      * @throws StringsException
      * @throws Exception
+     * @throws RequestFailedException
      */
     private function sendRequest(string $method, string $url, array $body = null): array
     {
@@ -265,7 +262,9 @@ final class Client implements ClientInterface
      * @param string $method
      * @param string $url
      * @param array|null $body
+     *
      * @return RequestInterface
+     *
      * @throws JsonException
      * @throws Exception
      */
@@ -277,7 +276,7 @@ final class Client implements ClientInterface
         ;
 
         if (null !== $body) {
-            $request->withBody($this->streamFactory->createStream(\Safe\json_encode($body)));
+            $request = $request->withBody($this->streamFactory->createStream(\Safe\json_encode($body)));
         }
 
         return $this->addAuthHeaders($request, $this->channelId, $this->token);

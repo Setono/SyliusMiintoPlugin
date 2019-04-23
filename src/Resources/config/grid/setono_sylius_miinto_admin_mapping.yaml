@@ -9,7 +9,6 @@ sylius_grid:
                 shop:
                     type: string
                     label: setono_sylius_miinto.ui.shop
-                        vars:
                 providerId:
                     type: string
                     label: setono_sylius_miinto.ui.provider_id

@@ -1,0 +1,34 @@
+{% extends '@SyliusAdmin/layout.html.twig' %}
+
+{# @var \Setono\SyliusMiintoPlugin\Model\OrderInterface order #}
+
+{% block title %}{{ 'sylius.ui.order'|trans ~' #'~ order.id }} {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ sonata_block_render_event('setono_sylius_miinto.admin.order.show.before_header', {'resource': resource}) }}
+
+    <div class="ui stackable two column grid">
+        <div class="ten wide column">
+            {% include '@SetonoSyliusMiintoPlugin/Admin/Order/Show/_header.html.twig' %}
+        </div>
+    </div>
+
+    {{ sonata_block_render_event('setono_sylius_miinto.admin.order.show.after_header', {'resource': resource}) }}
+
+    {% include '@SetonoSyliusMiintoPlugin/Admin/Order/Show/_breadcrumb.html.twig' %}
+
+    {{ sonata_block_render_event('sylius.admin.order.show.after_breadcrumb', {'resource': resource}) }}
+
+    {{ setono_sylius_miinto_dump(order.data) }}
+
+    {% if order.errors|length > 0 %}
+        <h2>Errors</h2>
+        <ul>
+            {% for error in order.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {{ sonata_block_render_event('setono_sylius_miinto.admin.order.show.after_content', {'resource': resource}) }}
+{% endblock %}

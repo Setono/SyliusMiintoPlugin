@@ -4,6 +4,8 @@
     <services>
         <service id="setono_sylius_miinto.handler.pending_transfers" class="Setono\SyliusMiintoPlugin\Handler\PendingTransfersHandler">
             <argument type="service" id="setono_sylius_miinto.client.default"/>
+            <argument type="service" id="setono_sylius_miinto.resolver.positions"/>
+            <argument type="service" id="setono_sylius_miinto.command_bus"/>
         </service>
     </services>
 </container>

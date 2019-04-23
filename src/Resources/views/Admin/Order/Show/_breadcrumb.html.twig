@@ -1,0 +1,11 @@
+{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+
+{% set breadcrumbs = [
+    { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+    { label: 'setono_sylius_miinto.ui.miinto'|trans },
+    { label: 'sylius.ui.orders'|trans, url: path('setono_sylius_miinto_admin_order_index') },
+    { label: '#'~order.id }
+]
+%}
+
+{{ breadcrumb.crumble(breadcrumbs) }}
