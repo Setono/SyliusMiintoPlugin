@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Model;
 
-use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 use Sylius\Component\Resource\Model\ResourceInterface as BaseResourceInterface;
 
-interface MappingInterface extends BaseResourceInterface
+interface ShippingMethodMappingInterface extends BaseResourceInterface
 {
     public function getShop(): ?ShopInterface;
 
@@ -27,7 +26,7 @@ interface MappingInterface extends BaseResourceInterface
 
     public function setShippingMethod(ShippingMethodInterface $shippingMethod): void;
 
-    public function getPaymentMethod(): ?PaymentMethodInterface;
+    public function isDefault(): bool;
 
-    public function setPaymentMethod(PaymentMethodInterface $paymentMethod): void;
+    public function setDefault(bool $default): void;
 }

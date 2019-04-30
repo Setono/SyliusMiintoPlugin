@@ -45,7 +45,7 @@ final class PendingTransfersHandler implements PendingTransfersHandlerInterface
         foreach ($shopIds as $shopId) {
             $transfers = $this->client->getTransfers($shopId);
 
-            foreach ($transfers['data'] as $transfer) {
+            foreach ($transfers as $transfer) {
                 $positions = $this->positionResolver->resolve($transfer['pendingPositions']);
 
                 $orderId = $this->client->updateTransfer($shopId, $transfer['id'], $positions);

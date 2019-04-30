@@ -55,7 +55,7 @@ final class AddShopSubscriber implements EventSubscriberInterface
         if (isset($this->shopCache[$event->getShopId()])) {
             $shop = $this->shopCache[$event->getShopId()];
         } else {
-            $data = $this->client->getShopDetails($event->getShopId());
+            $shopDetails = $this->client->getShopDetails($event->getShopId());
 
             /** @var ShopInterface|null $shop */
             $shop = $this->shopRepository->find($event->getShopId());
@@ -65,7 +65,7 @@ final class AddShopSubscriber implements EventSubscriberInterface
                 $shop->setId($event->getShopId());
             }
 
-            $shop->setName($data['data']['name'] ?? 'Not available');
+            $shop->setName($shopDetails['name'] ?? 'Not available');
 
             $this->shopCache[$event->getShopId()] = $shop;
         }

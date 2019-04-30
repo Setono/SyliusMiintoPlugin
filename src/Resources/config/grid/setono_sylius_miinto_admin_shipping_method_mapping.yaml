@@ -1,0 +1,25 @@
+sylius_grid:
+    grids:
+        setono_sylius_miinto_admin_shipping_method_mapping:
+            driver:
+                name: doctrine/orm
+                options:
+                    class: "%setono_sylius_miinto.model.shipping_method_mapping.class%"
+            fields:
+                shop:
+                    type: string
+                    label: setono_sylius_miinto.ui.shop
+                providerId:
+                    type: string
+                    label: setono_sylius_miinto.ui.provider_id
+                shippingMethod:
+                    type: twig
+                    label: setono_sylius_miinto.ui.shipping_method
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/data_or_error.html.twig"
+                        vars:
+                            label: setono_sylius_miinto.ui.shipping_method_not_set
+            actions:
+                item:
+                    update:
+                        type: update

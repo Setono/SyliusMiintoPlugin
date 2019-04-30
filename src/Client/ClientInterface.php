@@ -55,4 +55,14 @@ interface ClientInterface
      * @return int|null
      */
     public function updateTransfer(string $shopId, int $transferId, Positions $positions): ?int;
+
+    /**
+     * Gets the array of available shipping providers for the given order
+     *
+     * @param string $shopId
+     * @param int $orderId
+     *
+     * @return array
+     */
+    public function getShippingProviders(string $shopId, int $orderId): array;
 }

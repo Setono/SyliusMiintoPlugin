@@ -121,7 +121,9 @@ final class Client implements ClientInterface
     {
         $url = \Safe\sprintf('%s/shops/%s', $this->resourceEndpoint, $shopId);
 
-        return $this->sendRequest('GET', $url);
+        $response = $this->sendRequest('GET', $url);
+
+        return $response['data'];
     }
 
     /**
@@ -135,22 +137,9 @@ final class Client implements ClientInterface
     {
         $url = \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId);
 
-        return $this->sendRequest('GET', $url);
-    }
+        $response = $this->sendRequest('GET', $url);
 
-    /**
-     * {@inheritdoc}
-     *
-     * @throws ClientExceptionInterface
-     * @throws StringsException
-     * @throws JsonException
-     */
-    public function getOrders(string $shopId, array $options = []): array
-    {
-        $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
-        $url = \Safe\sprintf('%s/shops/%s/orders?%s', $this->resourceEndpoint, $shopId, $query);
-
-        return $this->sendRequest('GET', $url);
+        return $response['data'];
     }
 
     /**
@@ -191,7 +180,9 @@ final class Client implements ClientInterface
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
         $url = \Safe\sprintf('%s/shops/%s/transfers?%s', $this->resourceEndpoint, $shopId, $query);
 
-        return $this->sendRequest('GET', $url);
+        $response = $this->sendRequest('GET', $url);
+
+        return $response['data'];
     }
 
     /**
@@ -223,9 +214,23 @@ final class Client implements ClientInterface
             }
         }
 
-        $data = $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
+        $response = $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
 
-        return $data['data']['newOrder']['id'] ?? null;
+        return $response['data']['newOrder']['id'] ?? null;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws ClientExceptionInterface
+     * @throws JsonException
+     * @throws StringsException
+     */
+    public function getShippingProviders(string $shopId, int $orderId): array
+    {
+        $response = $this->sendRequest('GET', \Safe\sprintf('%s/shops/%s/shipping-providers/orders/%d', $this->resourceEndpoint, $shopId, $orderId));
+
+        return $response['data'];
     }
 
     /**

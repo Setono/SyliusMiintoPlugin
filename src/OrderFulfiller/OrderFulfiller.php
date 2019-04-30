@@ -7,17 +7,19 @@ namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 use InvalidArgumentException;
 use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Exception\ConstraintViolationException;
-use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\Model\ShippingMethodMappingInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Setono\SyliusMiintoPlugin\Provider\AddressProviderInterface;
 use Setono\SyliusMiintoPlugin\Provider\CustomerProviderInterface;
 use Setono\SyliusMiintoPlugin\Provider\OrderItemsProviderInterface;
-use Setono\SyliusMiintoPlugin\Repository\MappingRepositoryInterface;
+use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
+use Setono\SyliusMiintoPlugin\Repository\ShippingMethodMappingRepositoryInterface;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use SM\SMException;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface as SyliusOrderInterface;
+use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\OrderCheckoutTransitions;
 use Sylius\Component\Core\OrderPaymentTransitions;
 use Sylius\Component\Core\Repository\OrderRepositoryInterface;
@@ -68,9 +70,14 @@ final class OrderFulfiller implements OrderFulfillerInterface
     private $shippingAddressProvider;
 
     /**
-     * @var MappingRepositoryInterface
+     * @var ShippingMethodMappingRepositoryInterface
      */
     private $mappingRepository;
+
+    /**
+     * @var PaymentMethodMappingRepositoryInterface
+     */
+    private $paymentMethodMappingRepository;
 
     /**
      * @var ValidatorInterface
@@ -91,7 +98,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         StateMachineFactoryInterface $stateMachineFactory,
         AddressProviderInterface $billingAddressProvider,
         AddressProviderInterface $shippingAddressProvider,
-        MappingRepositoryInterface $mappingRepository,
+        ShippingMethodMappingRepositoryInterface $shippingMethodMappingRepository,
+        PaymentMethodMappingRepositoryInterface $paymentMethodMappingRepository,
         ValidatorInterface $validator,
         array $orderValidationGroups
     ) {
@@ -103,7 +111,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $this->stateMachineFactory = $stateMachineFactory;
         $this->billingAddressProvider = $billingAddressProvider;
         $this->shippingAddressProvider = $shippingAddressProvider;
-        $this->mappingRepository = $mappingRepository;
+        $this->mappingRepository = $shippingMethodMappingRepository;
+        $this->paymentMethodMappingRepository = $paymentMethodMappingRepository;
         $this->validator = $validator;
         $this->orderValidationGroups = $orderValidationGroups;
     }
@@ -124,7 +133,8 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $providerId = $this->getProviderId($order);
         $channel = $this->getChannel($shop);
         $localeCode = $this->getLocaleCode($shop);
-        $mapping = $this->getMapping($shop, $providerId);
+        $paymentMethod = $this->getPaymentMethod($shop);
+        $mapping = $this->getShippingMethodMapping($shop, $providerId);
 
         /** @var SyliusOrderInterface $syliusOrder */
         $syliusOrder = $this->orderFactory->createNew();
@@ -166,7 +176,7 @@ final class OrderFulfiller implements OrderFulfillerInterface
 
         // add payment
         foreach ($syliusOrder->getPayments() as $payment) {
-            $payment->setMethod($mapping->getPaymentMethod());
+            $payment->setMethod($paymentMethod);
         }
         $orderStateMachine->apply(OrderCheckoutTransitions::TRANSITION_SELECT_PAYMENT);
 
@@ -268,12 +278,12 @@ final class OrderFulfiller implements OrderFulfillerInterface
      * @param ShopInterface $shop
      * @param string $providerId
      *
-     * @return MappingInterface
+     * @return ShippingMethodMappingInterface
      *
      * @throws InvalidArgumentException
      * @throws StringsException
      */
-    private function getMapping(ShopInterface $shop, string $providerId): MappingInterface
+    private function getShippingMethodMapping(ShopInterface $shop, string $providerId): ShippingMethodMappingInterface
     {
         $mapping = $this->mappingRepository->findMappedByShopAndProviderId($shop, $providerId);
 
@@ -285,10 +295,15 @@ final class OrderFulfiller implements OrderFulfillerInterface
             throw new InvalidArgumentException(\Safe\sprintf('No shipping method set on the mapping with id %s', $mapping->getId()));
         }
 
-        if ($mapping->getPaymentMethod() === null) {
-            throw new InvalidArgumentException(\Safe\sprintf('No payment method set on the mapping with id %s', $mapping->getId()));
-        }
-
         return $mapping;
+    }
+
+    private function getPaymentMethod(ShopInterface $shop): PaymentMethodInterface
+    {
+        $mapping = $this->paymentMethodMappingRepository->findOneValid($shop);
+
+        if ($mapping === null) {
+            throw new InvalidArgumentException(\Safe\sprintf('No payment method mapping set for the shop with id %s', $shop->getId()));
+        }
     }
 }

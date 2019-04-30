@@ -32,10 +32,24 @@ final class AdminMenuListener
             ->setLabelAttribute('icon', 'cart')
         ;
 
-        $miintoItem->addChild('mappings', [
-            'route' => 'setono_sylius_miinto_admin_mapping_index',
+        $miintoItem->addChild('shipping_type_mappings', [
+            'route' => 'setono_sylius_miinto_admin_shipping_type_mapping_index',
         ])
-            ->setLabel('setono_sylius_miinto.ui.mappings')
+            ->setLabel('setono_sylius_miinto.ui.shipping_type_mappings')
+            ->setLabelAttribute('icon', 'arrow alternate circle right')
+        ;
+
+        $miintoItem->addChild('shipping_method_mappings', [
+            'route' => 'setono_sylius_miinto_admin_shipping_method_mapping_index',
+        ])
+            ->setLabel('setono_sylius_miinto.ui.shipping_method_mappings')
+            ->setLabelAttribute('icon', 'arrow alternate circle right')
+        ;
+
+        $miintoItem->addChild('payment_method_mappings', [
+            'route' => 'setono_sylius_miinto_admin_payment_method_mapping_index',
+        ])
+            ->setLabel('setono_sylius_miinto.ui.payment_method_mappings')
             ->setLabelAttribute('icon', 'arrow alternate circle right')
         ;
     }

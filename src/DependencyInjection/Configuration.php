@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\DependencyInjection;
 
-use Setono\SyliusMiintoPlugin\Doctrine\ORM\MappingRepository;
 use Setono\SyliusMiintoPlugin\Doctrine\ORM\OrderRepository;
-use Setono\SyliusMiintoPlugin\Form\Type\MappingType;
+use Setono\SyliusMiintoPlugin\Doctrine\ORM\PaymentMethodMappingRepository;
+use Setono\SyliusMiintoPlugin\Doctrine\ORM\ShippingMethodMappingRepository;
+use Setono\SyliusMiintoPlugin\Doctrine\ORM\ShippingTypeMappingRepository;
+use Setono\SyliusMiintoPlugin\Form\Type\PaymentMethodMappingType;
+use Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodMappingType;
+use Setono\SyliusMiintoPlugin\Form\Type\ShippingTypeMappingType;
 use Setono\SyliusMiintoPlugin\Form\Type\ShopType;
 use Setono\SyliusMiintoPlugin\Model\Error;
 use Setono\SyliusMiintoPlugin\Model\ErrorInterface;
-use Setono\SyliusMiintoPlugin\Model\Mapping;
-use Setono\SyliusMiintoPlugin\Model\MappingInterface;
 use Setono\SyliusMiintoPlugin\Model\Order;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\Model\PaymentMethodMapping;
+use Setono\SyliusMiintoPlugin\Model\PaymentMethodMappingInterface;
+use Setono\SyliusMiintoPlugin\Model\ShippingMethodMapping;
+use Setono\SyliusMiintoPlugin\Model\ShippingMethodMappingInterface;
+use Setono\SyliusMiintoPlugin\Model\ShippingTypeMapping;
+use Setono\SyliusMiintoPlugin\Model\ShippingTypeMappingInterface;
 use Setono\SyliusMiintoPlugin\Model\Shop;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Sylius\Bundle\ResourceBundle\Controller\ResourceController;
@@ -153,19 +161,53 @@ final class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                         ->end()
-                        ->arrayNode('mapping')
+                        ->arrayNode('shipping_method_mapping')
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->variableNode('options')->end()
                                 ->arrayNode('classes')
                                     ->addDefaultsIfNotSet()
                                     ->children()
-                                        ->scalarNode('model')->defaultValue(Mapping::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('interface')->defaultValue(MappingInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('model')->defaultValue(ShippingMethodMapping::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(ShippingMethodMappingInterface::class)->cannotBeEmpty()->end()
                                         ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
-                                        ->scalarNode('repository')->defaultValue(MappingRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(ShippingMethodMappingRepository::class)->cannotBeEmpty()->end()
                                         ->scalarNode('factory')->defaultValue(Factory::class)->end()
-                                        ->scalarNode('form')->defaultValue(MappingType::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('form')->defaultValue(ShippingMethodMappingType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('shipping_type_mapping')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(ShippingTypeMapping::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(ShippingTypeMappingInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(ShippingTypeMappingRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                        ->scalarNode('form')->defaultValue(ShippingTypeMappingType::class)->cannotBeEmpty()->end()
+                                    ->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('payment_method_mapping')
+                            ->addDefaultsIfNotSet()
+                            ->children()
+                                ->variableNode('options')->end()
+                                ->arrayNode('classes')
+                                    ->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->scalarNode('model')->defaultValue(PaymentMethodMapping::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('interface')->defaultValue(PaymentMethodMappingInterface::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('controller')->defaultValue(ResourceController::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('repository')->defaultValue(PaymentMethodMappingRepository::class)->cannotBeEmpty()->end()
+                                        ->scalarNode('factory')->defaultValue(Factory::class)->end()
+                                        ->scalarNode('form')->defaultValue(PaymentMethodMappingType::class)->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()
                             ->end()

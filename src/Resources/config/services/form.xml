@@ -15,8 +15,8 @@
     </parameters>
 
     <services>
-        <service id="setono_sylius_miinto.form.type.mapping" class="Setono\SyliusMiintoPlugin\Form\Type\MappingType">
-            <argument>%setono_sylius_miinto.model.mapping.class%</argument>
+        <service id="setono_sylius_miinto.form.type.shipping_method_mapping" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodMappingType">
+            <argument>%setono_sylius_miinto.model.shipping_method_mapping.class%</argument>
             <argument>%setono_sylius_miinto.form.type.mapping.validation_groups%</argument>
             <tag name="form.type"/>
         </service>

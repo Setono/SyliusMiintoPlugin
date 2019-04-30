@@ -1,9 +1,11 @@
 setono_sylius_miinto:
     form:
-        mapping:
+        payment_method_mapping:
             choose_payment_method: Choose payment method...
-            choose_shipping_method: Choose shipping method...
             payment_method: Payment method
+            shop: Shop
+        shipping_method_mapping:
+            choose_shipping_method: Choose shipping method...
             provider_id: Provider id
             shop: Shop
             shipping_method: Shipping method
@@ -27,20 +29,25 @@ setono_sylius_miinto:
         errors: Errors
         locale: Locale
         locale_not_set: Locale not set
-        mappings: Mappings
         miinto_id: Miinto id
-        manage_mappings: Manage mappings
         manage_orders: Manage orders
+        manage_payment_method_mappings: Manage payment method mappings
+        manage_shipping_method_mappings: Manage shipping method mappings
+        manage_shipping_type_mappings: Manage shipping type mappings
         manage_shops: Manage shops
         miinto: Miinto
         name: Name
         not_set: Not set
         orders: Orders
         payment_method: Payment method
+        payment_method_mappings: Payment method mappings
         payment_method_not_set: Payment method not set
         provider_id: Provider id
         shipping_method: Shipping method
+        shipping_method_mappings: Shipping method mappings
         shipping_method_not_set: Shipping method not set
+        shipping_type: Shipping type
+        shipping_type_mappings: Shipping type mappings
         shop: Shop
         shop_order: Shop order
         shops: Shops

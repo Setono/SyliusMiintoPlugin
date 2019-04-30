@@ -6,7 +6,9 @@ namespace Setono\SyliusMiintoPlugin\EventListener;
 
 use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
-use Setono\SyliusMiintoPlugin\Repository\MappingRepositoryInterface;
+use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
+use Setono\SyliusMiintoPlugin\Repository\ShippingMethodMappingRepositoryInterface;
+use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\TransitionBlocker;
@@ -14,13 +16,28 @@ use Symfony\Component\Workflow\TransitionBlocker;
 final class StartProcessingSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var MappingRepositoryInterface
+     * @var PaymentMethodMappingRepositoryInterface
      */
-    private $mappingRepository;
+    private $paymentMethodMappingRepository;
 
-    public function __construct(MappingRepositoryInterface $mappingRepository)
-    {
-        $this->mappingRepository = $mappingRepository;
+    /**
+     * @var ShippingMethodMappingRepositoryInterface
+     */
+    private $shippingMethodMappingRepository;
+
+    /**
+     * @var ShippingTypeMappingRepositoryInterface
+     */
+    private $shippingTypeMappingRepository;
+
+    public function __construct(
+        PaymentMethodMappingRepositoryInterface $paymentMethodMappingRepository,
+        ShippingMethodMappingRepositoryInterface $shippingMethodMappingRepository,
+        ShippingTypeMappingRepositoryInterface $shippingTypeMappingRepository
+    ) {
+        $this->paymentMethodMappingRepository = $paymentMethodMappingRepository;
+        $this->shippingMethodMappingRepository = $shippingMethodMappingRepository;
+        $this->shippingTypeMappingRepository = $shippingTypeMappingRepository;
     }
 
     public static function getSubscribedEvents(): array
@@ -41,6 +58,7 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
      */
     public function validate(GuardEvent $event): bool
     {
+        /** @var OrderInterface $order */
         $order = $event->getSubject();
         if (!$order instanceof OrderInterface) {
             return false;
@@ -51,17 +69,20 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
             return $this->block($event, 'No shop set on the order');
         }
 
-        $providerId = $order->getProviderId();
-        if (null === $providerId) {
-            return $this->block($event, 'No provider id set on the order');
-        }
-
         if ($shop->getChannel() === null) {
             return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a channel', (string) $shop->getId()));
         }
 
-        if (!$this->mappingRepository->hasMapping($shop, $providerId)) {
-            return $this->block($event, \Safe\sprintf('No mapping between the shop %s and the provider id %s', $shop->getId(), $providerId));
+        if ($shop->getLocale() === null) {
+            return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a locale', (string) $shop->getId()));
+        }
+
+        if (!$this->shippingTypeMappingRepository->hasValidMapping($shop, $order->getShippingType())) {
+            return $this->block($event, \Safe\sprintf('The shipping type %s on shop %s is not mapped', $order->getShippingType(), (string) $shop->getId()));
+        }
+
+        if (!$this->paymentMethodMappingRepository->hasValidMapping($shop)) {
+            return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a payment method', (string) $shop->getId()));
         }
 
         return true;

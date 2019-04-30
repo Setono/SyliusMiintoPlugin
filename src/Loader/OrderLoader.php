@@ -7,6 +7,7 @@ namespace Setono\SyliusMiintoPlugin\Loader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
 use Setono\SyliusMiintoPlugin\Event\OrderEvent;
+use Setono\SyliusMiintoPlugin\Event\OrderLoaderStartedEvent;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\SetonoSyliusMiintoEvents;
 use Sylius\Component\Resource\Factory\FactoryInterface;
@@ -57,7 +58,9 @@ final class OrderLoader implements OrderLoaderInterface
 
     public function load(string $shopId, int $orderId): void
     {
-        $order = $this->client->getOrder($shopId, $orderId)['data'];
+        $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_STARTED, new OrderLoaderStartedEvent($shopId, $orderId));
+
+        $order = $this->client->getOrder($shopId, $orderId);
 
         /** @var OrderInterface|null $entity */
         $entity = $this->orderRepository->find($order['id']); // @todo if the entity is found we should handle this, since this is not intended
@@ -73,14 +76,7 @@ final class OrderLoader implements OrderLoaderInterface
             $entity->setId($order['id']);
         }
 
-        // @todo await answer from Miinto regarding the overriding of provider id
-        $providerId = $order['shippingInformation']['deliveryOptions']['override']['providerId'] ?? '';
-        if ('' === $providerId) {
-            $providerId = $order['shippingInformation']['deliveryOptions']['initial']['providerId'];
-        }
-
         $entity->setData($order);
-        $entity->setProviderId($providerId);
 
         $this->eventDispatcher->dispatch(SetonoSyliusMiintoEvents::ORDER_LOADER_PRE_PERSIST, new OrderEvent($entity, $shopId));
 

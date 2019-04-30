@@ -20,11 +20,6 @@ class Order implements OrderInterface
     /**
      * @var string
      */
-    protected $providerId;
-
-    /**
-     * @var string
-     */
     protected $status = self::STATUS_PENDING;
 
     /**
@@ -62,14 +57,9 @@ class Order implements OrderInterface
         $this->shop = $shop;
     }
 
-    public function getProviderId(): ?string
+    public function getShippingType(): string
     {
-        return $this->providerId;
-    }
-
-    public function setProviderId(string $providerId): void
-    {
-        $this->providerId = $providerId;
+        return $this->data['shippingInformation']['deliveryAddress']['type'];
     }
 
     public function isStatus(string $status): bool

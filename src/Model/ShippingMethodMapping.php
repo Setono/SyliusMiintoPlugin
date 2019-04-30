@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Model;
 
-use Sylius\Component\Core\Model\PaymentMethodInterface;
 use Sylius\Component\Core\Model\ShippingMethodInterface;
 
-class Mapping implements MappingInterface
+class ShippingMethodMapping implements ShippingMethodMappingInterface
 {
     /**
      * @var int
@@ -30,9 +29,9 @@ class Mapping implements MappingInterface
     protected $shippingMethod;
 
     /**
-     * @var PaymentMethodInterface
+     * @var bool
      */
-    protected $paymentMethod;
+    protected $default = false;
 
     public function getId(): ?int
     {
@@ -69,13 +68,13 @@ class Mapping implements MappingInterface
         $this->shippingMethod = $shippingMethod;
     }
 
-    public function getPaymentMethod(): ?PaymentMethodInterface
+    public function isDefault(): bool
     {
-        return $this->paymentMethod;
+        return $this->default;
     }
 
-    public function setPaymentMethod(PaymentMethodInterface $paymentMethod): void
+    public function setDefault(bool $default): void
     {
-        $this->paymentMethod = $paymentMethod;
+        $this->default = $default;
     }
 }

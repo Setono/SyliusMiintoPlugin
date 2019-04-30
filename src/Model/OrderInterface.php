@@ -19,9 +19,7 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
 
     public function setShop(ShopInterface $shop): void;
 
-    public function getProviderId(): ?string;
-
-    public function setProviderId(string $providerId): void;
+    public function getShippingType(): string;
 
     /**
      * Returns true if the status equals $status
@@ -48,6 +46,8 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
     public function getErrors(): Collection;
 
     public function addError(ErrorInterface $error): void;
+
+    public function hasError(ErrorInterface $error): bool;
 
     public function setData(array $data): void;
 

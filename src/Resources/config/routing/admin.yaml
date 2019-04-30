@@ -1,17 +1,3 @@
-setono_sylius_miinto_admin_mapping:
-    resource: |
-        alias: setono_sylius_miinto.mapping
-        section: admin
-        templates: SyliusAdminBundle:Crud
-        redirect: update
-        grid: setono_sylius_miinto_admin_mapping
-        vars:
-            all:
-                subheader: setono_sylius_miinto.ui.manage_mappings
-            index:
-                icon: 'arrow alternate circle right'
-    type: sylius.resource
-    
 setono_sylius_miinto_admin_order:
     resource: |
         alias: setono_sylius_miinto.order
@@ -35,6 +21,48 @@ setono_sylius_miinto_admin_order_show:
             section: admin
             permission: true
             template: "@SetonoSyliusMiintoPlugin/Admin/Order/show.html.twig"
+
+setono_sylius_miinto_admin_payment_method_mapping:
+    resource: |
+        alias: setono_sylius_miinto.payment_method_mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_payment_method_mapping
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_payment_method_mappings
+            index:
+                icon: 'arrow alternate circle right'
+    type: sylius.resource
+
+setono_sylius_miinto_admin_shipping_method_mapping:
+    resource: |
+        alias: setono_sylius_miinto.shipping_method_mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_shipping_method_mapping
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_shipping_method_mappings
+            index:
+                icon: 'arrow alternate circle right'
+    type: sylius.resource
+    
+setono_sylius_miinto_admin_shipping_type_mapping:
+    resource: |
+        alias: setono_sylius_miinto.shipping_type_mapping
+        section: admin
+        templates: SyliusAdminBundle:Crud
+        redirect: update
+        grid: setono_sylius_miinto_admin_shipping_type_mapping
+        vars:
+            all:
+                subheader: setono_sylius_miinto.ui.manage_shipping_type_mappings
+            index:
+                icon: 'arrow alternate circle right'
+    type: sylius.resource
     
 setono_sylius_miinto_admin_shop:
     resource: |

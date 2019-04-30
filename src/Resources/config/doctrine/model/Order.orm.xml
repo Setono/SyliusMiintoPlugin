@@ -27,7 +27,6 @@
             </cascade>
         </one-to-many>
 
-        <field name="providerId" type="string"/>
         <field name="status" column="status" type="string"/>
         <field name="data" type="array"/>
     </mapped-superclass>
