@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Exception;
 
+use RuntimeException;
 use Safe\Exceptions\StringsException;
 
-final class AuthenticationFailedException extends \RuntimeException
+final class AuthenticationFailedException extends RuntimeException
 {
     /**
      * @param string $username

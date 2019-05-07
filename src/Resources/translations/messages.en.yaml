@@ -9,6 +9,11 @@ setono_sylius_miinto:
             provider_id: Provider id
             shop: Shop
             shipping_method: Shipping method
+        shipping_type_mapping:
+            choose_shipping_method: Choose shipping method
+            shipping_method: Shipping method
+            shop: Shop
+            type: Type
         shop:
             channel: Channel
             choose_channel: Choose channel...
@@ -24,7 +29,9 @@ setono_sylius_miinto:
     ui:
         channel: Channel
         channel_not_set: Channel not set
-        edit_mapping: Edit mapping
+        edit_payment_method_mapping: Edit payment method mapping
+        edit_shipping_method_mapping: Edit shipping method mapping
+        edit_shipping_type_mapping: Edit shipping type mapping
         edit_shop: Edit shop
         errors: Errors
         locale: Locale

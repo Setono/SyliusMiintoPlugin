@@ -24,7 +24,7 @@ final class StatusFilterType extends AbstractType
     {
         $statuses = Order::getStatuses();
 
-        array_walk($statuses, function (&$elm) {
+        array_walk($statuses, static function (&$elm) {
             $elm = 'setono_sylius_miinto.form.status.' . $elm;
         });
 

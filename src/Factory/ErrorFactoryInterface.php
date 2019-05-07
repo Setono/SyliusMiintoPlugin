@@ -8,10 +8,11 @@ use Setono\SyliusMiintoPlugin\Model\ErrorInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Workflow\TransitionBlocker;
+use Throwable;
 
 interface ErrorFactoryInterface extends FactoryInterface
 {
-    public function createFromThrowable(\Throwable $e): ErrorInterface;
+    public function createFromThrowable(Throwable $e): ErrorInterface;
 
     public function createFromTransitionBlocker(TransitionBlocker $transitionBlocker): ErrorInterface;
 

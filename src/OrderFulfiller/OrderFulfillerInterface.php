@@ -8,5 +8,5 @@ use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 
 interface OrderFulfillerInterface
 {
-    public function fulfill(OrderInterface $order): OrderFulfillment;
+    public function fulfill(OrderInterface $order): void;
 }

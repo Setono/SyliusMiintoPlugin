@@ -7,8 +7,10 @@ sylius_grid:
                     class: "%setono_sylius_miinto.model.shipping_method_mapping.class%"
             fields:
                 shop:
-                    type: string
+                    type: twig
                     label: setono_sylius_miinto.ui.shop
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/shop.html.twig"
                 providerId:
                     type: string
                     label: setono_sylius_miinto.ui.provider_id

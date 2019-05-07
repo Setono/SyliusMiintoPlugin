@@ -20,8 +20,10 @@ final class PositionResolver implements PositionResolverInterface
      */
     private $availabilityChecker;
 
-    public function __construct(ProductVariantMapperInterface $productVariantMapper, AvailabilityCheckerInterface $availabilityChecker)
-    {
+    public function __construct(
+        ProductVariantMapperInterface $productVariantMapper,
+        AvailabilityCheckerInterface $availabilityChecker
+    ) {
         $this->productVariantMapper = $productVariantMapper;
         $this->availabilityChecker = $availabilityChecker;
     }
@@ -35,11 +37,12 @@ final class PositionResolver implements PositionResolverInterface
 
         foreach ($pendingPositions as $pendingPosition) {
             $productVariant = $this->productVariantMapper->map($pendingPosition['item']);
-            if ($this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
-                $accepted[] = $pendingPosition['id'];
-            } else {
+            if (!$this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
                 $declined[] = $pendingPosition['id'];
+                continue;
             }
+
+
         }
 
         return new Positions($accepted, $declined);

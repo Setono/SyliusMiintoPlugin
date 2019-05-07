@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Twig;
 
+use function func_get_args;
+use function func_num_args;
 use Safe\Exceptions\FilesystemException;
 use Safe\Exceptions\StreamException;
 use function Safe\fopen;
@@ -47,7 +49,7 @@ final class DumpExtension extends AbstractExtension
      */
     public function dump(Environment $env, $context): string
     {
-        if (2 === \func_num_args()) {
+        if (2 === func_num_args()) {
             $vars = [];
             foreach ($context as $key => $value) {
                 if (!$value instanceof Template) {
@@ -57,7 +59,7 @@ final class DumpExtension extends AbstractExtension
 
             $vars = [$vars];
         } else {
-            $vars = \func_get_args();
+            $vars = func_get_args();
             unset($vars[0], $vars[1]);
         }
 

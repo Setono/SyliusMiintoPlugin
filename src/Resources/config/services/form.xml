@@ -9,15 +9,35 @@
             <parameter>setono_sylius_miinto</parameter>
         </parameter>
 
-        <parameter key="setono_sylius_miinto.form.type.mapping.validation_groups" type="collection">
+        <parameter key="setono_sylius_miinto.form.type.payment_method_mapping.validation_groups" type="collection">
+            <parameter>setono_sylius_miinto</parameter>
+        </parameter>
+
+        <parameter key="setono_sylius_miinto.form.type.shipping_method_mapping.validation_groups" type="collection">
+            <parameter>setono_sylius_miinto</parameter>
+        </parameter>
+
+        <parameter key="setono_sylius_miinto.form.type.shipping_type_mapping.validation_groups" type="collection">
             <parameter>setono_sylius_miinto</parameter>
         </parameter>
     </parameters>
 
     <services>
+        <service id="setono_sylius_miinto.form.type.payment_method_mapping" class="Setono\SyliusMiintoPlugin\Form\Type\PaymentMethodMappingType">
+            <argument>%setono_sylius_miinto.model.payment_method_mapping.class%</argument>
+            <argument>%setono_sylius_miinto.form.type.payment_method_mapping.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+
         <service id="setono_sylius_miinto.form.type.shipping_method_mapping" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingMethodMappingType">
             <argument>%setono_sylius_miinto.model.shipping_method_mapping.class%</argument>
-            <argument>%setono_sylius_miinto.form.type.mapping.validation_groups%</argument>
+            <argument>%setono_sylius_miinto.form.type.shipping_method_mapping.validation_groups%</argument>
+            <tag name="form.type"/>
+        </service>
+
+        <service id="setono_sylius_miinto.form.type.shipping_type_mapping" class="Setono\SyliusMiintoPlugin\Form\Type\ShippingTypeMappingType">
+            <argument>%setono_sylius_miinto.model.shipping_type_mapping.class%</argument>
+            <argument>%setono_sylius_miinto.form.type.shipping_type_mapping.validation_groups%</argument>
             <tag name="form.type"/>
         </service>
 

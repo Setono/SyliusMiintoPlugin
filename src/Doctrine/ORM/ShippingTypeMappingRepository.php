@@ -6,12 +6,27 @@ namespace Setono\SyliusMiintoPlugin\Doctrine\ORM;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use Setono\SyliusMiintoPlugin\Model\ShippingTypeMappingInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
 use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 
 final class ShippingTypeMappingRepository extends EntityRepository implements ShippingTypeMappingRepositoryInterface
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @throws NonUniqueResultException
+     */
+    public function findOneValid(ShopInterface $shop, string $shippingType): ?ShippingTypeMappingInterface
+    {
+        return $this->shopAndShippingTypeQueryBuilder($shop, $shippingType)
+            ->andWhere('o.shippingMethod is not null')
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     /**
      * @param ShopInterface $shop
      * @param string $shippingType

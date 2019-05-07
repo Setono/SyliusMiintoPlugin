@@ -6,9 +6,10 @@ namespace Setono\SyliusMiintoPlugin\Exception;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use RuntimeException;
 use Safe\Exceptions\StringsException;
 
-final class RequestFailedException extends \RuntimeException
+final class RequestFailedException extends RuntimeException
 {
     private $request;
     private $response;

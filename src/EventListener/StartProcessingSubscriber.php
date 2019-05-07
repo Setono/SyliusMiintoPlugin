@@ -7,7 +7,6 @@ namespace Setono\SyliusMiintoPlugin\EventListener;
 use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
-use Setono\SyliusMiintoPlugin\Repository\ShippingMethodMappingRepositoryInterface;
 use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
@@ -21,22 +20,15 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
     private $paymentMethodMappingRepository;
 
     /**
-     * @var ShippingMethodMappingRepositoryInterface
-     */
-    private $shippingMethodMappingRepository;
-
-    /**
      * @var ShippingTypeMappingRepositoryInterface
      */
     private $shippingTypeMappingRepository;
 
     public function __construct(
         PaymentMethodMappingRepositoryInterface $paymentMethodMappingRepository,
-        ShippingMethodMappingRepositoryInterface $shippingMethodMappingRepository,
         ShippingTypeMappingRepositoryInterface $shippingTypeMappingRepository
     ) {
         $this->paymentMethodMappingRepository = $paymentMethodMappingRepository;
-        $this->shippingMethodMappingRepository = $shippingMethodMappingRepository;
         $this->shippingTypeMappingRepository = $shippingTypeMappingRepository;
     }
 

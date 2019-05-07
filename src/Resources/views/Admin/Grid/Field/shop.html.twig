@@ -1,0 +1,11 @@
+{# @var \Setono\SyliusMiintoPlugin\Model\ShopInterface data #}
+{{ data.name }}
+<ul class="ui list">
+    <li>Id: {{ data.id }}</li>
+    {% if data.channel is not null %}
+        <li>Channel: {{ data.channel.name }}</li>
+    {% endif %}
+    {% if data.locale is not null %}
+        <li>Locale: {{ data.locale.name }}</li>
+    {% endif %}
+</ul>

@@ -7,8 +7,10 @@ sylius_grid:
                     class: "%setono_sylius_miinto.model.payment_method_mapping.class%"
             fields:
                 shop:
-                    type: string
+                    type: twig
                     label: setono_sylius_miinto.ui.shop
+                    options:
+                        template: "@SetonoSyliusMiintoPlugin/Admin/Grid/Field/shop.html.twig"
                 paymentMethod:
                     type: twig
                     label: setono_sylius_miinto.ui.payment_method

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Form\Type;
 
-use Setono\SyliusMiintoPlugin\Model\ShippingMethodMappingInterface;
+use Setono\SyliusMiintoPlugin\Model\ShippingTypeMappingInterface;
 use Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -27,7 +27,7 @@ final class ShippingTypeMappingType extends AbstractResourceType
         ;
 
         $builder->addEventListener(FormEvents::POST_SET_DATA, static function (FormEvent $event) {
-            /** @var ShippingMethodMappingInterface $mapping */
+            /** @var ShippingTypeMappingInterface $mapping */
             $mapping = $event->getData();
 
             $shop = $mapping->getShop();

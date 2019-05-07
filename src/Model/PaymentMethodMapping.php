@@ -38,7 +38,7 @@ class PaymentMethodMapping implements PaymentMethodMappingInterface
         $this->shop = $shop;
     }
 
-    public function getPaymentMethod(): PaymentMethodInterface
+    public function getPaymentMethod(): ?PaymentMethodInterface
     {
         return $this->paymentMethod;
     }

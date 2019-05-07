@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Client;
 
+use Exception;
 use Psr\Http\Message\RequestInterface;
 
 trait AuthHeadersTrait
@@ -16,7 +17,7 @@ trait AuthHeadersTrait
      *
      * @return RequestInterface
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function addAuthHeaders(RequestInterface $request, string $channelId, string $token, string $authType = 'MNT-HMAC-SHA256-1-0'): RequestInterface
     {

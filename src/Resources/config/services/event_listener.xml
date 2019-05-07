@@ -31,7 +31,7 @@
         </service>
 
         <service id="Setono\SyliusMiintoPlugin\EventListener\StartProcessingSubscriber">
-            <argument type="service" id="setono_sylius_miinto.repository.shipping_method_mapping"/>
+            <argument type="service" id="setono_sylius_miinto.repository.payment_method_mapping"/>
             <argument type="service" id="setono_sylius_miinto.repository.shipping_type_mapping"/>
             <tag name="kernel.event_subscriber"/>
         </service>

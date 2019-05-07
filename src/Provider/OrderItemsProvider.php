@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Provider;
 
+use Setono\SyliusMiintoPlugin\Mapper\ProductVariantMapperInterface;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Provider\OrderItems\OrderItems;
 use Sylius\Component\Core\Model\OrderItemInterface;
@@ -19,9 +20,9 @@ final class OrderItemsProvider implements OrderItemsProviderInterface
     private $availabilityChecker;
 
     /**
-     * @var VariantProviderInterface
+     * @var ProductVariantMapperInterface
      */
-    private $variantProvider;
+    private $productVariantMapper;
 
     /**
      * @var FactoryInterface
@@ -35,12 +36,12 @@ final class OrderItemsProvider implements OrderItemsProviderInterface
 
     public function __construct(
         AvailabilityCheckerInterface $availabilityChecker,
-        VariantProviderInterface $variantProvider,
+        ProductVariantMapperInterface $productVariantMapper,
         FactoryInterface $orderItemFactory,
         OrderItemQuantityModifierInterface $orderItemQuantityModifier
     ) {
         $this->availabilityChecker = $availabilityChecker;
-        $this->variantProvider = $variantProvider;
+        $this->productVariantMapper = $productVariantMapper;
         $this->orderItemFactory = $orderItemFactory;
         $this->orderItemQuantityModifier = $orderItemQuantityModifier;
     }
@@ -51,22 +52,22 @@ final class OrderItemsProvider implements OrderItemsProviderInterface
 
         $orderItems = $fulfillablePositionIds = $unfulfillablePositionIds = [];
 
-        foreach ($data['pendingPositions'] as $pendingPosition) {
-            $variant = $this->variantProvider->provide($pendingPosition['item']);
+        foreach ($data['acceptedPositions'] as $position) {
+            $variant = $this->productVariantMapper->map($position['item']);
 
-            if ($this->availabilityChecker->isStockSufficient($variant, $pendingPosition['quantity'])) {
-                $fulfillablePositionIds[] = $pendingPosition['id'];
+            if ($this->availabilityChecker->isStockSufficient($variant, $position['quantity'])) {
+                $fulfillablePositionIds[] = $position['id'];
 
                 /** @var OrderItemInterface $orderItem */
                 $orderItem = $this->orderItemFactory->createNew();
                 $orderItem->setVariant($variant);
-                $orderItem->setUnitPrice($pendingPosition['price']);
+                $orderItem->setUnitPrice($position['price']);
 
-                $this->orderItemQuantityModifier->modify($orderItem, $pendingPosition['quantity']);
+                $this->orderItemQuantityModifier->modify($orderItem, $position['quantity']);
 
                 $orderItems[] = $orderItem;
             } else {
-                $unfulfillablePositionIds[] = $pendingPosition['id'];
+                $unfulfillablePositionIds[] = $position['id'];
             }
         }
 
