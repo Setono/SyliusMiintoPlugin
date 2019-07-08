@@ -13,10 +13,6 @@ use function Safe\sprintf;
 final class NoMappingFoundException extends InvalidArgumentException
 {
     /**
-     * NoMappingFoundException constructor.
-     *
-     * @param array $item
-     *
      * @throws JsonException
      * @throws StringsException
      */

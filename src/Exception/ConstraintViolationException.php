@@ -10,14 +10,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 final class ConstraintViolationException extends InvalidArgumentException
 {
-    /**
-     * @var ConstraintViolationListInterface
-     */
+    /** @var ConstraintViolationListInterface */
     private $constraintViolationList;
 
     /**
-     * @param ConstraintViolationListInterface $constraintViolationList
-     *
      * @throws StringsException
      */
     public function __construct(ConstraintViolationListInterface $constraintViolationList)

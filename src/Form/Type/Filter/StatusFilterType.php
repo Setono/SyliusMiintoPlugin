@@ -20,6 +20,9 @@ final class StatusFilterType extends AbstractType
         ]);
     }
 
+    /**
+     * @throws \Safe\Exceptions\ArrayException
+     */
     private function getStatuses(): array
     {
         $statuses = Order::getStatuses();
@@ -28,6 +31,6 @@ final class StatusFilterType extends AbstractType
             $elm = 'setono_sylius_miinto.form.status.' . $elm;
         });
 
-        return array_flip($statuses);
+        return \Safe\array_flip($statuses);
     }
 }

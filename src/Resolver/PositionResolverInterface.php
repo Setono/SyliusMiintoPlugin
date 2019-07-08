@@ -11,10 +11,6 @@ interface PositionResolverInterface
     /**
      * Receives an array of pending positions and returns an object
      * containing positions we can either accept or decline based on our stock
-     *
-     * @param array $pendingPositions
-     *
-     * @return Positions
      */
     public function resolve(array $pendingPositions): Positions;
 }

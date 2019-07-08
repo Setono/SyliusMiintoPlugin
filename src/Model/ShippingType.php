@@ -7,7 +7,9 @@ namespace Setono\SyliusMiintoPlugin\Model;
 final class ShippingType
 {
     public const COMPANY = 'CompanyDelivery';
+
     public const HOME = 'HomeDelivery';
+
     public const PARCEL_SHOP = 'ParcelShopDelivery';
 
     public static function getShippingTypes(): array

@@ -9,9 +9,7 @@ use Sylius\Component\Core\Model\AddressInterface;
 
 abstract class AddressProvider implements AddressProviderInterface
 {
-    /**
-     * @var AddressFactoryInterface
-     */
+    /** @var AddressFactoryInterface */
     private $addressFactory;
 
     public function __construct(AddressFactoryInterface $addressFactory)
@@ -27,7 +25,10 @@ abstract class AddressProvider implements AddressProviderInterface
         $obj = $this->addressFactory->createNew();
 
         $obj->setFirstName($names[0]);
-        $obj->setLastName($names[1] ?? null);
+
+        // We only get an attribute named 'name' from Miinto, but in Sylius we need the last name.
+        // Therefore we add the first name as the last name if no last name is set
+        $obj->setLastName($names[1] ?? $names[0]);
         $obj->setStreet($address['street'] ?? null);
         $obj->setPostcode($address['postcode'] ?? null);
         $obj->setCity($address['city'] ?? null);

@@ -8,5 +8,8 @@ use Psr\Log\LoggerAwareInterface;
 
 interface PendingOrdersProcessorInterface extends LoggerAwareInterface
 {
-    public function process(): void;
+    /**
+     * @param int $limit Limit the number of orders to process. 0 means process all
+     */
+    public function process(int $limit = 0): void;
 }

@@ -30,64 +30,40 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class OrderFulfiller implements OrderFulfillerInterface
 {
-    /**
-     * @var OrderRepositoryInterface
-     */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $orderFactory;
 
-    /**
-     * @var OrderProcessorInterface
-     */
+    /** @var OrderProcessorInterface */
     private $orderProcessor;
 
-    /**
-     * @var CustomerProviderInterface
-     */
+    /** @var CustomerProviderInterface */
     private $customerProvider;
 
-    /**
-     * @var OrderItemsProviderInterface
-     */
+    /** @var OrderItemsProviderInterface */
     private $orderItemsProvider;
 
-    /**
-     * @var StateMachineFactoryInterface
-     */
+    /** @var StateMachineFactoryInterface */
     private $stateMachineFactory;
 
-    /**
-     * @var AddressProviderInterface
-     */
+    /** @var AddressProviderInterface */
     private $billingAddressProvider;
 
-    /**
-     * @var AddressProviderInterface
-     */
+    /** @var AddressProviderInterface */
     private $shippingAddressProvider;
 
-    /**
-     * @var PaymentMethodMappingRepositoryInterface
-     */
+    /** @var PaymentMethodMappingRepositoryInterface */
     private $paymentMethodMappingRepository;
 
-    /**
-     * @var ShippingTypeMappingRepositoryInterface
-     */
+    /** @var ShippingTypeMappingRepositoryInterface */
     private $shippingTypeMappingRepository;
 
-    /**
-     * @var ValidatorInterface
-     */
+    /** @var ValidatorInterface */
     private $validator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $orderValidationGroups;
 
     public function __construct(
@@ -119,8 +95,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param OrderInterface $order
-     *
      * @throws SMException
      * @throws StringsException
      */
@@ -197,10 +171,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param OrderInterface $order
-     *
-     * @return string
-     *
      * @throws StringsException
      */
     private function getShippingType(OrderInterface $order): string
@@ -215,10 +185,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param OrderInterface $order
-     *
-     * @return ShopInterface
-     *
      * @throws StringsException
      */
     private function getShop(OrderInterface $order): ShopInterface
@@ -232,10 +198,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param ShopInterface $shop
-     *
-     * @return ChannelInterface
-     *
      * @throws StringsException
      */
     private function getChannel(ShopInterface $shop): ChannelInterface
@@ -249,10 +211,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param ShopInterface $shop
-     *
-     * @return string
-     *
      * @throws StringsException
      */
     private function getLocaleCode(ShopInterface $shop): string
@@ -271,29 +229,24 @@ final class OrderFulfiller implements OrderFulfillerInterface
     }
 
     /**
-     * @param ShopInterface $shop
-     *
-     * @return PaymentMethodInterface
-     *
      * @throws StringsException
      */
     private function getPaymentMethod(ShopInterface $shop): PaymentMethodInterface
     {
         $mapping = $this->paymentMethodMappingRepository->findOneValid($shop);
-
-        if ($mapping === null) {
+        if (null === $mapping) {
             throw new InvalidArgumentException(sprintf('No payment method mapping set for the shop with id %s', $shop->getId()));
         }
 
-        return $mapping->getPaymentMethod();
+        $paymentMethod = $mapping->getPaymentMethod();
+        if (null === $paymentMethod) {
+            throw new InvalidArgumentException(sprintf('No payment method mapping set on the mapping %s', $mapping->getId()));
+        }
+
+        return $paymentMethod;
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $shippingType
-     *
-     * @return ShippingMethodInterface
-     *
      * @throws StringsException
      */
     private function getShippingMethod(ShopInterface $shop, string $shippingType): ShippingMethodInterface
@@ -304,6 +257,11 @@ final class OrderFulfiller implements OrderFulfillerInterface
             throw new InvalidArgumentException(sprintf('No payment method mapping set for the shop with id %s', $shop->getId()));
         }
 
-        return $mapping->getShippingMethod();
+        $shippingMethod = $mapping->getShippingMethod();
+        if (null === $shippingMethod) {
+            throw new InvalidArgumentException(sprintf('No shipping method mapping set on the mapping %s', $mapping->getId()));
+        }
+
+        return $shippingMethod;
     }
 }

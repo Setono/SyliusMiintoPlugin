@@ -14,14 +14,10 @@ use Symfony\Component\Workflow\TransitionBlocker;
 
 final class StartProcessingSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var PaymentMethodMappingRepositoryInterface
-     */
+    /** @var PaymentMethodMappingRepositoryInterface */
     private $paymentMethodMappingRepository;
 
-    /**
-     * @var ShippingTypeMappingRepositoryInterface
-     */
+    /** @var ShippingTypeMappingRepositoryInterface */
     private $shippingTypeMappingRepository;
 
     public function __construct(
@@ -42,15 +38,10 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param GuardEvent $event
-     *
-     * @return bool
-     *
      * @throws StringsException
      */
     public function validate(GuardEvent $event): bool
     {
-        /** @var OrderInterface $order */
         $order = $event->getSubject();
         if (!$order instanceof OrderInterface) {
             return false;

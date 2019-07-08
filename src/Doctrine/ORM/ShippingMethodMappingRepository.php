@@ -14,11 +14,6 @@ use Sylius\Bundle\ResourceBundle\Doctrine\ORM\EntityRepository;
 final class ShippingMethodMappingRepository extends EntityRepository implements ShippingMethodMappingRepositoryInterface
 {
     /**
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return ShippingMethodMappingInterface|null
-     *
      * @throws NonUniqueResultException
      */
     public function findMappedByShopAndProviderId(ShopInterface $shop, string $providerId): ?ShippingMethodMappingInterface
@@ -32,11 +27,6 @@ final class ShippingMethodMappingRepository extends EntityRepository implements 
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return ShippingMethodMappingInterface|null
-     *
      * @throws NonUniqueResultException
      */
     public function findOneByShopAndProviderId(ShopInterface $shop, string $providerId): ?ShippingMethodMappingInterface
@@ -45,11 +35,6 @@ final class ShippingMethodMappingRepository extends EntityRepository implements 
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return bool
-     *
      * @throws NonUniqueResultException
      */
     public function hasMapping(ShopInterface $shop, string $providerId): bool
@@ -62,11 +47,6 @@ final class ShippingMethodMappingRepository extends EntityRepository implements 
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return bool
-     *
      * @throws NonUniqueResultException
      */
     public function hasValidMapping(ShopInterface $shop, string $providerId): bool

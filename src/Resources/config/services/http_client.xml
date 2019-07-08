@@ -2,6 +2,7 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="setono_sylius_miinto.http_client" class="Symfony\Component\HttpClient\Psr18Client"/>
         <service id="setono_sylius_miinto.http_client.request_factory" class="Nyholm\Psr7\Factory\Psr17Factory"/>
         <service id="setono_sylius_miinto.http_client.response_factory" class="Nyholm\Psr7\Factory\Psr17Factory"/>
         <service id="setono_sylius_miinto.http_client.stream_factory" class="Nyholm\Psr7\Factory\Psr17Factory"/>

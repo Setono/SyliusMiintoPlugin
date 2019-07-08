@@ -28,11 +28,6 @@ final class ShippingTypeMappingRepository extends EntityRepository implements Sh
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $shippingType
-     *
-     * @return bool
-     *
      * @throws NonUniqueResultException
      */
     public function hasMapping(ShopInterface $shop, string $shippingType): bool
@@ -45,11 +40,6 @@ final class ShippingTypeMappingRepository extends EntityRepository implements Sh
     }
 
     /**
-     * @param ShopInterface $shop
-     * @param string $shippingType
-     *
-     * @return bool
-     *
      * @throws NonUniqueResultException
      */
     public function hasValidMapping(ShopInterface $shop, string $shippingType): bool

@@ -8,19 +8,13 @@ use Sylius\Component\Core\Model\PaymentMethodInterface;
 
 class PaymentMethodMapping implements PaymentMethodMappingInterface
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id;
 
-    /**
-     * @var ShopInterface
-     */
+    /** @var ShopInterface */
     protected $shop;
 
-    /**
-     * @var PaymentMethodInterface
-     */
+    /** @var PaymentMethodInterface */
     protected $paymentMethod;
 
     public function getId(): ?int

@@ -16,21 +16,11 @@ interface ShippingMethodMappingRepositoryInterface extends RepositoryInterface
 
     /**
      * Returns true if a shop and provider id combination exists
-     *
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return bool
      */
     public function hasMapping(ShopInterface $shop, string $providerId): bool;
 
     /**
      * Returns true if a shop, provider id, and shipping method combination exists
-     *
-     * @param ShopInterface $shop
-     * @param string $providerId
-     *
-     * @return bool
      */
     public function hasValidMapping(ShopInterface $shop, string $providerId): bool;
 }

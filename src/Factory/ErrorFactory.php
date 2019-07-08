@@ -12,9 +12,7 @@ use Throwable;
 
 final class ErrorFactory implements ErrorFactoryInterface
 {
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $decoratedFactory;
 
     public function __construct(FactoryInterface $factory)

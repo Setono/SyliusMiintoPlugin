@@ -67,32 +67,25 @@ $ php bin/console doctrine:migrations:diff
 $ php bin/console doctrine:migrations:migrate
 ```
 
-### Step 5: Create a service for your PSR 18 HTTP client
-If you don't have a preference for your HTTP client, you can use Buzz:
-
-```bash
-$ composer require kriswallsmith/buzz
-```
-
-```yaml
-# config/services.yaml
-
-services:
-    app.http_client.buzz:
-        class: Buzz\Client\Curl
-        arguments:
-            - "@setono_sylius_miinto.http_client.response_factory"
-```
-
-### Step 6: Input required configuration options
+### Step 5: Input required configuration options
 ```yaml
 # config/packages/setono_sylius_miinto.yaml
 
 setono_sylius_miinto:
-    http_client: app.http_client.buzz
     miinto:
         username: '%env(MIINTO_USERNAME)%'
         password: '%env(MIINTO_PASSWORD)%'
+```
+
+### Step 6: Using asynchronous transport (optional, but recommended)
+```yaml
+# config/packages/messenger.yaml
+framework:
+    messenger:
+        routing:
+            # Route all command messages to the async transport
+            # This presumes that you have already set up an 'async' transport
+            'Setono\SyliusMiintoPlugin\Message\Command\CommandInterface': async
 ```
 
 [ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable

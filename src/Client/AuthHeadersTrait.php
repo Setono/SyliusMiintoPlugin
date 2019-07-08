@@ -10,13 +10,6 @@ use Psr\Http\Message\RequestInterface;
 trait AuthHeadersTrait
 {
     /**
-     * @param RequestInterface $request
-     * @param string $channelId
-     * @param string $token
-     * @param string $authType
-     *
-     * @return RequestInterface
-     *
      * @throws Exception
      */
     public function addAuthHeaders(RequestInterface $request, string $channelId, string $token, string $authType = 'MNT-HMAC-SHA256-1-0'): RequestInterface

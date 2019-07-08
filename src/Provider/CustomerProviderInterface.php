@@ -11,10 +11,6 @@ interface CustomerProviderInterface
 {
     /**
      * Will provide a valid customer object based on the given email
-     *
-     * @param OrderInterface $order
-     *
-     * @return CustomerInterface
      */
     public function provide(OrderInterface $order): CustomerInterface;
 }

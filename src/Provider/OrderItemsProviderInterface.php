@@ -9,10 +9,5 @@ use Setono\SyliusMiintoPlugin\Provider\OrderItems\OrderItems;
 
 interface OrderItemsProviderInterface
 {
-    /**
-     * @param OrderInterface $order
-     *
-     * @return OrderItems
-     */
     public function provide(OrderInterface $order): OrderItems;
 }

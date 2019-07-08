@@ -11,15 +11,16 @@ use Safe\Exceptions\StringsException;
 
 final class RequestFailedException extends RuntimeException
 {
+    /** @var RequestInterface */
     private $request;
+
+    /** @var ResponseInterface */
     private $response;
+
+    /** @var int */
     private $statusCode;
 
     /**
-     * @param RequestInterface $request
-     * @param ResponseInterface $response
-     * @param int $statusCode
-     *
      * @throws StringsException
      */
     public function __construct(RequestInterface $request, ResponseInterface $response, int $statusCode)
@@ -31,25 +32,16 @@ final class RequestFailedException extends RuntimeException
         parent::__construct(\Safe\sprintf('Request failed with status code %d', $this->statusCode));
     }
 
-    /**
-     * @return RequestInterface
-     */
     public function getRequest(): RequestInterface
     {
         return $this->request;
     }
 
-    /**
-     * @return ResponseInterface
-     */
     public function getResponse(): ResponseInterface
     {
         return $this->response;
     }
 
-    /**
-     * @return int
-     */
     public function getStatusCode(): int
     {
         return $this->statusCode;

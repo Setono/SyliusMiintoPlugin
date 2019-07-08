@@ -4,4 +4,38 @@ imports:
     - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_shipping_method_mapping.yaml"
     - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_shipping_type_mapping.yaml"
     - "@SetonoSyliusMiintoPlugin/Resources/config/grid/setono_sylius_miinto_admin_shop.yaml"
-    - "@SetonoSyliusMiintoPlugin/Resources/config/workflow.yaml"
+
+framework:
+    messenger:
+        buses:
+            setono_sylius_miinto.command_bus: ~
+            
+    workflows:
+        setono_sylius_miinto_order_processing:
+            type: 'state_machine'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'status'
+            supports:
+                - "%setono_sylius_miinto.model.order.class%"
+            initial_place: pending
+            places:
+                - pending
+                - processing
+                - processed
+                - errored
+            transitions:
+                to_pending:
+                    from: errored
+                    to: pending
+                start_processing:
+                    from: [pending]
+                    to:   processing
+                process:
+                    from: processing
+                    to:   processed
+                errored:
+                    from: [pending, processing]
+                    to:   errored
+

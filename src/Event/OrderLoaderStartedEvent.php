@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Event;
 
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 final class OrderLoaderStartedEvent extends Event
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $shopId;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $orderId;
 
     public function __construct(string $shopId, int $orderId)

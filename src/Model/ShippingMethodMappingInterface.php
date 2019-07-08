@@ -15,8 +15,6 @@ interface ShippingMethodMappingInterface extends BaseResourceInterface
 
     /**
      * This is the provider id from Miintos API
-     *
-     * @return string|null
      */
     public function getProviderId(): ?string;
 

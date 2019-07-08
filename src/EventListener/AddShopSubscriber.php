@@ -5,33 +5,24 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\EventListener;
 
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
-use Setono\SyliusMiintoPlugin\Event\OrderEvent;
+use Setono\SyliusMiintoPlugin\Event\OrderLoaderPrePersistEvent;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
-use Setono\SyliusMiintoPlugin\SetonoSyliusMiintoEvents;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AddShopSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $client;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $shopRepository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $shopFactory;
 
-    /**
-     * @var ShopInterface[]
-     */
+    /** @var ShopInterface[] */
     private $shopCache = [];
 
     public function __construct(ClientInterface $client, RepositoryInterface $shopRepository, FactoryInterface $shopFactory)
@@ -44,13 +35,11 @@ final class AddShopSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SetonoSyliusMiintoEvents::ORDER_LOADER_PRE_PERSIST => [
-                'add',
-            ],
+            OrderLoaderPrePersistEvent::class => 'add',
         ];
     }
 
-    public function add(OrderEvent $event): void
+    public function add(OrderLoaderPrePersistEvent $event): void
     {
         if (isset($this->shopCache[$event->getShopId()])) {
             $shop = $this->shopCache[$event->getShopId()];

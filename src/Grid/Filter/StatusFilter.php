@@ -9,7 +9,7 @@ use Sylius\Component\Grid\Filtering\FilterInterface;
 
 class StatusFilter implements FilterInterface
 {
-    public function apply(DataSourceInterface $dataSource, $name, $data, array $options = []): void
+    public function apply(DataSourceInterface $dataSource, string $name, $data, array $options = []): void
     {
         $dataSource->restrict($dataSource->getExpressionBuilder()->equals('status', $data['status']));
     }

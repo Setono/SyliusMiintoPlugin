@@ -9,5 +9,11 @@
             <argument type="service" id="setono_sylius_miinto.order_fulfiller.default"/>
             <argument type="service" id="setono_sylius_miinto.factory.error"/>
         </service>
+
+        <service id="setono_sylius_miinto.processor.pending_transfers" class="Setono\SyliusMiintoPlugin\Processor\PendingTransfersProcessor">
+            <argument type="service" id="setono_sylius_miinto.client"/>
+            <argument type="service" id="setono_sylius_miinto.resolver.positions"/>
+            <argument type="service" id="setono_sylius_miinto.command_bus"/>
+        </service>
     </services>
 </container>

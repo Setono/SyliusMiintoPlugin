@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Setono\SyliusMiintoPlugin\Handler;
+namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Psr\Log\LoggerAwareTrait;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
@@ -10,23 +10,17 @@ use Setono\SyliusMiintoPlugin\Message\Command\LoadOrder;
 use Setono\SyliusMiintoPlugin\Resolver\PositionResolverInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class PendingTransfersHandler implements PendingTransfersHandlerInterface
+final class PendingTransfersProcessor implements PendingTransfersProcessorInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $client;
 
-    /**
-     * @var PositionResolverInterface
-     */
+    /** @var PositionResolverInterface */
     private $positionResolver;
 
-    /**
-     * @var MessageBusInterface
-     */
+    /** @var MessageBusInterface */
     private $messageBus;
 
     public function __construct(ClientInterface $client, PositionResolverInterface $positionResolver, MessageBusInterface $messageBus)
@@ -36,9 +30,9 @@ final class PendingTransfersHandler implements PendingTransfersHandlerInterface
         $this->messageBus = $messageBus;
     }
 
-    public function handle(): void
+    public function process(): void
     {
-        $this->logger->info('Handling pending transfers...');
+        $this->logger->info('Processing pending transfers...');
 
         $shopIds = $this->client->getShopIds();
 

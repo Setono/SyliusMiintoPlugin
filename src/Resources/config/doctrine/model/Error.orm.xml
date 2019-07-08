@@ -8,6 +8,7 @@
 
     <mapped-superclass name="Setono\SyliusMiintoPlugin\Model\Error" table="setono_sylius_miinto__errors">
         <id name="id" type="integer">
+            <!--suppress XmlDefaultAttributeValue -->
             <generator strategy="AUTO"/>
         </id>
         

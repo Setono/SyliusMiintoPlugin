@@ -8,12 +8,17 @@ use Doctrine\Common\Collections\Collection;
 use Sylius\Component\Order\Model\OrderInterface as SyliusOrderInterface;
 use Sylius\Component\Resource\Model\ResourceInterface;
 
-interface OrderInterface extends ResourceInterface, MutableIdInterface
+interface OrderInterface extends ResourceInterface
 {
     public const STATUS_PENDING = 'pending';
+
     public const STATUS_PROCESSING = 'processing';
+
     public const STATUS_PROCESSED = 'processed';
+
     public const STATUS_ERRORED = 'errored';
+
+    public function setId(int $id): void;
 
     public function getShop(): ?ShopInterface;
 
@@ -23,10 +28,6 @@ interface OrderInterface extends ResourceInterface, MutableIdInterface
 
     /**
      * Returns true if the status equals $status
-     *
-     * @param string $status
-     *
-     * @return bool
      */
     public function isStatus(string $status): bool;
 

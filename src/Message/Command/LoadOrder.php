@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Message\Command;
 
-final class LoadOrder
+/**
+ * This command loads a Miinto order into the local database
+ */
+final class LoadOrder implements CommandInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $shopId;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private $orderId;
 
     public function __construct(string $shopId, int $orderId)

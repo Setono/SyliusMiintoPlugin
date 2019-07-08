@@ -4,7 +4,7 @@
     <services>
         <service id="setono_sylius_miinto.loader.order" class="Setono\SyliusMiintoPlugin\Loader\OrderLoader">
             <argument type="service" id="event_dispatcher"/>
-            <argument type="service" id="setono_sylius_miinto.client.default"/>
+            <argument type="service" id="setono_sylius_miinto.client"/>
             <argument type="service" id="setono_sylius_miinto.repository.order"/>
             <argument type="service" id="setono_sylius_miinto.factory.order"/>
             <argument type="service" id="setono_sylius_miinto.manager.order"/>

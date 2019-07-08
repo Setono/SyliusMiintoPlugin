@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Mapper;
 
+use Safe\Exceptions\JsonException;
+use Safe\Exceptions\StringsException;
 use Setono\SyliusMiintoPlugin\Exception\NoMappingFoundException;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 
 final class ProductVariantMapper implements ProductVariantMapperInterface
 {
-    /**
-     * @var ProductVariantRepositoryInterface
-     */
+    /** @var ProductVariantRepositoryInterface */
     private $productVariantRepository;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $gtinField;
 
     public function __construct(ProductVariantRepositoryInterface $productVariantRepository, string $gtinField)
@@ -26,6 +24,10 @@ final class ProductVariantMapper implements ProductVariantMapperInterface
         $this->gtinField = $gtinField;
     }
 
+    /**
+     * @throws JsonException
+     * @throws StringsException
+     */
     public function map(array $item): ProductVariantInterface
     {
         /** @var ProductVariantInterface|null $productVariant */

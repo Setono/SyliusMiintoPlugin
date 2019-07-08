@@ -10,19 +10,13 @@ class Error implements ErrorInterface
 {
     use TimestampableTrait;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id;
 
-    /**
-     * @var OrderInterface|null
-     */
+    /** @var OrderInterface|null */
     protected $order;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $message;
 
     public function __toString(): string

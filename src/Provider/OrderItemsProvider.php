@@ -14,24 +14,16 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 
 final class OrderItemsProvider implements OrderItemsProviderInterface
 {
-    /**
-     * @var AvailabilityCheckerInterface
-     */
+    /** @var AvailabilityCheckerInterface */
     private $availabilityChecker;
 
-    /**
-     * @var ProductVariantMapperInterface
-     */
+    /** @var ProductVariantMapperInterface */
     private $productVariantMapper;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $orderItemFactory;
 
-    /**
-     * @var OrderItemQuantityModifierInterface
-     */
+    /** @var OrderItemQuantityModifierInterface */
     private $orderItemQuantityModifier;
 
     public function __construct(

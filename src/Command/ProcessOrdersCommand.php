@@ -7,14 +7,15 @@ namespace Setono\SyliusMiintoPlugin\Command;
 use Setono\SyliusMiintoPlugin\Processor\PendingOrdersProcessorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ProcessOrdersCommand extends Command
 {
-    /**
-     * @var PendingOrdersProcessorInterface
-     */
+    protected static $defaultName = 'setono:sylius-miinto:process-orders';
+
+    /** @var PendingOrdersProcessorInterface */
     private $processor;
 
     public function __construct(PendingOrdersProcessorInterface $processor)
@@ -26,14 +27,23 @@ final class ProcessOrdersCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('setono:sylius-miinto:process-orders');
+        $this->setDescription('Process orders')
+            ->addOption('limit', 'l', InputOption::VALUE_REQUIRED, 'Limit the number of orders to process', 0)
+        ;
 
         parent::configure();
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $limit = $input->getOption('limit');
+        if (!is_numeric($limit)) {
+            $limit = 0;
+        }
+
         $this->processor->setLogger(new ConsoleLogger($output));
-        $this->processor->process();
+        $this->processor->process((int) $limit);
+
+        return 0;
     }
 }

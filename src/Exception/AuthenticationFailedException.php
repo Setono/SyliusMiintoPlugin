@@ -10,10 +10,6 @@ use Safe\Exceptions\StringsException;
 final class AuthenticationFailedException extends RuntimeException
 {
     /**
-     * @param string $username
-     * @param string $password
-     * @param string $status
-     *
      * @throws StringsException
      */
     public function __construct(string $username, string $password, string $status = '')

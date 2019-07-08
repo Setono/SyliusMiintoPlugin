@@ -6,14 +6,10 @@ namespace Setono\SyliusMiintoPlugin\Position;
 
 final class Positions
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $accepted;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $declined;
 
     public function __construct(array $accepted, array $declined)

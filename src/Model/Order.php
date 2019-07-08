@@ -10,31 +10,22 @@ use Sylius\Component\Order\Model\OrderInterface as ShopOrderInterface;
 
 class Order implements OrderInterface
 {
-    use MutableIdTrait;
+    /** @var int */
+    protected $id;
 
-    /**
-     * @var ShopInterface
-     */
+    /** @var ShopInterface */
     protected $shop;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $status = self::STATUS_PENDING;
 
-    /**
-     * @var ShopOrderInterface
-     */
+    /** @var ShopOrderInterface */
     protected $order;
 
-    /**
-     * @var Collection|ErrorInterface[]
-     */
+    /** @var Collection|ErrorInterface[] */
     protected $errors;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $data = [];
 
     public function __construct()
@@ -45,6 +36,11 @@ class Order implements OrderInterface
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     public function getShop(): ?ShopInterface

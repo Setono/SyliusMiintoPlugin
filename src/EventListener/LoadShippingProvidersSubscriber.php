@@ -9,31 +9,22 @@ use Setono\SyliusMiintoPlugin\Event\OrderLoaderStartedEvent;
 use Setono\SyliusMiintoPlugin\Model\ShippingMethodMappingInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
 use Setono\SyliusMiintoPlugin\Repository\ShippingMethodMappingRepositoryInterface;
-use Setono\SyliusMiintoPlugin\SetonoSyliusMiintoEvents;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class LoadShippingProvidersSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     private $client;
 
-    /**
-     * @var RepositoryInterface
-     */
+    /** @var RepositoryInterface */
     private $shopRepository;
 
-    /**
-     * @var ShippingMethodMappingRepositoryInterface
-     */
+    /** @var ShippingMethodMappingRepositoryInterface */
     private $shippingMethodMappingRepository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $shippingMethodMappingFactory;
 
     public function __construct(
@@ -51,9 +42,7 @@ final class LoadShippingProvidersSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            SetonoSyliusMiintoEvents::ORDER_LOADER_STARTED => [
-                'load',
-            ],
+            OrderLoaderStartedEvent::class => 'load',
         ];
     }
 

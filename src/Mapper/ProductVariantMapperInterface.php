@@ -13,9 +13,7 @@ interface ProductVariantMapperInterface
      * Maps a given Miinto item to a product variant
      * Throws an exception if no mapping was found
      *
-     * @param array $item
      *
-     * @return ProductVariantInterface
      *
      * @throws NoMappingFoundException
      */

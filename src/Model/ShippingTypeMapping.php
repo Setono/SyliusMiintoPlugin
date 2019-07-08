@@ -8,24 +8,16 @@ use Sylius\Component\Core\Model\ShippingMethodInterface;
 
 class ShippingTypeMapping implements ShippingTypeMappingInterface
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     protected $id;
 
-    /**
-     * @var ShopInterface
-     */
+    /** @var ShopInterface */
     protected $shop;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $type;
 
-    /**
-     * @var ShippingMethodInterface
-     */
+    /** @var ShippingMethodInterface */
     protected $shippingMethod;
 
     public function getId(): ?int

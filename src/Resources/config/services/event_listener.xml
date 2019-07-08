@@ -9,14 +9,14 @@
         </service>
 
         <service id="Setono\SyliusMiintoPlugin\EventListener\AddShopSubscriber">
-            <argument type="service" id="setono_sylius_miinto.client.default"/>
+            <argument type="service" id="setono_sylius_miinto.client"/>
             <argument type="service" id="setono_sylius_miinto.repository.shop"/>
             <argument type="service" id="setono_sylius_miinto.factory.shop"/>
             <tag name="kernel.event_subscriber"/>
         </service>
 
         <service id="Setono\SyliusMiintoPlugin\EventListener\LoadShippingProvidersSubscriber">
-            <argument type="service" id="setono_sylius_miinto.client.default"/>
+            <argument type="service" id="setono_sylius_miinto.client"/>
             <argument type="service" id="setono_sylius_miinto.repository.shop"/>
             <argument type="service" id="setono_sylius_miinto.repository.shipping_method_mapping"/>
             <argument type="service" id="setono_sylius_miinto.factory.shipping_method_mapping"/>

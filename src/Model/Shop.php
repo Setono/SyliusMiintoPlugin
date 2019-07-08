@@ -9,24 +9,16 @@ use Sylius\Component\Locale\Model\LocaleInterface;
 
 class Shop implements ShopInterface
 {
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $id;
 
-    /**
-     * @var string|null
-     */
+    /** @var string|null */
     protected $name;
 
-    /**
-     * @var ChannelInterface|null
-     */
+    /** @var ChannelInterface|null */
     protected $channel;
 
-    /**
-     * @var LocaleInterface|null
-     */
+    /** @var LocaleInterface|null */
     protected $locale;
 
     public function __toString(): string

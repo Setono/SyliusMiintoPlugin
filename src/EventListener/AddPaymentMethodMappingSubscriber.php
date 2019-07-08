@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\EventListener;
 
-use Setono\SyliusMiintoPlugin\Model\OrderInterface;
+use Setono\SyliusMiintoPlugin\Event\OrderLoaderPostFlushEvent;
 use Setono\SyliusMiintoPlugin\Model\PaymentMethodMappingInterface;
 use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
-use Setono\SyliusMiintoPlugin\SetonoSyliusMiintoEvents;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class AddPaymentMethodMappingSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var PaymentMethodMappingRepositoryInterface
-     */
+    /** @var PaymentMethodMappingRepositoryInterface */
     private $paymentMethodMappingRepository;
 
-    /**
-     * @var FactoryInterface
-     */
+    /** @var FactoryInterface */
     private $paymentMethodMappingFactory;
 
     public function __construct(PaymentMethodMappingRepositoryInterface $paymentMethodMappingRepository, FactoryInterface $paymentMethodMappingFactory)
@@ -33,19 +27,13 @@ final class AddPaymentMethodMappingSubscriber implements EventSubscriberInterfac
     public static function getSubscribedEvents(): array
     {
         return [
-            SetonoSyliusMiintoEvents::ORDER_LOADER_POST_FLUSH => [
-                'add',
-            ],
+            OrderLoaderPostFlushEvent::class => 'add',
         ];
     }
 
-    public function add(GenericEvent $event): void
+    public function add(OrderLoaderPostFlushEvent $event): void
     {
-        $order = $event->getSubject();
-
-        if (!$order instanceof OrderInterface) {
-            return;
-        }
+        $order = $event->getOrder();
 
         if ($order->getShop() === null) {
             return;

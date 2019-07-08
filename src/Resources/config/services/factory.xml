@@ -2,8 +2,14 @@
 
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
+        <service id="setono_sylius_miinto.factory.customer_group" class="Setono\SyliusMiintoPlugin\Factory\CustomerGroupFactory" decorates="sylius.factory.customer_group">
+            <argument type="service" id="setono_sylius_miinto.factory.customer_group.inner"/>
+        </service>
+
         <service id="setono_sylius_miinto.factory.customer" class="Setono\SyliusMiintoPlugin\Factory\CustomerFactory" decorates="sylius.factory.customer">
             <argument type="service" id="setono_sylius_miinto.factory.customer.inner"/>
+            <argument type="service" id="sylius.repository.customer_group"/>
+            <argument type="service" id="sylius.factory.customer_group"/>
         </service>
 
         <service id="setono_sylius_miinto.custom_factory.error" class="Setono\SyliusMiintoPlugin\Factory\ErrorFactory" decorates="setono_sylius_miinto.factory.error">

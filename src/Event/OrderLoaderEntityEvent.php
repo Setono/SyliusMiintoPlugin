@@ -7,7 +7,7 @@ namespace Setono\SyliusMiintoPlugin\Event;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
-final class OrderEvent extends Event
+abstract class OrderLoaderEntityEvent extends Event
 {
     /** @var OrderInterface */
     private $order;

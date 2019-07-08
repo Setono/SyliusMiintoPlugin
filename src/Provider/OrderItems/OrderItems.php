@@ -8,19 +8,13 @@ use Sylius\Component\Core\Model\OrderItemInterface;
 
 final class OrderItems
 {
-    /**
-     * @var OrderItemInterface[]
-     */
+    /** @var OrderItemInterface[] */
     private $orderItems;
 
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     private $fulfillablePositionIds;
 
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     private $unfulfillablePositionIds;
 
     public function __construct(array $orderItems, array $fulfillablePositionIds, array $unfulfillablePositionIds)

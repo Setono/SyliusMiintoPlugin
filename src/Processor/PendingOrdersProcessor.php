@@ -21,29 +21,19 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
 {
     use LoggerAwareTrait;
 
-    /**
-     * @var OrderRepositoryInterface
-     */
+    /** @var OrderRepositoryInterface */
     private $orderRepository;
 
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     private $orderManager;
 
-    /**
-     * @var Registry
-     */
+    /** @var Registry */
     private $workflowRegistry;
 
-    /**
-     * @var OrderFulfillerInterface
-     */
+    /** @var OrderFulfillerInterface */
     private $orderFulfiller;
 
-    /**
-     * @var ErrorFactoryInterface
-     */
+    /** @var ErrorFactoryInterface */
     private $orderErrorFactory;
 
     public function __construct(
@@ -61,9 +51,9 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
         $this->logger = new NullLogger();
     }
 
-    public function process(): void
+    public function process(int $limit = 0): void
     {
-        $orders = $this->orderRepository->findPending();
+        $orders = $this->orderRepository->findPending($limit);
         foreach ($orders as $order) {
             $this->logger->info('Processing order ' . $order->getId() . '...');
 
@@ -78,7 +68,7 @@ final class PendingOrdersProcessor implements PendingOrdersProcessorInterface
 
                 $workflow->apply($order, 'process');
 
-                $this->logger->info('- Order processed');
+                $this->logger->info('Order processed');
             } catch (TransitionException $e) {
                 $transitionBlockerList = $workflow->buildTransitionBlockerList($order, $e->getTransitionName());
 

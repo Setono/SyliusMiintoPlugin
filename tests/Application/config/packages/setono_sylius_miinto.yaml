@@ -1,5 +1,4 @@
 setono_sylius_miinto:
-    http_client: setono_sylius_miinto.http_client.buzz
     miinto:
         auth_endpoint: https://api-auth-sandbox.miinto.net
         resource_endpoint: https://api-order-sandbox.miinto.net

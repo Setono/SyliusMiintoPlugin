@@ -10,14 +10,10 @@ use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 
 final class PositionResolver implements PositionResolverInterface
 {
-    /**
-     * @var ProductVariantMapperInterface
-     */
+    /** @var ProductVariantMapperInterface */
     private $productVariantMapper;
 
-    /**
-     * @var AvailabilityCheckerInterface
-     */
+    /** @var AvailabilityCheckerInterface */
     private $availabilityChecker;
 
     public function __construct(
@@ -37,12 +33,11 @@ final class PositionResolver implements PositionResolverInterface
 
         foreach ($pendingPositions as $pendingPosition) {
             $productVariant = $this->productVariantMapper->map($pendingPosition['item']);
-            if (!$this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
+            if ($this->availabilityChecker->isStockSufficient($productVariant, $pendingPosition['quantity'])) {
+                $accepted[] = $pendingPosition['id'];
+            } else {
                 $declined[] = $pendingPosition['id'];
-                continue;
             }
-
-
         }
 
         return new Positions($accepted, $declined);

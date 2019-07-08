@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Client;
 
 use Exception;
 use InvalidArgumentException;
+use const PHP_QUERY_RFC3986;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -21,59 +22,37 @@ final class Client implements ClientInterface
 {
     use AuthHeadersTrait;
 
-    /**
-     * @var HttpClientInterface
-     */
+    /** @var HttpClientInterface */
     private $httpClient;
 
-    /**
-     * @var RequestFactoryInterface
-     */
+    /** @var RequestFactoryInterface */
     private $requestFactory;
 
-    /**
-     * @var StreamFactoryInterface
-     */
+    /** @var StreamFactoryInterface */
     private $streamFactory;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $authEndpoint;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $resourceEndpoint;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $username;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $password;
 
-    /**
-     * @var bool
-     */
+    /** @var bool */
     private $authed = false;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $shopIds = [];
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $channelId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $token;
 
     public function __construct(
@@ -234,12 +213,6 @@ final class Client implements ClientInterface
     }
 
     /**
-     * @param string $method
-     * @param string $url
-     * @param array|null $body
-     *
-     * @return array
-     *
      * @throws ClientExceptionInterface
      * @throws JsonException
      * @throws StringsException
@@ -264,12 +237,6 @@ final class Client implements ClientInterface
     }
 
     /**
-     * @param string $method
-     * @param string $url
-     * @param array|null $body
-     *
-     * @return RequestInterface
-     *
      * @throws JsonException
      * @throws Exception
      */
