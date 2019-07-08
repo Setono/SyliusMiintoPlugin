@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace spec\Setono\SyliusMiintoPlugin\Provider;
 
+use PhpSpec\ObjectBehavior;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Provider\BillingAddressProvider;
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sylius\Component\Core\Factory\AddressFactoryInterface;
 use Sylius\Component\Core\Model\AddressInterface;
 
@@ -33,8 +34,8 @@ class BillingAddressProviderSpec extends ObjectBehavior
                     'postcode' => '73450',
                     'city' => 'Great City',
                     'countryCode' => 'DK',
-                ]
-            ]
+                ],
+            ],
         ]);
 
         $address = $this->provide($order);
