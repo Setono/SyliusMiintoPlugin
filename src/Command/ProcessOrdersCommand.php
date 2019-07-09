@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Command;
 
 use Setono\SyliusMiintoPlugin\Processor\PendingOrdersProcessorInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Logger\ConsoleLogger;
@@ -13,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ProcessOrdersCommand extends Command
 {
+    use LockableTrait;
+
     protected static $defaultName = 'setono:sylius-miinto:process-orders';
 
     /** @var PendingOrdersProcessorInterface */
@@ -36,6 +39,10 @@ final class ProcessOrdersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if(!$this->lock()) {
+            return 0;
+        }
+
         $limit = $input->getOption('limit');
         if (!is_numeric($limit)) {
             $limit = 0;
@@ -43,6 +50,8 @@ final class ProcessOrdersCommand extends Command
 
         $this->processor->setLogger(new ConsoleLogger($output));
         $this->processor->process((int) $limit);
+
+        $this->release();
 
         return 0;
     }
