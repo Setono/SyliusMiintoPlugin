@@ -92,6 +92,24 @@ framework:
             'Setono\SyliusMiintoPlugin\Message\Command\CommandInterface': async
 ```
 
+## Usage
+
+The plugin works in a two phase manner: First it handles pending transfers telling Miinto which transfers
+to accept and which to decline. The next phase takes the accepted positions (orders) and converts these orders
+into Sylius orders.
+
+The first command (phase one), which you should run every minute, is this one:
+
+```bash
+$ php bin/console setono:sylius-miinto:pending-transfer
+```
+
+The next one (phase two) will handle the orders. This command doesn't have to run as often. Every 5 or 10 minutes should be sufficient:
+
+```bash
+$ php bin/console setono:sylius-miinto:process-orders
+```
+
 [ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/unstable
 [ico-license]: https://poser.pugx.org/setono/sylius-miinto-plugin/license
