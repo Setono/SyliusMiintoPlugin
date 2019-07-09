@@ -1,4 +1,5 @@
 setono_sylius_miinto:
+    product_variant_gtin_field: gtin
     miinto:
         auth_endpoint: https://api-auth-sandbox.miinto.net
         resource_endpoint: https://api-order-sandbox.miinto.net

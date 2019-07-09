@@ -72,10 +72,17 @@ $ php bin/console doctrine:migrations:migrate
 # config/packages/setono_sylius_miinto.yaml
 
 setono_sylius_miinto:
+    product_variant_gtin_field: gtin
     miinto:
         username: '%env(MIINTO_USERNAME)%'
         password: '%env(MIINTO_PASSWORD)%'
 ```
+
+The `product_variant_gtin_field` configuration option is important, since this is the default way to match products
+from Miinto with products in your store. It is used by the [ProductVariantMapper](src/Mapper/ProductVariantMapper.php).
+If you haven't added a GTIN field to your variants, you can use the [Barcode plugin](https://github.com/loevgaard/SyliusBarcodePlugin).
+
+If you don't use GTIN's you should override the `ProductVariantMapper` service (`setono_sylius_miinto.mapper.product_variant`) with your own implementation.
 
 ### Step 6: Using asynchronous transport (optional, but recommended)
 

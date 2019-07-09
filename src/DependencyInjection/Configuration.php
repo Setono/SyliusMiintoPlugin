@@ -51,7 +51,7 @@ final class Configuration implements ConfigurationInterface
                 ->scalarNode('driver')->defaultValue(SyliusResourceBundle::DRIVER_DOCTRINE_ORM)->cannotBeEmpty()->end()
                 ->scalarNode('product_variant_gtin_field')
                     ->cannotBeEmpty()
-                    ->defaultValue('gtin')
+                    ->isRequired()
                     ->example('gtin')
                     ->info('The field on your product variant resource that contains the GTIN')
                 ->end()
