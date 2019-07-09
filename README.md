@@ -109,7 +109,7 @@ into Sylius orders.
 The first command (phase one), which you should run every minute, is this one:
 
 ```bash
-$ php bin/console setono:sylius-miinto:pending-transfer
+$ php bin/console setono:sylius-miinto:pending-transfers
 ```
 
 The next one (phase two) will handle the orders. This command doesn't have to run as often. Every 5 or 10 minutes should be sufficient:
