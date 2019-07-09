@@ -27,6 +27,7 @@ setono_sylius_miinto:
             processed: Processed
             errored: Errored
     ui:
+        all_data: All data
         channel: Channel
         channel_not_set: Channel not set
         edit_payment_method_mapping: Edit payment method mapping
