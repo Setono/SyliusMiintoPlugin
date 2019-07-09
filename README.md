@@ -78,6 +78,10 @@ setono_sylius_miinto:
 ```
 
 ### Step 6: Using asynchronous transport (optional, but recommended)
+
+All commands in this plugin will extend the [CommandInterface](src/Message/Command/CommandInterface.php).
+Therefore you can route all commands easily by adding this to your [Messenger config](https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport):
+
 ```yaml
 # config/packages/messenger.yaml
 framework:
