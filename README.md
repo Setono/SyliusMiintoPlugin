@@ -24,7 +24,7 @@ This command requires you to have Composer installed globally, as explained in t
 ### Step 2: Enable the plugin
 
 Then, enable the plugin by adding it to the list of registered plugins/bundles
-in `config/bundles.php` file of your project before (!) `SyliusGridBundle`:
+in `config/bundles.php` file of your project before (!) `SyliusGridBundle` and `FrameworkBundle`:
 
 ```php
 <?php
@@ -32,8 +32,9 @@ in `config/bundles.php` file of your project before (!) `SyliusGridBundle`:
 # config/bundles.php
 
 return [
-    // ...
     Setono\SyliusMiintoPlugin\SetonoSyliusMiintoPlugin::class => ['all' => true],
+    // ...
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
     // ...
 ];
@@ -116,6 +117,12 @@ The next one (phase two) will handle the orders. This command doesn't have to ru
 ```bash
 $ php bin/console setono:sylius-miinto:process-orders
 ```
+
+## Troubleshooting
+
+- `You have requested a non-existent parameter "setono_sylius_miinto.model.order.class".`
+  
+  You defined plugin after `SyliusGridBundle` or `FrameworkBundle`.
 
 [ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/unstable
