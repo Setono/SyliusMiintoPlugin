@@ -9,9 +9,3 @@ services:
         class: Tests\Setono\SyliusMiintoPlugin\Application\Mapper\ProductVariantMapper
         arguments:
             - "@sylius.repository.product_variant"
-
-    setono_sylius_miinto.http_client.buzz:
-        class: Buzz\Client\Curl
-        arguments:
-            - "@setono_sylius_miinto.http_client.response_factory"
-    
