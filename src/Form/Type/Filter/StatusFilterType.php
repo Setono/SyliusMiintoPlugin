@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Form\Type\Filter;
 
+use Safe\Exceptions\ArrayException;
 use Setono\SyliusMiintoPlugin\Model\Order;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,6 +12,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 final class StatusFilterType extends AbstractType
 {
+    /**
+     * @throws ArrayException
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('status', ChoiceType::class, [
@@ -21,7 +25,7 @@ final class StatusFilterType extends AbstractType
     }
 
     /**
-     * @throws \Safe\Exceptions\ArrayException
+     * @throws ArrayException
      */
     private function getStatuses(): array
     {

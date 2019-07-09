@@ -39,7 +39,7 @@ final class ProcessOrdersCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if(!$this->lock()) {
+        if (!$this->lock()) {
             return 0;
         }
 
