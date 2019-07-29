@@ -85,6 +85,19 @@ If you haven't added a GTIN field to your variants, you can use the [Barcode plu
 
 If you don't use GTIN's you should override the `ProductVariantMapper` service (`setono_sylius_miinto.mapper.product_variant`) with your own implementation.
 
+### Sandbox configuration
+
+When you want to use sandbox credentials, you should specify special endpoint URLs as well:
+
+```yaml
+# config/packages/dev/setono_sylius_miinto.yaml
+
+setono_sylius_miinto:
+    miinto:
+        auth_endpoint: https://api-auth-sandbox.miinto.net
+        resource_endpoint: https://api-order-sandbox.miinto.net
+```
+
 ### Step 6: Using asynchronous transport (optional, but recommended)
 
 All commands in this plugin will extend the [CommandInterface](src/Message/Command/CommandInterface.php).
