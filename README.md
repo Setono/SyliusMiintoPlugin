@@ -85,7 +85,7 @@ If you haven't added a GTIN field to your variants, you can use the [Barcode plu
 
 If you don't use GTIN's you should override the `ProductVariantMapper` service (`setono_sylius_miinto.mapper.product_variant`) with your own implementation.
 
-### Sandbox configuration
+#### Sandbox configuration
 
 When you want to use sandbox credentials, you should specify special endpoint URLs as well:
 

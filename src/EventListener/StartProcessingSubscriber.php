@@ -55,7 +55,7 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
 
         if ($shop->getChannel() === null) {
             return $this->block($event, sprintf(
-                'The shop %s is not mapped to a channel.' .
+                'The shop %s is not mapped to a channel. ' .
                 'You should go to Admin > Miinto > Shops and choose channel for this shop.',
                 (string) $shop->getId()
             ));
@@ -63,7 +63,7 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
 
         if ($shop->getLocale() === null) {
             return $this->block($event, sprintf(
-                'The shop %s is not mapped to a locale.' .
+                'The shop %s is not mapped to a locale. ' .
                 'You should go to Admin > Miinto > Shops and choose locale for this shop.',
                 (string) $shop->getId()
             ));
@@ -71,7 +71,7 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
 
         if (!$this->shippingTypeMappingRepository->hasValidMapping($shop, $order->getShippingType())) {
             return $this->block($event, sprintf(
-                'The shipping type %s on shop %s is not mapped.' .
+                'The shipping type %s on shop %s is not mapped. ' .
                 'You should go to Admin > Miinto > Shipping type mappings and choose shipping method for it.',
                 $order->getShippingType(),
                 (string) $shop->getId()
@@ -80,7 +80,7 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
 
         if (!$this->paymentMethodMappingRepository->hasValidMapping($shop)) {
             return $this->block($event, sprintf(
-                'The shop %s is not mapped to a payment method.' .
+                'The shop %s is not mapped to a payment method. ' .
                 'You should go to Admin > Miinto > Payment method mappings and choose payment method for it.',
                 (string) $shop->getId()
             ));
