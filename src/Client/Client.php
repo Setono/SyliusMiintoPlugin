@@ -14,6 +14,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Safe\Exceptions\JsonException;
 use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Exception\AuthenticationFailedException;
 use Setono\SyliusMiintoPlugin\Exception\RequestFailedException;
 use Setono\SyliusMiintoPlugin\Position\Positions;
@@ -98,7 +99,7 @@ final class Client implements ClientInterface
      */
     public function getShopDetails(string $shopId): array
     {
-        $url = \Safe\sprintf('%s/shops/%s', $this->resourceEndpoint, $shopId);
+        $url = sprintf('%s/shops/%s', $this->resourceEndpoint, $shopId);
 
         $response = $this->sendRequest('GET', $url);
 
@@ -114,7 +115,7 @@ final class Client implements ClientInterface
      */
     public function getOrder(string $shopId, int $orderId): array
     {
-        $url = \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId);
+        $url = sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId);
 
         $response = $this->sendRequest('GET', $url);
 
@@ -144,7 +145,7 @@ final class Client implements ClientInterface
             throw new InvalidArgumentException('No accepted or declined positions');
         }
 
-        $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId), $body);
+        $this->sendRequest('PATCH', sprintf('%s/shops/%s/orders/%d', $this->resourceEndpoint, $shopId, $orderId), $body);
     }
 
     /**
@@ -157,7 +158,7 @@ final class Client implements ClientInterface
     public function getTransfers(string $shopId, array $options = []): array
     {
         $query = http_build_query($options, '', '&', PHP_QUERY_RFC3986);
-        $url = \Safe\sprintf('%s/shops/%s/transfers?%s', $this->resourceEndpoint, $shopId, $query);
+        $url = sprintf('%s/shops/%s/transfers?%s', $this->resourceEndpoint, $shopId, $query);
 
         $response = $this->sendRequest('GET', $url);
 
@@ -193,7 +194,7 @@ final class Client implements ClientInterface
             }
         }
 
-        $response = $this->sendRequest('PATCH', \Safe\sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
+        $response = $this->sendRequest('PATCH', sprintf('%s/shops/%s/transfers/%d', $this->resourceEndpoint, $shopId, $transferId), $body);
 
         return $response['data']['newOrder']['id'] ?? null;
     }
@@ -207,7 +208,7 @@ final class Client implements ClientInterface
      */
     public function getShippingProviders(string $shopId, int $orderId): array
     {
-        $response = $this->sendRequest('GET', \Safe\sprintf('%s/shops/%s/shipping-providers/orders/%d', $this->resourceEndpoint, $shopId, $orderId));
+        $response = $this->sendRequest('GET', sprintf('%s/shops/%s/shipping-providers/orders/%d', $this->resourceEndpoint, $shopId, $orderId));
 
         return $response['data'];
     }
@@ -266,7 +267,7 @@ final class Client implements ClientInterface
             'secret' => $this->password,
         ]));
 
-        $request = $this->requestFactory->createRequest('POST', \Safe\sprintf('%s/channels', $this->authEndpoint));
+        $request = $this->requestFactory->createRequest('POST', sprintf('%s/channels', $this->authEndpoint));
         $request = $request
             ->withHeader('Content-Type', 'application/json')
             ->withBody($body)

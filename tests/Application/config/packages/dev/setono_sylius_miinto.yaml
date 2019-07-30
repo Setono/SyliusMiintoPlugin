@@ -1,0 +1,4 @@
+setono_sylius_miinto:
+    miinto:
+        auth_endpoint: https://api-auth-sandbox.miinto.net
+        resource_endpoint: https://api-order-sandbox.miinto.net

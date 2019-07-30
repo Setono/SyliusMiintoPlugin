@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\EventListener;
 
 use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
 use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
@@ -53,19 +54,36 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
         }
 
         if ($shop->getChannel() === null) {
-            return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a channel', (string) $shop->getId()));
+            return $this->block($event, sprintf(
+                'The shop %s is not mapped to a channel. ' .
+                'You should go to Admin > Miinto > Shops and choose channel for this shop.',
+                (string) $shop->getId()
+            ));
         }
 
         if ($shop->getLocale() === null) {
-            return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a locale', (string) $shop->getId()));
+            return $this->block($event, sprintf(
+                'The shop %s is not mapped to a locale. ' .
+                'You should go to Admin > Miinto > Shops and choose locale for this shop.',
+                (string) $shop->getId()
+            ));
         }
 
         if (!$this->shippingTypeMappingRepository->hasValidMapping($shop, $order->getShippingType())) {
-            return $this->block($event, \Safe\sprintf('The shipping type %s on shop %s is not mapped', $order->getShippingType(), (string) $shop->getId()));
+            return $this->block($event, sprintf(
+                'The shipping type %s on shop %s is not mapped. ' .
+                'You should go to Admin > Miinto > Shipping type mappings and choose shipping method for it.',
+                $order->getShippingType(),
+                (string) $shop->getId()
+            ));
         }
 
         if (!$this->paymentMethodMappingRepository->hasValidMapping($shop)) {
-            return $this->block($event, \Safe\sprintf('The shop %s is not mapped to a payment method', (string) $shop->getId()));
+            return $this->block($event, sprintf(
+                'The shop %s is not mapped to a payment method. ' .
+                'You should go to Admin > Miinto > Payment method mappings and choose payment method for it.',
+                (string) $shop->getId()
+            ));
         }
 
         return true;

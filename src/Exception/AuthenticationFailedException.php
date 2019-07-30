@@ -6,6 +6,7 @@ namespace Setono\SyliusMiintoPlugin\Exception;
 
 use RuntimeException;
 use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
 
 final class AuthenticationFailedException extends RuntimeException
 {
@@ -14,7 +15,7 @@ final class AuthenticationFailedException extends RuntimeException
      */
     public function __construct(string $username, string $password, string $status = '')
     {
-        $message = \Safe\sprintf('Authentication failed with username: %s and password: %s.', $username, str_repeat('*', strlen($password)));
+        $message = sprintf('Authentication failed with username: %s and password: %s.', $username, str_repeat('*', strlen($password)));
         if ('' !== $status) {
             $message .= ' Status was ' . $status;
         }
