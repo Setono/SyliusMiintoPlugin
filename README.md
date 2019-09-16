@@ -24,7 +24,7 @@ This command requires you to have Composer installed globally, as explained in t
 ### Step 2: Enable the plugin
 
 Then, enable the plugin by adding it to the list of registered plugins/bundles
-in `config/bundles.php` file of your project before (!) `SyliusGridBundle`:
+in `config/bundles.php` file of your project before (!) `SyliusGridBundle` and `FrameworkBundle`:
 
 ```php
 <?php
@@ -32,8 +32,9 @@ in `config/bundles.php` file of your project before (!) `SyliusGridBundle`:
 # config/bundles.php
 
 return [
-    // ...
     Setono\SyliusMiintoPlugin\SetonoSyliusMiintoPlugin::class => ['all' => true],
+    // ...
+    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
     Sylius\Bundle\GridBundle\SyliusGridBundle::class => ['all' => true],
     // ...
 ];
@@ -84,6 +85,19 @@ If you haven't added a GTIN field to your variants, you can use the [Barcode plu
 
 If you don't use GTIN's you should override the `ProductVariantMapper` service (`setono_sylius_miinto.mapper.product_variant`) with your own implementation.
 
+#### Sandbox configuration
+
+When you want to use sandbox credentials, you should specify special endpoint URLs as well:
+
+```yaml
+# config/packages/dev/setono_sylius_miinto.yaml
+
+setono_sylius_miinto:
+    miinto:
+        auth_endpoint: https://api-auth-sandbox.miinto.net
+        resource_endpoint: https://api-order-sandbox.miinto.net
+```
+
 ### Step 6: Using asynchronous transport (optional, but recommended)
 
 All commands in this plugin will extend the [CommandInterface](src/Message/Command/CommandInterface.php).
@@ -108,7 +122,7 @@ into Sylius orders.
 The first command (phase one), which you should run every minute, is this one:
 
 ```bash
-$ php bin/console setono:sylius-miinto:pending-transfer
+$ php bin/console setono:sylius-miinto:pending-transfers
 ```
 
 The next one (phase two) will handle the orders. This command doesn't have to run as often. Every 5 or 10 minutes should be sufficient:
@@ -116,6 +130,12 @@ The next one (phase two) will handle the orders. This command doesn't have to ru
 ```bash
 $ php bin/console setono:sylius-miinto:process-orders
 ```
+
+## Troubleshooting
+
+- `You have requested a non-existent parameter "setono_sylius_miinto.model.order.class".`
+  
+  You defined plugin after `SyliusGridBundle` or `FrameworkBundle`.
 
 [ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/unstable

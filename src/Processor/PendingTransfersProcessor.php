@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Psr\Log\LoggerAwareTrait;
+use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
 use Setono\SyliusMiintoPlugin\Message\Command\LoadOrder;
 use Setono\SyliusMiintoPlugin\Resolver\PositionResolverInterface;
@@ -35,11 +36,18 @@ final class PendingTransfersProcessor implements PendingTransfersProcessorInterf
         $this->logger->info('Processing pending transfers...');
 
         $shopIds = $this->client->getShopIds();
+        $this->logger->info(sprintf(
+            'Shops to process: %s',
+            implode(', ', $shopIds)
+        ));
 
         foreach ($shopIds as $shopId) {
+            $this->logger->info(sprintf('Processing pending transfers for shop %s...', $shopId));
+
             $transfers = $this->client->getTransfers($shopId);
 
             foreach ($transfers as $transfer) {
+                $this->logger->info(sprintf('Processing transfer %s...', $transfer['id']));
                 $positions = $this->positionResolver->resolve($transfer['pendingPositions']);
 
                 $orderId = $this->client->updateTransfer($shopId, $transfer['id'], $positions);

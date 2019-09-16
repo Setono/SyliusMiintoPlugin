@@ -8,6 +8,7 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RuntimeException;
 use Safe\Exceptions\StringsException;
+use function Safe\sprintf;
 
 final class RequestFailedException extends RuntimeException
 {
@@ -29,7 +30,7 @@ final class RequestFailedException extends RuntimeException
         $this->response = $response;
         $this->statusCode = $statusCode;
 
-        parent::__construct(\Safe\sprintf('Request failed with status code %d', $this->statusCode));
+        parent::__construct(sprintf('Request failed with status code %d', $this->statusCode));
     }
 
     public function getRequest(): RequestInterface
