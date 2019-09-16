@@ -23,13 +23,6 @@
         "symfony/workflow": "^4.3",
         "thecodingmachine/safe": "^0.1.14"
     },
-    "conflict": {
-        "symfony/browser-kit": "4.1.8",
-        "symfony/dependency-injection": "4.1.8",
-        "symfony/dom-crawler": "4.1.8",
-        "symfony/routing": "4.1.8",
-        "symfony/symfony": "4.1.8"
-    },
     "require-dev": {
         "behat/behat": "^3.4",
         "behat/mink": "^1.7@dev",
@@ -43,8 +36,8 @@
         "lakion/mink-debug-extension": "^1.2.3",
         "localheinz/composer-normalize": "^1.2",
         "phpspec/phpspec": "^5.0",
+        "phpstan/phpstan": "^0.11",
         "phpstan/phpstan-doctrine": "^0.11",
-        "phpstan/phpstan-shim": "^0.11",
         "phpstan/phpstan-strict-rules": "^0.11",
         "phpstan/phpstan-webmozart-assert": "^0.11",
         "phpunit/phpunit": "^8.0",
@@ -80,11 +73,11 @@
     },
     "prefer-stable": true,
     "scripts": {
-        "analyse": "./vendor/bin/phpstan analyse -c phpstan.neon -l max src",
-        "check-style": "./vendor/bin/ecs check src/ spec/",
-        "fix-style": "./vendor/bin/ecs check src/ spec/ --fix",
-        "phpspec": "./vendor/bin/phpspec run -vvv",
-        "phpunit": "./vendor/bin/phpunit",
+        "analyse": "vendor/bin/phpstan analyse -c phpstan.neon -l max src",
+        "check-style": "vendor/bin/ecs check src/ spec/",
+        "fix-style": "vendor/bin/ecs check src/ spec/ --fix",
+        "phpspec": "vendor/bin/phpspec run -vvv",
+        "phpunit": "vendor/bin/phpunit",
         "test": [
             "@phpspec",
             "@phpunit"
