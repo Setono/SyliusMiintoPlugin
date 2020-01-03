@@ -14,9 +14,8 @@ framework:
         setono_sylius_miinto_order_processing:
             type: 'state_machine'
             marking_store:
-                type: 'single_state'
-                arguments:
-                    - 'status'
+                type: 'method'
+                property: status
             supports:
                 - "%setono_sylius_miinto.model.order.class%"
             initial_place: pending
