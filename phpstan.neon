@@ -16,4 +16,3 @@ parameters:
 
     ignoreErrors:
         - '/Parameter #1 $configuration of method Symfony\Component\DependencyInjection\Extension\Extension::processConfiguration() expects Symfony\Component\Config\Definition\ConfigurationInterface, Symfony\Component\Config\Definition\ConfigurationInterface|null given./'
-        - '/Method Setono\\SyliusMiintoPlugin\\Grid\\Filter\\StatusFilter\:\:apply\(\) has parameter \$data with no typehint specified\./'

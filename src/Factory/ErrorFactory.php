@@ -49,7 +49,7 @@ final class ErrorFactory implements ErrorFactoryInterface
     public function createFromConstraintViolation(ConstraintViolationInterface $constraintViolation): ErrorInterface
     {
         $error = $this->createNew();
-        $error->setMessage($constraintViolation->getMessage());
+        $error->setMessage((string) $constraintViolation->getMessage());
 
         return $error;
     }
