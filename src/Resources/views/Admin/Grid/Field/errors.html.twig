@@ -2,7 +2,7 @@
 {% if data|length > 0 %}
     <ul class="ui list">
         {% for error in data %}
-            <li>{{ error.message|truncate(80) }}</li>
+            <li>{{ error.message|u.truncate(80) }}</li>
         {% endfor %}
     </ul>
 {% else %}
