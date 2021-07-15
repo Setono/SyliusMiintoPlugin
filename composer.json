@@ -15,15 +15,15 @@
         "nyholm/psr7": "^1.1",
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
-        "symfony/event-dispatcher": "^4.4 || ^5.0",
-        "symfony/http-client": "^4.4 || ^5.0",
-        "symfony/lock": "^4.4 || ^5.0",
-        "symfony/messenger": "^4.4 || ^5.0",
-        "symfony/workflow": "^4.4 || ^5.0",
         "sylius/admin-api-bundle": "^1.10",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/dependency-injection": "^4.4 || ^5.0",
-        "symfony/http-kernel": "^4.4 || ^5.1.5"
+        "symfony/event-dispatcher": "^4.4 || ^5.0",
+        "symfony/http-client": "^4.4 || ^5.0",
+        "symfony/http-kernel": "^4.4 || ^5.1.5",
+        "symfony/lock": "^4.4 || ^5.0",
+        "symfony/messenger": "^4.4 || ^5.0",
+        "symfony/workflow": "^4.4 || ^5.0"
     },
     "require-dev": {
         "api-platform/core": "^2.6",
