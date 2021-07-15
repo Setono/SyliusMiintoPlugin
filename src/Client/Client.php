@@ -12,12 +12,10 @@ use Psr\Http\Client\ClientInterface as HttpClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
-use Safe\Exceptions\JsonException;
-use Safe\Exceptions\StringsException;
-use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Exception\AuthenticationFailedException;
 use Setono\SyliusMiintoPlugin\Exception\RequestFailedException;
 use Setono\SyliusMiintoPlugin\Position\Positions;
+use function sprintf;
 
 final class Client implements ClientInterface
 {
@@ -78,8 +76,6 @@ final class Client implements ClientInterface
      * {@inheritdoc}
      *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function getShopIds(): array
     {
@@ -94,8 +90,6 @@ final class Client implements ClientInterface
      * {@inheritdoc}
      *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function getShopDetails(string $shopId): array
     {
@@ -107,11 +101,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws ClientExceptionInterface
-     * @throws StringsException
-     * @throws JsonException
      */
     public function getOrder(string $shopId, int $orderId): array
     {
@@ -123,11 +113,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function updateOrder(string $shopId, int $orderId, array $acceptedPositions = [], array $declinedPositions = []): void
     {
@@ -149,11 +135,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function getTransfers(string $shopId, array $options = []): array
     {
@@ -166,11 +148,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function updateTransfer(string $shopId, int $transferId, Positions $positions): ?int
     {
@@ -200,11 +178,7 @@ final class Client implements ClientInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      */
     public function getShippingProviders(string $shopId, int $orderId): array
     {
@@ -215,8 +189,6 @@ final class Client implements ClientInterface
 
     /**
      * @throws ClientExceptionInterface
-     * @throws JsonException
-     * @throws StringsException
      * @throws Exception
      * @throws RequestFailedException
      */
@@ -234,11 +206,10 @@ final class Client implements ClientInterface
             throw new RequestFailedException($request, $response, $response->getStatusCode());
         }
 
-        return \Safe\json_decode((string) $response->getBody(), true);
+        return json_decode((string) $response->getBody(), true);
     }
 
     /**
-     * @throws JsonException
      * @throws Exception
      */
     private function createRequest(string $method, string $url, array $body = null): RequestInterface
@@ -249,7 +220,7 @@ final class Client implements ClientInterface
         ;
 
         if (null !== $body) {
-            $request = $request->withBody($this->streamFactory->createStream(\Safe\json_encode($body)));
+            $request = $request->withBody($this->streamFactory->createStream(json_encode($body)));
         }
 
         return $this->addAuthHeaders($request, $this->channelId, $this->token);
@@ -257,12 +228,10 @@ final class Client implements ClientInterface
 
     /**
      * @throws ClientExceptionInterface
-     * @throws StringsException
-     * @throws JsonException
      */
     private function auth(): void
     {
-        $body = $this->streamFactory->createStream(\Safe\json_encode([
+        $body = $this->streamFactory->createStream(json_encode([
             'identifier' => $this->username,
             'secret' => $this->password,
         ]));
@@ -279,7 +248,7 @@ final class Client implements ClientInterface
             throw new AuthenticationFailedException($this->username, $this->password);
         }
 
-        $content = \Safe\json_decode((string) $response->getBody(), true);
+        $content = json_decode((string) $response->getBody(), true);
 
         if ('success' !== $content['meta']['status']) {
             throw new AuthenticationFailedException($this->username, $this->password, $content['meta']['status']);

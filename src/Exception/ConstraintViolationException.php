@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Exception;
 
 use InvalidArgumentException;
-use Safe\Exceptions\StringsException;
-use function Safe\sprintf;
+use function sprintf;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 final class ConstraintViolationException extends InvalidArgumentException
@@ -14,9 +13,6 @@ final class ConstraintViolationException extends InvalidArgumentException
     /** @var ConstraintViolationListInterface */
     private $constraintViolationList;
 
-    /**
-     * @throws StringsException
-     */
     public function __construct(ConstraintViolationListInterface $constraintViolationList)
     {
         $this->constraintViolationList = $constraintViolationList;
