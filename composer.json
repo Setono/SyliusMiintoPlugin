@@ -72,7 +72,8 @@
         },
         "unused": [
             "nyholm/psr7",
-            "symfony/http-client"
+            "symfony/http-client",
+            "twig/string-extra"
         ]
     },
     "autoload": {
