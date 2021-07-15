@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\Processor;
 
 use Psr\Log\LoggerAwareTrait;
-use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
 use Setono\SyliusMiintoPlugin\Message\Command\LoadOrder;
 use Setono\SyliusMiintoPlugin\Resolver\PositionResolverInterface;
