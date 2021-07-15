@@ -1,10 +1,10 @@
 # Sylius Miinto Plugin
 
-[![Latest Stable Version][ico-version]][link-packagist]
+[![Latest Version][ico-version]][link-packagist]
 [![Latest Unstable Version][ico-unstable-version]][link-packagist]
 [![Software License][ico-license]](LICENSE)
-[![Build Status][ico-travis]][link-travis]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![Build Status][ico-github-actions]][link-github-actions]
+[![Code Coverage][ico-code-coverage]][link-code-coverage]
 
 Implements Miintos [Order API](http://www.integrations.miinto.net/order-api) into your Sylius store.
 
@@ -140,9 +140,9 @@ $ php bin/console setono:sylius-miinto:process-orders
 [ico-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/stable
 [ico-unstable-version]: https://poser.pugx.org/setono/sylius-miinto-plugin/v/unstable
 [ico-license]: https://poser.pugx.org/setono/sylius-miinto-plugin/license
-[ico-travis]: https://travis-ci.com/Setono/SyliusMiintoPlugin.svg?branch=master
-[ico-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMiintoPlugin/badges/quality-score.png?b=master
+[ico-github-actions]: https://github.com/Setono/SyliusMiintoPlugin/workflows/build/badge.svg
+[ico-code-coverage]: https://codecov.io/gh/Setono/SyliusMiintoPlugin/branch/master/graph/badge.svg
 
 [link-packagist]: https://packagist.org/packages/setono/sylius-miinto-plugin
-[link-travis]: https://travis-ci.com/Setono/SyliusMiintoPlugin
-[link-code-quality]: https://scrutinizer-ci.com/g/Setono/SyliusMiintoPlugin
+[link-github-actions]: https://github.com/Setono/SyliusMiintoPlugin/actions
+[link-code-coverage]: https://codecov.io/gh/Setono/SyliusMiintoPlugin
