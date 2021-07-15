@@ -1,14 +1,25 @@
 {
-    "name": "setono/sylius-plugin-skeleton",
+    "name": "setono/sylius-miinto-plugin",
     "type": "sylius-plugin",
-    "description": "Acme example plugin for Sylius.",
+    "description": "Sylius integration with Miinto",
     "keywords": [
         "sylius",
-        "sylius-plugin"
+        "sylius-plugin",
+        "miinto",
+        "setono"
     ],
     "license": "MIT",
     "require": {
         "php": ">=7.4",
+        "ext-json": "*",
+        "nyholm/psr7": "^1.1",
+        "psr/event-dispatcher": "^1.0",
+        "psr/http-client": "^1.0",
+        "symfony/event-dispatcher": "^4.4 || ^5.0",
+        "symfony/http-client": "^4.4 || ^5.0",
+        "symfony/lock": "^4.4 || ^5.0",
+        "symfony/messenger": "^4.4 || ^5.0",
+        "symfony/workflow": "^4.4 || ^5.0",
         "sylius/admin-api-bundle": "^1.10",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/dependency-injection": "^4.4 || ^5.0",
@@ -45,12 +56,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/"
+            "Setono\\SyliusMiintoPlugin\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Tests\\Setono\\SyliusMiintoPlugin\\": "tests/"
         },
         "classmap": [
             "tests/Application/Kernel.php"
