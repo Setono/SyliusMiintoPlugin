@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Processor;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use InvalidArgumentException;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;

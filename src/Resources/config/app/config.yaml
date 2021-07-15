@@ -15,10 +15,10 @@ framework:
             type: 'state_machine'
             marking_store:
                 type: 'method'
-                property: status
+                property: 'status'
             supports:
                 - "%setono_sylius_miinto.model.order.class%"
-            initial_place: pending
+            initial_marking: pending
             places:
                 - pending
                 - processing

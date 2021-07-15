@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Setono\SyliusMiintoPlugin\OrderFulfiller;
 
 use InvalidArgumentException;
-use Safe\Exceptions\StringsException;
-use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Exception\ConstraintViolationException;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Model\ShopInterface;
@@ -17,6 +15,7 @@ use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface
 use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 use SM\SMException;
+use function sprintf;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\OrderInterface as SyliusOrderInterface;
 use Sylius\Component\Core\Model\PaymentMethodInterface;
@@ -96,7 +95,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
 
     /**
      * @throws SMException
-     * @throws StringsException
      */
     public function fulfill(OrderInterface $order): void
     {
@@ -170,9 +168,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         $this->orderRepository->add($syliusOrder);
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getShippingType(OrderInterface $order): string
     {
         $data = $order->getData();
@@ -184,9 +179,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         return $data['shippingInformation']['deliveryAddress']['type'];
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getShop(OrderInterface $order): ShopInterface
     {
         $shop = $order->getShop();
@@ -197,9 +189,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         return $shop;
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getChannel(ShopInterface $shop): ChannelInterface
     {
         $channel = $shop->getChannel();
@@ -210,9 +199,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         return $channel;
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getLocaleCode(ShopInterface $shop): string
     {
         $locale = $shop->getLocale();
@@ -228,9 +214,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         return $code;
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getPaymentMethod(ShopInterface $shop): PaymentMethodInterface
     {
         $mapping = $this->paymentMethodMappingRepository->findOneValid($shop);
@@ -246,9 +229,6 @@ final class OrderFulfiller implements OrderFulfillerInterface
         return $paymentMethod;
     }
 
-    /**
-     * @throws StringsException
-     */
     private function getShippingMethod(ShopInterface $shop, string $shippingType): ShippingMethodInterface
     {
         $mapping = $this->shippingTypeMappingRepository->findOneValid($shop, $shippingType);

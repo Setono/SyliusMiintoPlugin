@@ -1,3 +1,6 @@
+imports:
+    - { resource: "@SetonoSyliusMiintoPlugin/Resources/config/app/config.yaml" }
+
 setono_sylius_miinto:
     product_variant_gtin_field: gtin
     miinto:

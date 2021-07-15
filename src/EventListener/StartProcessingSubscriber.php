@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\EventListener;
 
-use Safe\Exceptions\StringsException;
-use function Safe\sprintf;
 use Setono\SyliusMiintoPlugin\Model\OrderInterface;
 use Setono\SyliusMiintoPlugin\Repository\PaymentMethodMappingRepositoryInterface;
 use Setono\SyliusMiintoPlugin\Repository\ShippingTypeMappingRepositoryInterface;
+use function sprintf;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\TransitionBlocker;
@@ -38,9 +37,6 @@ final class StartProcessingSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @throws StringsException
-     */
     public function validate(GuardEvent $event): bool
     {
         $order = $event->getSubject();
