@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="4.8.1@f73f2299dbc59a3e6c4d66cff4605176e728ee69">
+  <file src="src/Client/Client.php">
+    <MixedArgument occurrences="2">
+      <code>$content['data']['privileges']['__GLOBAL__']['Store']</code>
+      <code>$content['meta']['status']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="6">
+      <code>$content['data']</code>
+      <code>$content['data']</code>
+      <code>$content['data']</code>
+      <code>$content['meta']</code>
+      <code>$content['meta']</code>
+      <code>$response['data']['newOrder']['id']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="5">
+      <code>$content</code>
+      <code>$id</code>
+      <code>$id</code>
+      <code>$this-&gt;channelId</code>
+      <code>$this-&gt;token</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="6">
+      <code>?int</code>
+      <code>array</code>
+      <code>array</code>
+      <code>array</code>
+      <code>array</code>
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="6">
+      <code>$response['data']</code>
+      <code>$response['data']</code>
+      <code>$response['data']</code>
+      <code>$response['data']</code>
+      <code>$response['data']['newOrder']['id'] ?? null</code>
+      <code>json_decode((string) $response-&gt;getBody(), true)</code>
+    </MixedReturnStatement>
+    <MixedReturnTypeCoercion occurrences="2">
+      <code>$this-&gt;shopIds</code>
+      <code>array</code>
+    </MixedReturnTypeCoercion>
+    <PropertyNotSetInConstructor occurrences="2">
+      <code>$channelId</code>
+      <code>$token</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Command/ProcessOrdersCommand.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>0</code>
+    </InvalidScalarArgument>
+  </file>
+  <file src="src/DependencyInjection/Configuration.php">
+    <MixedMethodCall occurrences="211">
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>addDefaultsIfNotSet</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>arrayNode</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>cannotBeEmpty</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>children</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>defaultValue</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>end</code>
+      <code>example</code>
+      <code>example</code>
+      <code>example</code>
+      <code>info</code>
+      <code>info</code>
+      <code>info</code>
+      <code>isRequired</code>
+      <code>isRequired</code>
+      <code>isRequired</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>scalarNode</code>
+      <code>variableNode</code>
+      <code>variableNode</code>
+      <code>variableNode</code>
+      <code>variableNode</code>
+      <code>variableNode</code>
+    </MixedMethodCall>
+    <PossiblyNullReference occurrences="2">
+      <code>arrayNode</code>
+      <code>scalarNode</code>
+    </PossiblyNullReference>
+    <PossiblyUndefinedMethod occurrences="2">
+      <code>arrayNode</code>
+      <code>scalarNode</code>
+    </PossiblyUndefinedMethod>
+  </file>
+  <file src="src/DependencyInjection/SetonoSyliusMiintoExtension.php">
+    <MixedArgument occurrences="2">
+      <code>$config['driver']</code>
+      <code>$config['resources']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="4">
+      <code>$config['miinto']['auth_endpoint']</code>
+      <code>$config['miinto']['password']</code>
+      <code>$config['miinto']['resource_endpoint']</code>
+      <code>$config['miinto']['username']</code>
+    </MixedArrayAccess>
+    <PossiblyNullArgument occurrences="1">
+      <code>$this-&gt;getConfiguration([], $container)</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Doctrine/ORM/OrderRepository.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>array</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$qb-&gt;getQuery()-&gt;getResult()</code>
+    </MixedReturnStatement>
+  </file>
+  <file src="src/Doctrine/ORM/PaymentMethodMappingRepository.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>?PaymentMethodMappingInterface</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1"/>
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$shop</code>
+    </QueryBuilderSetParameter>
+  </file>
+  <file src="src/Doctrine/ORM/ShippingMethodMappingRepository.php">
+    <MixedInferredReturnType occurrences="2">
+      <code>?ShippingMethodMappingInterface</code>
+      <code>?ShippingMethodMappingInterface</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="2">
+      <code>$this-&gt;shopAndProviderIdQueryBuilder($shop, $providerId)-&gt;getQuery()-&gt;getOneOrNullResult()</code>
+    </MixedReturnStatement>
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$shop</code>
+    </QueryBuilderSetParameter>
+  </file>
+  <file src="src/Doctrine/ORM/ShippingTypeMappingRepository.php">
+    <MixedInferredReturnType occurrences="1">
+      <code>?ShippingTypeMappingInterface</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1"/>
+    <QueryBuilderSetParameter occurrences="1">
+      <code>$shop</code>
+    </QueryBuilderSetParameter>
+  </file>
+  <file src="src/EventListener/AddPaymentMethodMappingSubscriber.php">
+    <PossiblyNullArgument occurrences="2">
+      <code>$order-&gt;getShop()</code>
+      <code>$order-&gt;getShop()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/EventListener/AddShopSubscriber.php">
+    <MixedArgument occurrences="1">
+      <code>$shopDetails['name'] ?? 'Not available'</code>
+    </MixedArgument>
+  </file>
+  <file src="src/EventListener/LoadShippingProvidersSubscriber.php">
+    <MixedArgument occurrences="2">
+      <code>$shippingProvider['id']</code>
+      <code>$shippingProvider['id']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$shippingProvider['id']</code>
+      <code>$shippingProvider['id']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$shippingProvider</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/EventListener/LoadShippingTypesSubscriber.php">
+    <MixedArgument occurrences="1">
+      <code>$shippingType</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="1">
+      <code>$shippingType</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Exception/ConstraintViolationException.php">
+    <MixedAssignment occurrences="1">
+      <code>$violation</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$violation</code>
+    </MixedOperand>
+  </file>
+  <file src="src/Factory/CustomerFactory.php">
+    <MixedArgument occurrences="3">
+      <code>$data['billingInformation']['email']</code>
+      <code>$data['billingInformation']['name']</code>
+      <code>$data['billingInformation']['phone'] ?? null</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$data['billingInformation']['email']</code>
+      <code>$data['billingInformation']['phone']</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="src/Form/Type/Filter/StatusFilterType.php">
+    <MissingClosureParamType occurrences="1">
+      <code>$elm</code>
+    </MissingClosureParamType>
+    <MixedOperand occurrences="1">
+      <code>$elm</code>
+    </MixedOperand>
+  </file>
+  <file src="src/Form/Type/PaymentMethodChoiceType.php">
+    <MixedArgument occurrences="1">
+      <code>$options['channel']</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Form/Type/ShippingMethodChoiceType.php">
+    <MixedArgument occurrences="1">
+      <code>$options['channel']</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Grid/Filter/StatusFilter.php">
+    <MixedArrayAccess occurrences="1">
+      <code>$data['status']</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="src/Loader/OrderLoader.php">
+    <MixedArgument occurrences="1">
+      <code>$order['id']</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Model/Error.php">
+    <MissingConstructor occurrences="1">
+      <code>$id</code>
+    </MissingConstructor>
+  </file>
+  <file src="src/Model/Order.php">
+    <InvalidReturnStatement occurrences="1">
+      <code>$this-&gt;errors</code>
+    </InvalidReturnStatement>
+    <InvalidReturnType occurrences="1">
+      <code>Collection</code>
+    </InvalidReturnType>
+    <MixedArrayAccess occurrences="1">
+      <code>$this-&gt;data['shippingInformation']['deliveryAddress']</code>
+    </MixedArrayAccess>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$this-&gt;data['shippingInformation']['deliveryAddress']['type']</code>
+    </MixedReturnStatement>
+    <PossiblyInvalidMethodCall occurrences="3">
+      <code>add</code>
+      <code>clear</code>
+      <code>contains</code>
+    </PossiblyInvalidMethodCall>
+    <PropertyNotSetInConstructor occurrences="3">
+      <code>$id</code>
+      <code>$order</code>
+      <code>$shop</code>
+    </PropertyNotSetInConstructor>
+  </file>
+  <file src="src/Model/OrderInterface.php">
+    <MismatchingDocblockReturnType occurrences="1">
+      <code>Collection|ErrorInterface[]</code>
+    </MismatchingDocblockReturnType>
+  </file>
+  <file src="src/Model/PaymentMethodMapping.php">
+    <MissingConstructor occurrences="3">
+      <code>$id</code>
+      <code>$paymentMethod</code>
+      <code>$shop</code>
+    </MissingConstructor>
+  </file>
+  <file src="src/Model/ShippingMethodMapping.php">
+    <MissingConstructor occurrences="4">
+      <code>$id</code>
+      <code>$providerId</code>
+      <code>$shippingMethod</code>
+      <code>$shop</code>
+    </MissingConstructor>
+  </file>
+  <file src="src/Model/ShippingTypeMapping.php">
+    <MissingConstructor occurrences="4">
+      <code>$id</code>
+      <code>$shippingMethod</code>
+      <code>$shop</code>
+      <code>$type</code>
+    </MissingConstructor>
+  </file>
+  <file src="src/Model/Shop.php">
+    <PossiblyNullOperand occurrences="2">
+      <code>$this-&gt;id</code>
+      <code>$this-&gt;name</code>
+    </PossiblyNullOperand>
+  </file>
+  <file src="src/OrderFulfiller/OrderFulfiller.php">
+    <MixedArgument occurrences="7">
+      <code>$data['currency']</code>
+      <code>$locale-&gt;getId()</code>
+      <code>$mapping-&gt;getId()</code>
+      <code>$mapping-&gt;getId()</code>
+      <code>$order-&gt;getId()</code>
+      <code>$order-&gt;getId()</code>
+      <code>$orderItem</code>
+    </MixedArgument>
+    <MixedArgumentTypeCoercion occurrences="1">
+      <code>$this-&gt;orderValidationGroups</code>
+    </MixedArgumentTypeCoercion>
+    <MixedArrayAccess occurrences="1">
+      <code>$data['shippingInformation']['deliveryAddress']['type']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$orderItem</code>
+    </MixedAssignment>
+    <MixedInferredReturnType occurrences="1">
+      <code>string</code>
+    </MixedInferredReturnType>
+    <MixedReturnStatement occurrences="1">
+      <code>$data['shippingInformation']['deliveryAddress']['type']</code>
+    </MixedReturnStatement>
+    <PossiblyNullArgument occurrences="4">
+      <code>$shop-&gt;getId()</code>
+      <code>$shop-&gt;getId()</code>
+      <code>$shop-&gt;getId()</code>
+      <code>$shop-&gt;getId()</code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="src/Processor/PendingOrdersProcessor.php">
+    <MixedArgument occurrences="2">
+      <code>$transitionBlocker</code>
+      <code>$violation</code>
+    </MixedArgument>
+    <MixedAssignment occurrences="3">
+      <code>$error</code>
+      <code>$transitionBlocker</code>
+      <code>$violation</code>
+    </MixedAssignment>
+    <MixedOperand occurrences="1">
+      <code>$order-&gt;getId()</code>
+    </MixedOperand>
+    <PossiblyNullReference occurrences="2">
+      <code>error</code>
+      <code>info</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Processor/PendingTransfersProcessor.php">
+    <MixedArgument occurrences="3">
+      <code>$transfer['id']</code>
+      <code>$transfer['id']</code>
+      <code>$transfer['pendingPositions']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="3">
+      <code>$transfer['id']</code>
+      <code>$transfer['id']</code>
+      <code>$transfer['pendingPositions']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$transfer</code>
+    </MixedAssignment>
+    <PossiblyNullReference occurrences="1">
+      <code>info</code>
+    </PossiblyNullReference>
+  </file>
+  <file src="src/Provider/AddressProvider.php">
+    <MixedArgument occurrences="4">
+      <code>$address['city'] ?? null</code>
+      <code>$address['countryCode'] ?? null</code>
+      <code>$address['postcode'] ?? null</code>
+      <code>$address['street'] ?? null</code>
+    </MixedArgument>
+  </file>
+  <file src="src/Provider/BillingAddressProvider.php">
+    <MixedArgument occurrences="2">
+      <code>$data['billingInformation']['address']</code>
+      <code>$data['billingInformation']['name']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$data['billingInformation']['address']</code>
+      <code>$data['billingInformation']['name']</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="src/Provider/CustomerProvider.php">
+    <MixedArgument occurrences="2">
+      <code>$data['billingInformation']['name']</code>
+      <code>$data['billingInformation']['phone'] ?? null</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="3">
+      <code>$data['billingInformation']['email']</code>
+      <code>$data['billingInformation']['name']</code>
+      <code>$data['billingInformation']['phone']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="1">
+      <code>$email</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Provider/OrderItems/OrderItems.php">
+    <MixedPropertyTypeCoercion occurrences="3">
+      <code>$fulfillablePositionIds</code>
+      <code>$orderItems</code>
+      <code>$unfulfillablePositionIds</code>
+    </MixedPropertyTypeCoercion>
+  </file>
+  <file src="src/Provider/OrderItemsProvider.php">
+    <MixedArgument occurrences="4">
+      <code>$position['item']</code>
+      <code>$position['price']</code>
+      <code>$position['quantity']</code>
+      <code>$position['quantity']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="6">
+      <code>$position['id']</code>
+      <code>$position['id']</code>
+      <code>$position['item']</code>
+      <code>$position['price']</code>
+      <code>$position['quantity']</code>
+      <code>$position['quantity']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="3">
+      <code>$fulfillablePositionIds[]</code>
+      <code>$position</code>
+      <code>$unfulfillablePositionIds[]</code>
+    </MixedAssignment>
+  </file>
+  <file src="src/Provider/ShippingAddressProvider.php">
+    <MixedArgument occurrences="2">
+      <code>$data['shippingInformation']['deliveryAddress']['address']</code>
+      <code>$data['shippingInformation']['deliveryAddress']['name']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="2">
+      <code>$data['shippingInformation']['deliveryAddress']</code>
+      <code>$data['shippingInformation']['deliveryAddress']</code>
+    </MixedArrayAccess>
+  </file>
+  <file src="src/Resolver/PositionResolver.php">
+    <MixedArgument occurrences="2">
+      <code>$pendingPosition['item']</code>
+      <code>$pendingPosition['quantity']</code>
+    </MixedArgument>
+    <MixedArrayAccess occurrences="5">
+      <code>$pendingPosition['id']</code>
+      <code>$pendingPosition['id']</code>
+      <code>$pendingPosition['id']</code>
+      <code>$pendingPosition['item']</code>
+      <code>$pendingPosition['quantity']</code>
+    </MixedArrayAccess>
+    <MixedAssignment occurrences="4">
+      <code>$accepted[]</code>
+      <code>$declined[]</code>
+      <code>$declined[]</code>
+      <code>$pendingPosition</code>
+    </MixedAssignment>
+  </file>
+</files>
