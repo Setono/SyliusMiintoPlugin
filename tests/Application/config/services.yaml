@@ -2,10 +2,3 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en_US
-
-services:
-    # Overrides the default variant mapper for test purposes
-    setono_sylius_miinto.mapper.product_variant:
-        class: Tests\Setono\SyliusMiintoPlugin\Application\Mapper\ProductVariantMapper
-        arguments:
-            - "@sylius.repository.product_variant"
