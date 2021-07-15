@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Setono\SyliusMiintoPlugin\Loader;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Setono\SyliusMiintoPlugin\Client\ClientInterface;
 use Setono\SyliusMiintoPlugin\Event\OrderLoaderPostFlushEvent;
