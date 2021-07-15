@@ -16,6 +16,7 @@
         "psr/event-dispatcher": "^1.0",
         "psr/http-client": "^1.0",
         "sylius/admin-api-bundle": "^1.10",
+        "sylius/resource-bundle": "^1.6",
         "symfony/config": "^4.4 || ^5.0",
         "symfony/dependency-injection": "^4.4 || ^5.0",
         "symfony/event-dispatcher": "^4.4 || ^5.0",
